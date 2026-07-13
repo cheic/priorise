@@ -96,13 +96,13 @@ class SettingsPageState extends State<SettingsPage> {
                     const SizedBox(height: AppSpacing.m),
                     SettingClickableRow(
                       label: 'Ma mission',
-                      sub: 'Revue et modifiée occasionnellement, pas chaque semaine',
-                      onTap: () => context.read<ShellCubit>().selectTab(6),
+                      sub: 'Consultée et modifiée occasionnellement, pas chaque semaine',
+                      onTap: () => context.read<ShellCubit>().selectTab(1),
                     ),
                     SettingClickableRow(
                       label: 'Planification de la semaine',
                       sub: 'Rituel du dimanche — 20 minutes',
-                      onTap: () => context.read<ShellCubit>().selectTab(5),
+                      onTap: () => context.read<ShellCubit>().selectTab(4),
                     ),
                     const SizedBox(height: AppSpacing.xxl),
 

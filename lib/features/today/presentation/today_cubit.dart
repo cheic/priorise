@@ -34,7 +34,7 @@ class DailyTask {
     required this.title,
     required this.roleId,
     this.isDone = false,
-    this.isQ2 = false,
+    this.isStrategic = false,
   });
 
   final String id;
@@ -42,8 +42,8 @@ class DailyTask {
   final String roleId;
   final bool isDone;
 
-  /// Vrai si la tâche appartient au Quadrant II (importante, non urgente).
-  final bool isQ2;
+  /// Vrai si la tâche est Stratégique (importante, non urgente).
+  final bool isStrategic;
 
   DailyTask copyWith({bool? isDone}) =>
       DailyTask(
@@ -51,7 +51,7 @@ class DailyTask {
         title: title,
         roleId: roleId,
         isDone: isDone ?? this.isDone,
-        isQ2: isQ2,
+        isStrategic: isStrategic,
       );
 }
 
@@ -145,7 +145,7 @@ class TodayCubit extends Cubit<TodayState> {
       id: 'task_${DateTime.now().millisecondsSinceEpoch}',
       title: title,
       roleId: roleId,
-      isQ2: important && !urgent,
+      isStrategic: important && !urgent,
     );
     emit(current.copyWith(tasks: [...current.tasks, newTask]));
   }
@@ -199,30 +199,30 @@ const _seedTasks = <DailyTask>[
     id: 't1',
     title: 'Rédiger l\'introduction du rapport',
     roleId: 'role_pro',
-    isQ2: true,
+    isStrategic: true,
   ),
   DailyTask(
     id: 't2',
     title: 'Répondre aux emails urgents',
     roleId: 'role_pro',
-    isQ2: false,
+    isStrategic: false,
   ),
   DailyTask(
     id: 't3',
     title: 'Appeler maman',
     roleId: 'role_famille',
-    isQ2: true,
+    isStrategic: true,
   ),
   DailyTask(
     id: 't4',
     title: 'Course à pied 30min',
     roleId: 'role_sante',
-    isQ2: true,
+    isStrategic: true,
   ),
   DailyTask(
     id: 't5',
     title: 'Lire 20 pages',
     roleId: 'role_apprentissage',
-    isQ2: true,
+    isStrategic: true,
   ),
 ];

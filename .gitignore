@@ -69,3 +69,5 @@ app.*.map.json
 
 # FVM (Flutter Version Management)
 .fvm/flutter_sdk
+
+priorise-mockup.html

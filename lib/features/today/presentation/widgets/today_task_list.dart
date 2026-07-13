@@ -17,7 +17,7 @@ class TodayTaskCardContainer extends StatelessWidget {
     // All tasks except the focus task (first undone strategic)
     final allTasks = state.tasks;
     final focusTaskId = state.tasks
-        .where((t) => t.isQ2 && !t.isDone)
+        .where((t) => t.isStrategic && !t.isDone)
         .map((t) => t.id)
         .firstOrNull;
 

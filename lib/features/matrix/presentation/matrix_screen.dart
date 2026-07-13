@@ -283,17 +283,17 @@ class MatrixPage extends StatelessWidget {
       }
     }
 
-    // Q1 (Agir) Urgent & Important -> x: -1..0, y: -1..0
-    addTasks(mState.q1Tasks, -0.85, -0.15, -0.85, -0.15);
-    
-    // Q2 (Planifier) Important, Non Urgent -> x: 0..1, y: -1..0
-    addTasks(mState.q2Tasks, 0.15, 0.85, -0.85, -0.15);
+    // Urgent et Important (Agir) -> x: -1..0, y: -1..0
+    addTasks(mState.urgentImportantTasks, -0.85, -0.15, -0.85, -0.15);
 
-    // Q3 (Déléguer) Urgent, Non Important -> x: -1..0, y: 0..1
-    addTasks(mState.q3Tasks, -0.85, -0.15, 0.15, 0.85);
+    // Stratégique / À planifier (Important, Non Urgent) -> x: 0..1, y: -1..0
+    addTasks(mState.strategicTasks, 0.15, 0.85, -0.85, -0.15);
 
-    // Q4 (Laisser filer) Non Urgent, Non Important -> x: 0..1, y: 0..1
-    addTasks(mState.q4Tasks, 0.15, 0.85, 0.15, 0.85);
+    // Distraction / À déléguer (Urgent, Non Important) -> x: -1..0, y: 0..1
+    addTasks(mState.distractionTasks, -0.85, -0.15, 0.15, 0.85);
+
+    // Inutile / À éliminer (Non Urgent, Non Important) -> x: 0..1, y: 0..1
+    addTasks(mState.uselessTasks, 0.15, 0.85, 0.15, 0.85);
 
     return cTasks;
   }

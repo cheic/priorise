@@ -3,32 +3,32 @@ import 'package:isar/isar.dart';
 import '../../../core/models/task_model.dart';
 
 class MatrixState {
-  final List<Task> q1Tasks; // Urgent & Important
-  final List<Task> q2Tasks; // Important, Not Urgent
-  final List<Task> q3Tasks; // Urgent, Not Important
-  final List<Task> q4Tasks; // Not Urgent, Not Important
+  final List<Task> urgentImportantTasks; // Urgent & Important
+  final List<Task> strategicTasks; // Important, Not Urgent
+  final List<Task> distractionTasks; // Urgent, Not Important
+  final List<Task> uselessTasks; // Not Urgent, Not Important
   final bool isLoading;
 
   const MatrixState({
-    this.q1Tasks = const [],
-    this.q2Tasks = const [],
-    this.q3Tasks = const [],
-    this.q4Tasks = const [],
+    this.urgentImportantTasks = const [],
+    this.strategicTasks = const [],
+    this.distractionTasks = const [],
+    this.uselessTasks = const [],
     this.isLoading = true,
   });
 
   MatrixState copyWith({
-    List<Task>? q1Tasks,
-    List<Task>? q2Tasks,
-    List<Task>? q3Tasks,
-    List<Task>? q4Tasks,
+    List<Task>? urgentImportantTasks,
+    List<Task>? strategicTasks,
+    List<Task>? distractionTasks,
+    List<Task>? uselessTasks,
     bool? isLoading,
   }) {
     return MatrixState(
-      q1Tasks: q1Tasks ?? this.q1Tasks,
-      q2Tasks: q2Tasks ?? this.q2Tasks,
-      q3Tasks: q3Tasks ?? this.q3Tasks,
-      q4Tasks: q4Tasks ?? this.q4Tasks,
+      urgentImportantTasks: urgentImportantTasks ?? this.urgentImportantTasks,
+      strategicTasks: strategicTasks ?? this.strategicTasks,
+      distractionTasks: distractionTasks ?? this.distractionTasks,
+      uselessTasks: uselessTasks ?? this.uselessTasks,
       isLoading: isLoading ?? this.isLoading,
     );
   }
@@ -48,28 +48,28 @@ class MatrixCubit extends Cubit<MatrixState> {
     // Let's just fetch all not done tasks.
     final tasks = await isar.tasks.where().filter().doneEqualTo(false).findAll();
 
-    final q1 = <Task>[];
-    final q2 = <Task>[];
-    final q3 = <Task>[];
-    final q4 = <Task>[];
+    final urgentImportant = <Task>[];
+    final strategic = <Task>[];
+    final distraction = <Task>[];
+    final useless = <Task>[];
 
     for (final t in tasks) {
       if (t.important && t.urgent) {
-        q1.add(t);
+        urgentImportant.add(t);
       } else if (t.important && !t.urgent) {
-        q2.add(t);
+        strategic.add(t);
       } else if (!t.important && t.urgent) {
-        q3.add(t);
+        distraction.add(t);
       } else {
-        q4.add(t);
+        useless.add(t);
       }
     }
 
     emit(state.copyWith(
-      q1Tasks: q1,
-      q2Tasks: q2,
-      q3Tasks: q3,
-      q4Tasks: q4,
+      urgentImportantTasks: urgentImportant,
+      strategicTasks: strategic,
+      distractionTasks: distraction,
+      uselessTasks: useless,
       isLoading: false,
     ));
   }

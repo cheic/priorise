@@ -40,7 +40,7 @@ class ReviewPage extends StatelessWidget {
                         AppSpacing.xxxxl,
                       ),
                       children: [
-                        const _SectionTitle('Revue de la semaine'),
+                        const _SectionTitle('Bilan de la semaine'),
                         const SizedBox(height: 4),
                         Text(
                           'Vos réponses restent privées, stockées uniquement sur cet appareil.',

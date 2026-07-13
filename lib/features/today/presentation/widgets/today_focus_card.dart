@@ -16,7 +16,7 @@ class TodayFocusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // Find the first undone strategic task as the focus task
     final focusTask = state.tasks
-        .where((t) => t.isQ2 && !t.isDone)
+        .where((t) => t.isStrategic && !t.isDone)
         .toList();
 
     if (focusTask.isEmpty) {

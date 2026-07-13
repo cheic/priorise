@@ -47,7 +47,7 @@ class TodayMissionLink extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 14),
       child: GestureDetector(
         onTap: () {
-          context.read<ShellCubit>().selectTab(6); // Switch to Mission screen
+          context.read<ShellCubit>().selectTab(1); // Switch to Mission screen
         },
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -81,7 +81,7 @@ class TodayRitualBanner extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20),
       child: GestureDetector(
         onTap: () {
-          context.read<ShellCubit>().selectTab(5); // Switch to Planification screen
+          context.read<ShellCubit>().selectTab(4); // Switch to Planification screen
         },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
