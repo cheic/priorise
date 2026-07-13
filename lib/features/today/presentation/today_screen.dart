@@ -10,6 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/tokens/app_colors.dart';
 import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
+import '../../../core/di/injection.dart';
+import '../../../core/services/database_service.dart';
 import 'today_cubit.dart';
 import 'widgets/today_header.dart';
 import 'widgets/today_role_chips.dart';
@@ -23,7 +25,7 @@ class TodayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => TodayCubit(),
+      create: (_) => TodayCubit(getIt<DatabaseService>().isar),
       child: const _TodayView(),
     );
   }

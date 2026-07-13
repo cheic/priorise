@@ -176,13 +176,7 @@ class CompassPainter extends CustomPainter {
     );
 
     // Task dots
-    if (tasks.isEmpty) {
-      // Dummy dots if no tasks
-      canvas.drawCircle(Offset(90 * s, 90 * s), 4 * s, Paint()..color = isDark ? AppColorsDark.sage : AppColorsLight.sage);
-      canvas.drawCircle(Offset(150 * s, 60 * s), 4 * s, Paint()..color = isDark ? AppColorsDark.clay : AppColorsLight.clay);
-      canvas.drawCircle(Offset(165 * s, 160 * s), 4 * s, Paint()..color = isDark ? AppColorsDark.textTertiary : AppColorsLight.textTertiary);
-      canvas.drawCircle(Offset(55 * s, 150 * s), 4 * s, Paint()..color = isDark ? AppColorsDark.brass : AppColorsLight.brass);
-    } else {
+    if (tasks.isNotEmpty) {
       final radius = 98 * s;
       for (final t in tasks) {
         final tx = cx + (t.x * radius * 0.8);

@@ -6,6 +6,7 @@ import '../../../core/tokens/app_typography.dart';
 import '../../../core/models/enums.dart';
 import '../../../shared/widgets/page_header.dart';
 import '../../../shared/widgets/card_border_painter.dart';
+import '../../../shared/widgets/role_icons.dart';
 import 'roles_cubit.dart';
 
 class RolesPage extends StatelessWidget {
@@ -97,7 +98,7 @@ class RolesPage extends StatelessWidget {
                                           color: context.cSurface,
                                           shape: BoxShape.circle,
                                         ),
-                                        child: Icon(Icons.star_outline, color: roleColor, size: 17),
+                                        child: Icon(RoleIcons.getIcon(role.iconKey), color: roleColor, size: 17),
                                       ),
                                       const SizedBox(width: 12),
                                       Expanded(
@@ -204,6 +205,7 @@ class AddRoleSheet extends StatefulWidget {
 class _AddRoleSheetState extends State<AddRoleSheet> {
   final _nameController = TextEditingController();
   late RoleAccent _selectedAccent;
+  late String _selectedIconKey;
 
   late final List<({String name, RoleAccent accent, Color Function(BuildContext) colorBuilder})> _colorOptions;
 
@@ -214,11 +216,15 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
       _nameController.text = widget.initialName!;
     }
     _selectedAccent = widget.initialAccent ?? RoleAccent.brass;
+    _selectedIconKey = widget.initialIconKey ?? 'star';
     
     _colorOptions = [
       (name: 'Laiton', accent: RoleAccent.brass, colorBuilder: (c) => c.cBrass),
       (name: 'Sauge', accent: RoleAccent.sage, colorBuilder: (c) => c.cSage),
       (name: 'Argile', accent: RoleAccent.clay, colorBuilder: (c) => c.cClay),
+      (name: 'Ardoise', accent: RoleAccent.slate, colorBuilder: (c) => c.cSlate),
+      (name: 'Améthyste', accent: RoleAccent.amethyst, colorBuilder: (c) => c.cAmethyst),
+      (name: 'Mousse', accent: RoleAccent.moss, colorBuilder: (c) => c.cMoss),
     ];
   }
 
@@ -319,8 +325,38 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
                       width: 2,
                     ),
                     boxShadow: isSelected
-                        ? [BoxShadow(color: color.withOpacity(0.4), blurRadius: 8)]
+                        ? [BoxShadow(color: color.withValues(alpha: 0.4), blurRadius: 8)]
                         : null,
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+          
+          const SizedBox(height: AppSpacing.xl),
+          _buildLabel("Icône"),
+          const SizedBox(height: AppSpacing.m),
+          Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            children: RoleIcons.icons.keys.map((key) {
+              final isSelected = _selectedIconKey == key;
+              return GestureDetector(
+                onTap: () => setState(() => _selectedIconKey = key),
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: isSelected ? context.cSurfaceRaised : Colors.transparent,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: isSelected ? context.cBrass : context.cBorder,
+                    ),
+                  ),
+                  child: Icon(
+                    RoleIcons.getIcon(key),
+                    color: isSelected ? context.cBrassBright : context.cTextTertiary,
+                    size: 20,
                   ),
                 ),
               );
@@ -363,13 +399,13 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
                           widget.initialId!, 
                           name, 
                           _selectedAccent, 
-                          widget.initialIconKey ?? 'star',
+                          _selectedIconKey,
                         );
                       } else {
                         context.read<RolesCubit>().addRole(
                           name, 
                           _selectedAccent, 
-                          widget.initialIconKey ?? 'star',
+                          _selectedIconKey,
                         );
                       }
                     }

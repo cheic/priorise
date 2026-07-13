@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:priorise/core/models/enums.dart';
+import 'package:priorise/core/models/role_model.dart';
+import 'package:priorise/core/models/task_model.dart';
 import 'package:priorise/core/tokens/app_colors.dart';
 import 'package:priorise/core/tokens/app_spacing.dart';
 import 'package:priorise/core/tokens/app_typography.dart';
@@ -15,9 +17,9 @@ class TodayTaskCardContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // All tasks except the focus task (first undone strategic)
-    final allTasks = state.tasks;
+    final allTasks = state.visibleTasks;
     final focusTaskId = state.tasks
-        .where((t) => t.isStrategic && !t.isDone)
+        .where((t) => t.important && !t.urgent && !t.done)
         .map((t) => t.id)
         .firstOrNull;
 
@@ -25,13 +27,24 @@ class TodayTaskCardContainer extends StatelessWidget {
         allTasks.where((t) => t.id != focusTaskId).toList();
 
     if (remainingTasks.isEmpty) {
-      return Padding(
-        padding: const EdgeInsets.only(top: AppSpacing.xl),
+      final hasTasks = state.tasks.isNotEmpty;
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(AppSpacing.xxl),
+        decoration: BoxDecoration(
+          color: context.cSurfaceRaised,
+          borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+          border: Border.all(color: context.cBorder),
+        ),
         child: Center(
           child: Text(
-            'Toutes les tâches sont accomplies !',
-            style: AppTypography.bodyMedium(
+            hasTasks 
+              ? 'Toutes les autres tâches sont accomplies !' 
+              : 'Aucune autre tâche planifiée pour le moment.',
+            style: AppTypography.inter(
+                size: 13,
                 color: context.cTextTertiary),
+            textAlign: TextAlign.center,
           ),
         ),
       );
@@ -71,27 +84,17 @@ class TodayTaskCardContainer extends StatelessWidget {
 class TodayTaskRow extends StatelessWidget {
   const TodayTaskRow({required this.task, required this.state});
 
-  final DailyTask task;
+  final Task task;
   final TodayLoaded state;
 
   @override
   Widget build(BuildContext context) {
     final role = state.roles.firstWhere(
       (r) => r.id == task.roleId,
-      orElse: () =>
-          const LifeRole(id: 'unknown', name: '', colorToken: 'brass'),
+      orElse: () => LifeRole()..name = '',
     );
 
-    Color _getTokenColor(String token) {
-      switch (token) {
-        case 'sage': return context.cSage;
-        case 'clay': return context.cClay;
-        case 'brass': return context.cBrass;
-        default: return context.cBrass;
-      }
-    }
-    
-    final dotColor = _getTokenColor(role.colorToken);
+    final dotColor = role.accent.color(context);
 
     return Dismissible(
       key: ValueKey(task.id),
@@ -116,7 +119,7 @@ class TodayTaskRow extends StatelessWidget {
             // Checkbox ROUND: 19px, border-radius 50%, 1.5px
             Padding(
               padding: const EdgeInsets.only(top: 2),
-              child: TodayRoundCheckbox(isDone: task.isDone),
+              child: TodayRoundCheckbox(isDone: task.done),
             ),
             const SizedBox(width: AppSpacing.m),
             // Content
@@ -131,11 +134,11 @@ class TodayTaskRow extends StatelessWidget {
                     style: AppTypography.inter(
                       size: 13.5,
                       weight: FontWeight.w500,
-                      color: task.isDone
+                      color: task.done
                           ? context.cTextTertiary
                           : context.cTextPrimary,
                       height: 1.4,
-                      decoration: task.isDone
+                      decoration: task.done
                           ? TextDecoration.lineThrough
                           : null,
                     ),
@@ -151,7 +154,7 @@ class TodayTaskRow extends StatelessWidget {
                         height: 6,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: task.isDone ? dotColor.withAlpha(128) : dotColor,
+                          color: task.done ? dotColor.withAlpha(128) : dotColor,
                         ),
                       ),
                       const SizedBox(width: 6),

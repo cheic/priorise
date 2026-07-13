@@ -18,6 +18,10 @@ dependencies:
   get_it: ^7.7.0
   isar: ^4.0.0-dev.14
   isar_flutter_libs: ^4.0.0-dev.14
+  timezone: ^0.9.2
+  flutter_timezone: ^3.0.0
+  auto_start_flutter: ^1.0.1
+  flutter_local_notifications: ^18.0.1
 
 dev_dependencies:
   flutter_test:

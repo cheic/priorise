@@ -4,6 +4,7 @@ import 'package:priorise/core/tokens/app_colors.dart';
 import 'package:priorise/core/tokens/app_spacing.dart';
 import 'package:priorise/core/tokens/app_typography.dart';
 import 'package:priorise/shared/widgets/role_icons.dart';
+import 'package:priorise/core/models/role_model.dart';
 
 import '../today_cubit.dart';
 
@@ -15,6 +16,19 @@ class TodayRoleChipsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (state.roles.isEmpty) {
+      return Container(
+        height: 100,
+        alignment: Alignment.center,
+        child: Text(
+          "Aucun rôle n'a encore été créé.",
+          style: AppTypography.inter(
+            size: 13,
+            color: context.cTextTertiary,
+          ),
+        ),
+      );
+    }
     return SizedBox(
       height: 100,
       child: ListView.separated(
@@ -38,13 +52,13 @@ class TodayRoleChipCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // Determine how many tasks are done for this role today
     final roleTasks = state.tasks.where((t) => t.roleId == role.id).toList();
-    final doneCount = roleTasks.where((t) => t.isDone).length;
+    final doneCount = roleTasks.where((t) => t.done).length;
     final totalCount = roleTasks.length;
     // Show up to 5 dots
-    final dotsCount = totalCount > 5 ? 5 : (totalCount == 0 ? 5 : totalCount);
+    final dotsCount = totalCount > 5 ? 5 : totalCount;
 
     return Container(
-      width: 96,
+      width: 120,
       padding: const EdgeInsets.all(AppSpacing.m),
       decoration: BoxDecoration(
         color: context.cSurfaceRaised,
@@ -54,7 +68,7 @@ class TodayRoleChipCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(RoleIcons.getIcon(role.icon ?? 'star' ), size: 18, color: context.cBrass),
+          Icon(RoleIcons.getIcon(role.iconKey), size: 18, color: role.accent.color(context)),
           const Spacer(),
           Text(
             role.name,
@@ -66,10 +80,11 @@ class TodayRoleChipCard extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: AppSpacing.s),
-          Row(
-            children: List.generate(5, (index) {
-              final isDone = index < doneCount;
+          if (dotsCount > 0) ...[
+            const SizedBox(height: AppSpacing.s),
+            Row(
+              children: List.generate(dotsCount, (index) {
+                final isDone = index < doneCount;
               return Container(
                 width: 5,
                 height: 5,
@@ -80,7 +95,8 @@ class TodayRoleChipCard extends StatelessWidget {
                 ),
               );
             }),
-          ),
+            ),
+          ],
         ],
       ),
     );

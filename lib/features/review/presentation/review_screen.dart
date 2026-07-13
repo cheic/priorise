@@ -5,7 +5,7 @@ import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
 import '../../../shared/widgets/page_header.dart';
 import '../../shell/presentation/shell_cubit.dart';
-import '../../../shared/mock_ai_cubit.dart';
+import '../../settings/presentation/settings_cubit.dart';
 import '../../../core/models/enums.dart';
 import 'review_cubit.dart';
 
@@ -40,7 +40,7 @@ class ReviewPage extends StatelessWidget {
                         AppSpacing.xxxxl,
                       ),
                       children: [
-                        const _SectionTitle('Bilan de la semaine'),
+                        const _SectionTitle('Rétrospective'),
                         const SizedBox(height: 4),
                         Text(
                           'Vos réponses restent privées, stockées uniquement sur cet appareil.',
@@ -53,19 +53,23 @@ class ReviewPage extends StatelessWidget {
                         
                         _ReviewPrompt(
                           question: 'Quelle grosse pierre a réellement trouvé sa place ?',
-                          answer: state.review?.whatWorked ?? 'Le dîner sans téléphone — deux soirs sur trois.',
+                          answer: state.review?.whatWorked ?? '',
+                          hintText: 'Ex: Le dîner sans téléphone — deux soirs sur trois.',
                         ),
                         _ReviewPrompt(
                           question: "Qu'est-ce qui a pris la place d'une priorité, cette semaine ?",
-                          answer: state.review?.whatSlipped ?? 'Les urgences du lundi ont grignoté le créneau prévu pour la marche.',
+                          answer: state.review?.whatSlipped ?? '',
+                          hintText: 'Ex: Les urgences du lundi ont grignoté le créneau...',
                         ),
                         
                         const SizedBox(height: 6),
                         // AI Synthesis Button
                         InkWell(
                           onTap: () {
-                            final aiState = context.read<MockAiCubit>().state;
-                            if (!aiState.isEnabled) {
+                            final settingsState = context.read<SettingsCubit>().state.settings;
+                            if (settingsState == null) return;
+
+                            if (!settingsState.aiSuggestionsEnabled) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
@@ -77,8 +81,8 @@ class ReviewPage extends StatelessWidget {
                                   duration: const Duration(seconds: 2),
                                 ),
                               );
-                              context.read<ShellCubit>().selectTab(4); // Paramètres
-                            } else if (aiState.apiKey.trim().length < 5) {
+                              context.read<ShellCubit>().selectTab(5); // 5 = Paramètres
+                            } else if (settingsState.aiApiKey.trim().length < 5) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
@@ -90,7 +94,7 @@ class ReviewPage extends StatelessWidget {
                                   duration: const Duration(seconds: 2),
                                 ),
                               );
-                              context.read<ShellCubit>().selectTab(4); // Paramètres
+                              context.read<ShellCubit>().selectTab(5); // 5 = Paramètres
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -174,10 +178,11 @@ class ReviewPage extends StatelessWidget {
 }
 
 class _ReviewPrompt extends StatefulWidget {
-  const _ReviewPrompt({required this.question, required this.answer});
+  const _ReviewPrompt({required this.question, required this.answer, required this.hintText});
 
   final String question;
   final String answer;
+  final String hintText;
 
   @override
   State<_ReviewPrompt> createState() => _ReviewPromptState();
@@ -230,7 +235,7 @@ class _ReviewPromptState extends State<_ReviewPrompt> {
               // Could dispatch update event to cubit here if needed
             },
             decoration: InputDecoration(
-              hintText: 'Écrivez librement…',
+              hintText: widget.hintText,
               hintStyle: AppTypography.inter(size: 13, color: context.cTextTertiary),
               filled: true,
               fillColor: context.cSurfaceRaised,

@@ -4,6 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:auto_start_flutter/auto_start_flutter.dart';
 
 import '../tokens/app_colors.dart';
 import '../tokens/app_spacing.dart';
@@ -72,6 +73,19 @@ class NotificationService {
     if (!context.mounted) return false;
     final bool shouldRequest = await _showExplanationDialog(context);
     if (!shouldRequest) return false;
+
+    // Demander explicitement le AutoStart pour les surcouches restrictives (Xiaomi, Redmi, Oppo...)
+    if (Platform.isAndroid) {
+      try {
+        bool? autoStartAvailable = await isAutoStartAvailable;
+        if (autoStartAvailable == true) {
+          // L'utilisateur sera redirigé vers les paramètres pour autoriser l'autostart
+          await getAutoStartPermission();
+        }
+      } catch (e) {
+        // Ignorer si ça échoue (tous les téléphones n'ont pas cette option)
+      }
+    }
 
     if (Platform.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =

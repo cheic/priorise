@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:priorise/core/models/enums.dart';
+import 'package:priorise/core/models/role_model.dart';
+import 'package:priorise/core/models/weekly_plan_model.dart';
 import 'package:priorise/core/tokens/app_colors.dart';
 import 'package:priorise/core/tokens/app_spacing.dart';
 import 'package:priorise/core/tokens/app_typography.dart';
@@ -16,19 +18,39 @@ class TodayFocusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // Find the first undone strategic task as the focus task
     final focusTask = state.tasks
-        .where((t) => t.isStrategic && !t.isDone)
+        .where((t) => t.important && !t.urgent && !t.done)
         .toList();
 
     if (focusTask.isEmpty) {
-      return const SizedBox.shrink();
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(AppSpacing.xl),
+        decoration: BoxDecoration(
+          color: context.cSurfaceRaised,
+          borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+          border: Border.all(color: context.cBorder),
+        ),
+        child: Center(
+          child: Text(
+            "Aucune priorité stratégique (Important & Non Urgent) définie pour aujourd'hui.",
+            style: AppTypography.inter(
+              size: 13,
+              color: context.cTextTertiary,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
     }
 
     final task = focusTask.first;
     final role = state.roles.firstWhere(
       (r) => r.id == task.roleId,
-      orElse: () =>
-          const LifeRole(id: 'unknown', name: '', colorToken: 'brass'),
+      orElse: () => LifeRole()..name = '',
     );
+    final weeklyBigRock = state.currentPlan?.bigRocks
+            .firstWhere((r) => r.roleId == role.id, orElse: () => BigRock())
+            .text;
 
     return Container(
       width: double.infinity,
@@ -82,10 +104,10 @@ class TodayFocusCard extends StatelessWidget {
             ),
           ),
           // p: 12.5px, text-secondary — description (use weeklyBigRock if available)
-          if (role.weeklyBigRock != null) ...[
+          if (weeklyBigRock != null && weeklyBigRock.isNotEmpty) ...[
             const SizedBox(height: AppSpacing.xs),
             Text(
-              role.weeklyBigRock!,
+              weeklyBigRock,
               style: AppTypography.inter(
                 size: 12.5,
                 color: context.cTextSecondary,

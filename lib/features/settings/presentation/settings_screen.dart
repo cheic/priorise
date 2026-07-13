@@ -183,17 +183,17 @@ class SettingsPageState extends State<SettingsPage> {
                             onTap: () => context.read<SettingsCubit>().updateAiProvider('Qwen'),
                           ),
                           ProviderCard(
-                            name: 'Local',
-                            hint: 'Ollama/LM Studio',
-                            icon: Icons.computer_outlined,
-                            isSelected: selectedProvider == 'Local',
-                            onTap: () => context.read<SettingsCubit>().updateAiProvider('Local'),
+                            name: 'Mistral',
+                            hint: 'Mistral AI',
+                            icon: Icons.air_outlined,
+                            isSelected: selectedProvider == 'Mistral',
+                            onTap: () => context.read<SettingsCubit>().updateAiProvider('Mistral'),
                           ),
                         ],
                       ),
                       const SizedBox(height: AppSpacing.xl),
 
-                      const FieldLabel('Clé API (ou URL pour Local)'),
+                      const FieldLabel('Clé API'),
                       const SizedBox(height: AppSpacing.s),
                       TextField(
                         controller: _apiKeyController,

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:priorise/core/tokens/app_colors.dart';
 import 'package:priorise/core/tokens/app_spacing.dart';
 import 'package:priorise/core/tokens/app_typography.dart';
+import 'package:priorise/core/models/role_model.dart';
 
 import '../today_cubit.dart';
 
@@ -13,11 +14,15 @@ class TodayFab extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        final todayCubit = context.read<TodayCubit>();
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
-          builder: (context) => const TodayCaptureTaskSheet(),
+          builder: (context) => BlocProvider.value(
+            value: todayCubit,
+            child: const TodayCaptureTaskSheet(),
+          ),
         );
       },
       child: Container(
@@ -53,7 +58,7 @@ class TodayCaptureTaskSheet extends StatefulWidget {
 
 class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
   final _titleController = TextEditingController();
-  String? _selectedRoleId;
+  int? _selectedRoleId;
   String? _selectedPriority;
 
   @override
@@ -131,7 +136,7 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
           // Field 2: Rôle
           const TodayModalLabel(text: 'Rôle'),
           const SizedBox(height: 6),
-          TodayModalDropdownField<String>(
+          TodayModalDropdownField<int>(
             hint: 'Sélectionner un rôle',
             value: _selectedRoleId,
             items: roles.map((r) => DropdownMenuItem(value: r.id, child: Text(r.name))).toList(),
