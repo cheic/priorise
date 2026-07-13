@@ -1,0 +1,43 @@
+name: priorise
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.12.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.5
+  flutter_secure_storage: ^9.2.1
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+  google_fonts: ^6.2.1
+  get_it: ^7.7.0
+  isar: ^3.1.0+1
+  isar_flutter_libs: ^3.1.0+1
+  flutter_local_notifications: ^22.0.1
+  timezone: ^0.11.1
+  flutter_timezone: ^5.1.0
+  path_provider: ^2.1.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  build_runner: ^2.4.13
+  isar_generator: ^3.1.0+1
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "priorise-icon-adaptive-foreground.png"
+  adaptive_icon_background: "priorise-icon-adaptive-background.png"
+  adaptive_icon_foreground: "priorise-icon-adaptive-foreground.png"
+
+flutter:
+  uses-material-design: true
+  generate: true

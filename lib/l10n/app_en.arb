@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  "appName": "Priorise",
+  "@appName": { "description": "App name" },
+  "tagline": "Priority to priorities",
+  "@tagline": { "description": "App tagline" },
+  "today": "Today",
+  "@today": { "description": "Main screen title" },
+  "skip": "Skip",
+  "@skip": { "description": "Onboarding skip button" },
+  "next": "Next",
+  "@next": { "description": "Onboarding next button" },
+  "start": "Get started",
+  "@start": { "description": "Onboarding final button" }
+}
