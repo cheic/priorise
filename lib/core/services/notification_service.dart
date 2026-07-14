@@ -4,7 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:auto_start_flutter/auto_start_flutter.dart';
+import 'package:autostart_settings/autostart_settings.dart';
 
 import '../tokens/app_colors.dart';
 import '../tokens/app_spacing.dart';
@@ -24,7 +24,7 @@ class NotificationService {
 
     tz.initializeTimeZones();
     final timeZoneInfo = await FlutterTimezone.getLocalTimezone();
-    tz.setLocalLocation(tz.getLocation(timeZoneInfo.identifier));
+    tz.setLocalLocation(tz.getLocation(timeZoneInfo));
 
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -42,7 +42,7 @@ class NotificationService {
     );
 
     await _flutterLocalNotificationsPlugin.initialize(
-      settings: initializationSettings,
+      initializationSettings,
       onDidReceiveNotificationResponse: _onDidReceiveNotificationResponse,
     );
     _isInitialized = true;
@@ -77,10 +77,10 @@ class NotificationService {
     // Demander explicitement le AutoStart pour les surcouches restrictives (Xiaomi, Redmi, Oppo...)
     if (Platform.isAndroid) {
       try {
-        bool? autoStartAvailable = await isAutoStartAvailable;
-        if (autoStartAvailable == true) {
+        final canOpen = await AutostartSettings.canOpen(autoStart: true, batterySafer: true);
+        if (canOpen) {
           // L'utilisateur sera redirigé vers les paramètres pour autoriser l'autostart
-          await getAutoStartPermission();
+          await AutostartSettings.open(autoStart: true, batterySafer: true);
         }
       } catch (e) {
         // Ignorer si ça échoue (tous les téléphones n'ont pas cette option)
@@ -144,11 +144,11 @@ class NotificationService {
 
   Future<void> scheduleDailyReminder({required int hour, required int minute}) async {
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-        id: 0,
-        title: 'Priorité du jour',
-        body: 'N\'oubliez pas votre grosse pierre aujourd\'hui.',
-        scheduledDate: _nextInstanceOfTime(hour, minute),
-        notificationDetails: const NotificationDetails(
+        0,
+        'Priorité du jour',
+        'N\'oubliez pas votre grosse pierre aujourd\'hui.',
+        _nextInstanceOfTime(hour, minute),
+        const NotificationDetails(
           android: AndroidNotificationDetails(
             'daily_reminder_channel',
             'Rappels Quotidiens',
@@ -159,6 +159,7 @@ class NotificationService {
           iOS: DarwinNotificationDetails(),
         ),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time,
     );
   }
