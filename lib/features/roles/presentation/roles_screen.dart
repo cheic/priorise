@@ -54,114 +54,117 @@ class RolesPage extends StatelessWidget {
 
                         ...state.roles.map((role) {
                           final roleColor = role.accent.color(context);
-                          return Dismissible(
-                            key: ValueKey('role_${role.id}'),
-                            direction: DismissDirection.endToStart,
-                            confirmDismiss: (direction) async {
-                              return await showDialog<bool>(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  backgroundColor: context.cSurfaceRaised,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
-                                  title: Text(
-                                    'Supprimer le rôle ?',
-                                    style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
-                                  ),
-                                  content: Text(
-                                    'Êtes-vous sûr de vouloir supprimer "${role.name}" ?',
-                                    style: AppTypography.inter(size: 14, color: context.cTextSecondary),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.of(context).pop(false),
-                                      child: Text('Annuler', style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
-                                    ),
-                                    TextButton(
-                                      onPressed: () => Navigator.of(context).pop(true),
-                                      child: Text('Supprimer', style: AppTypography.inter(color: context.cError, weight: FontWeight.w600)),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                            onDismissed: (_) {
-                              context.read<RolesCubit>().deleteRole(role.id);
-                            },
-                            background: Container(
-                              alignment: Alignment.centerRight,
-                              margin: const EdgeInsets.only(bottom: 10),
-                              padding: const EdgeInsets.only(right: AppSpacing.l),
-                              decoration: BoxDecoration(
-                                color: context.cError.withAlpha(50),
-                                borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            child: CustomPaint(
+                              foregroundPainter: CardBorderPainter(
+                                borderColor: context.cBorder,
+                                leftBorderColor: roleColor,
+                                leftBorderWidth: 4,
+                                radius: AppSpacing.radiusM,
                               ),
-                              child: Icon(Icons.delete_outline, color: context.cError),
-                            ),
-                            child: GestureDetector(
-                            onTap: () => AddRoleSheet.show(
-                              context, 
-                              initialId: role.id,
-                              initialName: role.name, 
-                              initialAccent: role.accent,
-                              initialIconKey: role.iconKey,
-                            ),
-                            child: Container(
-                              margin: const EdgeInsets.only(bottom: 10),
-                              child: CustomPaint(
-                                foregroundPainter: CardBorderPainter(
-                                  borderColor: context.cBorder,
-                                  leftBorderColor: roleColor,
-                                  leftBorderWidth: 4,
-                                  radius: AppSpacing.radiusM,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: context.cSurfaceRaised,
+                                  borderRadius: BorderRadius.circular(AppSpacing.radiusM),
                                 ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: context.cSurfaceRaised,
-                                    borderRadius: BorderRadius.circular(AppSpacing.radiusM),
-                                  ),
-                                  padding: const EdgeInsets.all(14.0),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 36,
-                                        height: 36,
-                                        decoration: BoxDecoration(
-                                          color: context.cSurface,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Icon(RoleIcons.getIcon(role.iconKey), color: roleColor, size: 17),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              role.name,
-                                              style: AppTypography.fraunces(
-                                                size: 14,
-                                                weight: 600,
-                                                color: context.cTextPrimary,
-                                              ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+                                  child: Dismissible(
+                                    key: ValueKey('role_${role.id}'),
+                                    direction: DismissDirection.endToStart,
+                                    confirmDismiss: (direction) async {
+                                      return await showDialog<bool>(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          backgroundColor: context.cSurfaceRaised,
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
+                                          title: Text(
+                                            'Supprimer le rôle ?',
+                                            style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
+                                          ),
+                                          content: Text(
+                                            'Êtes-vous sûr de vouloir supprimer "${role.name}" ?',
+                                            style: AppTypography.inter(size: 14, color: context.cTextSecondary),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.of(context).pop(false),
+                                              child: Text('Annuler', style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
                                             ),
-                                            const SizedBox(height: 3),
-                                            Text(
-                                              'Rôle principal', // Mock subtitle
-                                              style: AppTypography.inter(
-                                                size: 12,
-                                                color: context.cTextSecondary,
-                                              ).copyWith(height: 1.4),
+                                            TextButton(
+                                              onPressed: () => Navigator.of(context).pop(true),
+                                              child: Text('Supprimer', style: AppTypography.inter(color: context.cError, weight: FontWeight.w600)),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    onDismissed: (_) {
+                                      context.read<RolesCubit>().deleteRole(role.id);
+                                    },
+                                    background: Container(
+                                      alignment: Alignment.centerRight,
+                                      padding: const EdgeInsets.only(right: AppSpacing.l),
+                                      color: context.cError.withAlpha(50),
+                                      child: Icon(Icons.delete_outline, color: context.cError),
+                                    ),
+                                    child: GestureDetector(
+                                      onTap: () => AddRoleSheet.show(
+                                        context, 
+                                        initialId: role.id,
+                                        initialName: role.name, 
+                                        initialAccent: role.accent,
+                                        initialIconKey: role.iconKey,
+                                      ),
+                                      behavior: HitTestBehavior.opaque,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(14.0),
+                                        // Background is transparent to show parent
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              width: 36,
+                                              height: 36,
+                                              decoration: BoxDecoration(
+                                                color: context.cSurface,
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: Icon(RoleIcons.getIcon(role.iconKey), color: roleColor, size: 17),
+                                            ),
+                                            const SizedBox(width: 12),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    role.name,
+                                                    style: AppTypography.fraunces(
+                                                      size: 14,
+                                                      weight: 600,
+                                                      color: context.cTextPrimary,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 3),
+                                                  Text(
+                                                    'Rôle principal', // Mock subtitle
+                                                    style: AppTypography.inter(
+                                                      size: 12,
+                                                      color: context.cTextSecondary,
+                                                    ).copyWith(height: 1.4),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
                           );
                         }),
                         
