@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/tokens/app_colors.dart';
@@ -28,6 +29,7 @@ class SettingsPageState extends State<SettingsPage> {
 
   bool _obscureKey = true;
   late final TextEditingController _apiKeyController;
+  Timer? _debounce;
 
   @override
   void initState() {
@@ -37,6 +39,7 @@ class SettingsPageState extends State<SettingsPage> {
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _apiKeyController.dispose();
     super.dispose();
   }
@@ -228,7 +231,12 @@ class SettingsPageState extends State<SettingsPage> {
                         controller: _apiKeyController,
                         obscureText: _obscureKey,
                         style: AppTypography.mono(size: 14, color: context.cTextPrimary),
-                        onChanged: (val) => context.read<SettingsCubit>().updateAiApiKey(val),
+                        onChanged: (val) {
+                          _debounce?.cancel();
+                          _debounce = Timer(const Duration(milliseconds: 500), () {
+                            context.read<SettingsCubit>().updateAiApiKey(val);
+                          });
+                        },
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: context.cSurface,

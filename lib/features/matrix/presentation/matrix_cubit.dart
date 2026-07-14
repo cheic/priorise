@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isar/isar.dart';
 import '../../../core/models/task_model.dart';
@@ -36,9 +38,23 @@ class MatrixState {
 
 class MatrixCubit extends Cubit<MatrixState> {
   final Isar isar;
+  StreamSubscription<void>? _tasksSubscription;
 
   MatrixCubit(this.isar) : super(const MatrixState()) {
     loadTasks();
+    _startWatchingTasks();
+  }
+
+  void _startWatchingTasks() {
+    _tasksSubscription = isar.tasks.watchLazy().listen((_) {
+      loadTasks();
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _tasksSubscription?.cancel();
+    return super.close();
   }
 
   Future<void> loadTasks() async {

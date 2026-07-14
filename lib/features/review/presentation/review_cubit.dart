@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isar/isar.dart';
 import '../../../core/models/weekly_review_model.dart';
@@ -40,11 +41,32 @@ class ReviewState {
 
 class ReviewCubit extends Cubit<ReviewState> {
   final Isar isar;
+  DateTime? _currentWeekStart;
+  StreamSubscription<void>? _rolesSubscription;
+  StreamSubscription<void>? _tasksSubscription;
 
-  ReviewCubit(this.isar) : super(const ReviewState());
+  ReviewCubit(this.isar) : super(const ReviewState()) {
+    _rolesSubscription = isar.lifeRoles.watchLazy().listen((_) {
+      if (_currentWeekStart != null) loadReview(_currentWeekStart!);
+    });
+    _tasksSubscription = isar.tasks.watchLazy().listen((_) {
+      if (_currentWeekStart != null) loadReview(_currentWeekStart!);
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _rolesSubscription?.cancel();
+    _tasksSubscription?.cancel();
+    return super.close();
+  }
 
   Future<void> loadReview(DateTime weekStart) async {
-    emit(state.copyWith(isLoading: true));
+    _currentWeekStart = weekStart;
+    // We don't want to show loading state every time a task changes (too much flickering)
+    if (state.roles.isEmpty && state.tasksForWeek.isEmpty) {
+      emit(state.copyWith(isLoading: true));
+    }
     
     // Normalize to start of week (e.g. Monday 00:00)
     final start = DateTime(weekStart.year, weekStart.month, weekStart.day);

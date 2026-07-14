@@ -42,48 +42,60 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
   }
 
+  AppSettings _cloneSettings(AppSettings current) {
+    return AppSettings()
+      ..id = current.id
+      ..themeMode = current.themeMode
+      ..locale = current.locale
+      ..gentleRemindersEnabled = current.gentleRemindersEnabled
+      ..aiSuggestionsEnabled = current.aiSuggestionsEnabled
+      ..aiProvider = current.aiProvider
+      ..aiApiKey = current.aiApiKey
+      ..firstLaunchCompleted = current.firstLaunchCompleted;
+  }
+
   Future<void> updateNotifications(bool enabled) async {
     final current = state.settings;
     if (current == null) return;
 
-    current.gentleRemindersEnabled = enabled;
+    final newSettings = _cloneSettings(current)..gentleRemindersEnabled = enabled;
     await _db.isar.writeTxn(() async {
-      await _db.isar.appSettings.put(current);
+      await _db.isar.appSettings.put(newSettings);
     });
-    emit(state.copyWith(settings: current));
+    emit(state.copyWith(settings: newSettings));
   }
 
   Future<void> updateAiSuggestions(bool enabled) async {
     final current = state.settings;
     if (current == null) return;
 
-    current.aiSuggestionsEnabled = enabled;
+    final newSettings = _cloneSettings(current)..aiSuggestionsEnabled = enabled;
     await _db.isar.writeTxn(() async {
-      await _db.isar.appSettings.put(current);
+      await _db.isar.appSettings.put(newSettings);
     });
-    emit(state.copyWith(settings: current));
+    emit(state.copyWith(settings: newSettings));
   }
 
   Future<void> updateAiProvider(String provider) async {
     final current = state.settings;
     if (current == null) return;
 
-    current.aiProvider = provider;
+    final newSettings = _cloneSettings(current)..aiProvider = provider;
     await _db.isar.writeTxn(() async {
-      await _db.isar.appSettings.put(current);
+      await _db.isar.appSettings.put(newSettings);
     });
-    emit(state.copyWith(settings: current));
+    emit(state.copyWith(settings: newSettings));
   }
 
   Future<void> updateAiApiKey(String apiKey) async {
     final current = state.settings;
     if (current == null) return;
 
-    current.aiApiKey = apiKey;
+    final newSettings = _cloneSettings(current)..aiApiKey = apiKey;
     await _db.isar.writeTxn(() async {
-      await _db.isar.appSettings.put(current);
+      await _db.isar.appSettings.put(newSettings);
     });
-    emit(state.copyWith(settings: current));
+    emit(state.copyWith(settings: newSettings));
   }
 
   Future<bool> testAiConnection() async {

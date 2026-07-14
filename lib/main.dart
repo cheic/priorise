@@ -13,6 +13,10 @@ import 'features/settings/presentation/settings_cubit.dart';
 import 'shared/mock_ai_cubit.dart';
 import 'core/services/widget_service.dart';
 
+import 'core/services/database_service.dart';
+import 'core/models/task_model.dart';
+import 'core/models/role_model.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -31,7 +35,18 @@ Future<void> main() async {
 
   // Sync widgets after the app is fully running to avoid MissingPluginException
   WidgetsBinding.instance.addPostFrameCallback((_) {
+    final isar = getIt<DatabaseService>().isar;
+    
+    // Initial update
     WidgetService.updateAllWidgets().catchError((_) {});
+
+    // Listen to all task and role changes to automatically refresh home widgets
+    isar.tasks.watchLazy().listen((_) {
+      WidgetService.updateAllWidgets().catchError((_) {});
+    });
+    isar.lifeRoles.watchLazy().listen((_) {
+      WidgetService.updateAllWidgets().catchError((_) {});
+    });
   });
 }
 
