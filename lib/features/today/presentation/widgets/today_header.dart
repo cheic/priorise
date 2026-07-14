@@ -9,6 +9,12 @@ import 'package:priorise/shared/widgets/page_header.dart';
 import '../today_cubit.dart';
 import '../../../settings/presentation/settings_screen.dart';
 import '../../../mission/presentation/mission_screen.dart';
+import '../../../../shared/utils/slide_up_route.dart';
+
+import '../../../plan/presentation/plan_screen.dart';
+import '../../../plan/presentation/plan_cubit.dart';
+import '../../../../core/di/injection.dart';
+import '../../../../core/services/database_service.dart';
 
 class TodayHeader extends StatelessWidget {
   const TodayHeader({required this.state, required this.hPad});
@@ -30,7 +36,7 @@ class TodayHeader extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => const SettingsPage()),
+            SlideUpRoute<String>(page: const SettingsPage()),
           );
         },
         child: Icon(Icons.settings_outlined, color: context.cTextSecondary, size: 24),
@@ -61,7 +67,7 @@ class TodayMissionLink extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => const MissionScreen()),
+            SlideUpRoute(page: const MissionScreen()),
           );
         },
         child: Row(
@@ -96,7 +102,19 @@ class TodayRitualBanner extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20),
       child: GestureDetector(
         onTap: () {
-          context.read<ShellCubit>().selectTab(3); // Switch to Planification screen
+          Navigator.push<String>(
+            context,
+            SlideUpRoute<String>(
+              page: BlocProvider(
+                create: (_) => PlanCubit(getIt<DatabaseService>().isar),
+                child: const PlanScreen(),
+              ),
+            ),
+          ).then((result) {
+            if (result == 'goto_matrix' && context.mounted) {
+              context.read<ShellCubit>().selectTab(2);
+            }
+          });
         },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),

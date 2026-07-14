@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:priorise/core/tokens/app_colors.dart';
 import 'package:priorise/core/tokens/app_spacing.dart';
 import 'package:priorise/core/tokens/app_typography.dart';
+import 'package:priorise/core/widgets/app_toast.dart';
 import 'package:priorise/core/models/role_model.dart';
+import 'package:priorise/core/models/task_model.dart';
 
 import '../today_cubit.dart';
 
@@ -50,7 +52,8 @@ class TodayFab extends StatelessWidget {
 }
 
 class TodayCaptureTaskSheet extends StatefulWidget {
-  const TodayCaptureTaskSheet();
+  final Task? taskToEdit;
+  const TodayCaptureTaskSheet({super.key, this.taskToEdit});
 
   @override
   State<TodayCaptureTaskSheet> createState() => TodayCaptureTaskSheetState();
@@ -60,6 +63,24 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
   final _titleController = TextEditingController();
   int? _selectedRoleId;
   String? _selectedPriority;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.taskToEdit != null) {
+      _titleController.text = widget.taskToEdit!.title;
+      _selectedRoleId = widget.taskToEdit!.roleId;
+      if (widget.taskToEdit!.important && !widget.taskToEdit!.urgent) {
+        _selectedPriority = 'Stratégique / À planifier';
+      } else if (widget.taskToEdit!.important && widget.taskToEdit!.urgent) {
+        _selectedPriority = 'Urgent et Important';
+      } else if (!widget.taskToEdit!.important && widget.taskToEdit!.urgent) {
+        _selectedPriority = 'Distraction / À déléguer';
+      } else {
+        _selectedPriority = 'Inutile / À éliminer';
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -86,21 +107,24 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
     ];
     _selectedPriority ??= priorities.first;
 
-    return Container(
-      margin: EdgeInsets.only(
-        left: 16,
-        right: 16,
-        bottom: bottomInset > 0 ? bottomInset + 16 : 24,
-      ),
-      padding: const EdgeInsets.fromLTRB(22, 20, 22, 26),
-      decoration: BoxDecoration(
-        color: context.cSurface,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: context.cBorderStrong),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Padding(
+      padding: EdgeInsets.only(bottom: bottomInset),
+      child: Container(
+        margin: const EdgeInsets.only(
+          left: 16,
+          right: 16,
+          bottom: 24,
+        ),
+        padding: const EdgeInsets.fromLTRB(22, 20, 22, 26),
+        decoration: BoxDecoration(
+          color: context.cSurface,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: context.cBorderStrong),
+        ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Handle
           Center(
@@ -116,7 +140,7 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
           ),
           // Title
           Text(
-            'Capturer une tâche',
+            widget.taskToEdit == null ? 'Capturer une tâche' : 'Modifier la tâche',
             style: AppTypography.fraunces(
               size: 17,
               weight: 560,
@@ -132,31 +156,70 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
             controller: _titleController,
             autofocus: true,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           // Field 2: Rôle
           const TodayModalLabel(text: 'Rôle'),
-          const SizedBox(height: 6),
-          TodayModalDropdownField<int>(
-            hint: 'Sélectionner un rôle',
-            value: _selectedRoleId,
-            items: roles.map((r) => DropdownMenuItem(value: r.id, child: Text(r.name))).toList(),
-            onChanged: (val) {
-              if (val != null) setState(() => _selectedRoleId = val);
-            },
-          ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
+          if (roles.isEmpty)
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: context.cSurfaceRaised,
+                borderRadius: BorderRadius.circular(AppSpacing.radiusS),
+                border: Border.all(color: context.cBorder),
+              ),
+              child: Text(
+                "Aucun rôle n'a encore été défini.\nAllez dans l'onglet Rôles pour en créer un avant d'ajouter une tâche.",
+                style: AppTypography.inter(size: 13, color: context.cTextSecondary).copyWith(height: 1.4),
+                textAlign: TextAlign.center,
+              ),
+            )
+          else
+            SizedBox(
+              height: 36,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: roles.length,
+                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                itemBuilder: (context, index) {
+                  final role = roles[index];
+                  final isSelected = _selectedRoleId == role.id;
+                  final roleColor = role.accent.color(context);
+                  return GestureDetector(
+                    onTap: () => setState(() => _selectedRoleId = role.id),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 14),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: isSelected ? roleColor.withValues(alpha: 0.15) : context.cSurfaceRaised,
+                        border: Border.all(color: isSelected ? roleColor : context.cBorderStrong),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                      child: Text(
+                        role.name,
+                        textAlign: TextAlign.center,
+                        style: AppTypography.inter(
+                          size: 13,
+                          weight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                          color: isSelected ? roleColor : context.cTextSecondary,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          const SizedBox(height: 16),
           // Field 3: Important ? Urgent ?
-          const TodayModalLabel(text: 'Important ? Urgent ?'),
-          const SizedBox(height: 6),
+          const TodayModalLabel(text: 'Priorité (Matrice)'),
+          const SizedBox(height: 8),
           TodayModalDropdownField<String>(
             hint: 'Sélectionner une priorité',
             value: _selectedPriority,
             items: priorities.map((p) => DropdownMenuItem(value: p, child: Text(p))).toList(),
-            onChanged: (val) {
-              if (val != null) setState(() => _selectedPriority = val);
-            },
+            onChanged: (val) => setState(() => _selectedPriority = val),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
           // Actions
           Row(
             children: [
@@ -185,7 +248,7 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
               const SizedBox(width: 10),
               Expanded(
                 child: InkWell(
-                  onTap: () {
+                  onTap: roles.isEmpty ? null : () {
                     final title = _titleController.text.trim();
                     if (title.isNotEmpty && _selectedRoleId != null) {
                       bool important = false;
@@ -203,42 +266,24 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
                         important = false;
                         urgent = false;
                       }
-                      context.read<TodayCubit>().addTask(title, _selectedRoleId!, important: important, urgent: urgent);
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Row(
-                            children: [
-                              Icon(Icons.check, color: context.cSage, size: 14),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Tâche ajoutée à votre journée',
-                                style: AppTypography.inter(
-                                  size: 12,
-                                  color: context.cTextPrimary,
-                                ),
-                              ),
-                            ],
-                          ),
-                          backgroundColor: context.cSurfaceRaised,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(999),
-                            side: BorderSide(color: context.cBorderStrong),
-                          ),
-                          behavior: SnackBarBehavior.floating,
-                          margin: const EdgeInsets.only(bottom: 24, left: 24, right: 24),
-                          elevation: 10,
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                        ),
-                      );
+                      if (widget.taskToEdit == null) {
+                        context.read<TodayCubit>().addTask(title, _selectedRoleId!, important: important, urgent: urgent);
+                        Navigator.of(context).pop();
+                        AppToast.showSuccess(context, 'Tâche ajoutée à votre journée');
+                      } else {
+                        context.read<TodayCubit>().updateTask(widget.taskToEdit!.id, title, _selectedRoleId!, important: important, urgent: urgent);
+                        Navigator.of(context).pop();
+                        AppToast.showSuccess(context, 'Tâche modifiée');
+                      }
                     }
                   },
                   borderRadius: BorderRadius.circular(AppSpacing.radiusS),
                   child: Container(
                     padding: const EdgeInsets.all(13),
                     decoration: BoxDecoration(
-                      color: context.cBrass,
+                      color: roles.isEmpty ? context.cSurfaceRaised : context.cBrass,
                       borderRadius: BorderRadius.circular(AppSpacing.radiusS),
+                      border: roles.isEmpty ? Border.all(color: context.cBorderStrong) : null,
                     ),
                     alignment: Alignment.center,
                     child: Text(
@@ -246,7 +291,7 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
                       style: AppTypography.inter(
                         size: 13.5,
                         weight: FontWeight.w600,
-                        color: const Color(0xFF1B140B),
+                        color: roles.isEmpty ? context.cTextTertiary : const Color(0xFF1B140B),
                       ),
                     ),
                   ),
@@ -255,8 +300,9 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
             ],
           ),
         ],
+        ),
       ),
-    );
+    ));
   }
 }
 

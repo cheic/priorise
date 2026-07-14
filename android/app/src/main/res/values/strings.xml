@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Priorise</string>
+
+    <!-- Widget descriptions -->
+    <string name="widget_focus_desc">Affiche votre priorité Quadrant II du jour</string>
+    <string name="widget_matrix_desc">Vue compacte de la matrice Eisenhower</string>
+    <string name="widget_capture_desc">Capturez une tâche rapidement</string>
+    <string name="widget_list_desc">Liste de vos tâches de la semaine</string>
+
+    <!-- Widget labels -->
+    <string name="widget_focus_label">Priorise · Focus</string>
+    <string name="widget_matrix_label">Priorise · Matrice</string>
+    <string name="widget_capture_label">Priorise · Capture</string>
+    <string name="widget_list_label">Priorise · Tâches</string>
+</resources>

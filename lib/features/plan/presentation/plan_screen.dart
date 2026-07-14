@@ -14,14 +14,17 @@ class PlanScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final hPad = AppSpacing.screenPaddingH(context);
 
-    return SafeArea(
-      bottom: false,
-      child: Column(
+    return Scaffold(
+      backgroundColor: context.cSurface,
+      body: SafeArea(
+        bottom: false,
+        child: Column(
         children: [
           PageHeader(
             eyebrow: 'RITUEL HEBDOMADAIRE',
             title: 'Planification',
             horizontalPadding: hPad,
+            showBackButton: true,
           ),
           Expanded(
             child: ListView(
@@ -103,7 +106,7 @@ class PlanScreen extends StatelessWidget {
                 Center(
                   child: FilledButton(
                     onPressed: () {
-                      context.read<ShellCubit>().selectTab(2); // Go to Matrix
+                      Navigator.pop(context, 'goto_matrix');
                     },
                     style: FilledButton.styleFrom(
                       backgroundColor: context.cBrass,
@@ -124,7 +127,7 @@ class PlanScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }
 

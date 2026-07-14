@@ -2,13 +2,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/services/database_service.dart';
 import '../../../core/models/app_settings_model.dart';
 import '../../../core/di/injection.dart';
+import '../../../core/services/ai_service.dart';
 
 class SettingsState {
   final AppSettings? settings;
-  const SettingsState({this.settings});
+  final bool isTestingConnection;
 
-  SettingsState copyWith({AppSettings? settings}) {
-    return SettingsState(settings: settings ?? this.settings);
+  const SettingsState({this.settings, this.isTestingConnection = false});
+
+  SettingsState copyWith({AppSettings? settings, bool? isTestingConnection}) {
+    return SettingsState(
+      settings: settings ?? this.settings,
+      isTestingConnection: isTestingConnection ?? this.isTestingConnection,
+    );
   }
 }
 
@@ -78,5 +84,24 @@ class SettingsCubit extends Cubit<SettingsState> {
       await _db.isar.appSettings.put(current);
     });
     emit(state.copyWith(settings: current));
+  }
+
+  Future<bool> testAiConnection() async {
+    final current = state.settings;
+    if (current == null) return false;
+
+    emit(state.copyWith(isTestingConnection: true));
+    try {
+      final aiService = getIt<AiService>();
+      final success = await aiService.testConnection(
+        provider: current.aiProvider,
+        apiKey: current.aiApiKey,
+      );
+      return success;
+    } catch (e) {
+      return false;
+    } finally {
+      emit(state.copyWith(isTestingConnection: false));
+    }
   }
 }

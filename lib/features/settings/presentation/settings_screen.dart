@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/tokens/app_colors.dart';
 import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
+import '../../../core/widgets/app_toast.dart';
 import '../../../shared/widgets/page_header.dart';
 import '../../shell/presentation/shell_cubit.dart';
 import '../../../shared/mock_ai_cubit.dart';
@@ -11,6 +12,10 @@ import '../../../core/di/injection.dart';
 import '../../../core/services/notification_service.dart';
 import 'settings_cubit.dart';
 import '../../mission/presentation/mission_screen.dart';
+import '../../../shared/utils/slide_up_route.dart';
+import '../../../core/services/database_service.dart';
+import '../../plan/presentation/plan_cubit.dart';
+import '../../plan/presentation/plan_screen.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -104,14 +109,27 @@ class SettingsPageState extends State<SettingsPage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const MissionScreen()),
+                          SlideUpRoute(page: const MissionScreen()),
                         );
                       },
                     ),
                     SettingClickableRow(
                       label: 'Planification de la semaine',
                       sub: 'Rituel du dimanche — 20 minutes',
-                      onTap: () => context.read<ShellCubit>().selectTab(3),
+                      onTap: () async {
+                        final planResult = await Navigator.push<String>(
+                          context,
+                          SlideUpRoute<String>(
+                            page: BlocProvider(
+                              create: (_) => PlanCubit(getIt<DatabaseService>().isar),
+                              child: const PlanScreen(),
+                            ),
+                          ),
+                        );
+                        if (planResult == 'goto_matrix' && context.mounted) {
+                          Navigator.pop(context, 'goto_matrix');
+                        }
+                      },
                     ),
                     const SizedBox(height: AppSpacing.xxl),
 
@@ -242,27 +260,39 @@ class SettingsPageState extends State<SettingsPage> {
                       const SizedBox(height: AppSpacing.xl),
 
                       Center(
-                        child: OutlinedButton.icon(
-                          onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: context.cTextPrimary,
-                            side: BorderSide(color: context.cBorderStrong),
-                            backgroundColor: context.cSurfaceRaised,
-                            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.m),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(AppSpacing.radiusM),
-                            ),
-                          ),
-                          icon: Container(
-                            width: 6,
-                            height: 6,
-                            decoration: BoxDecoration(
-                              color: context.cSage,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                          label: Text('Tester la connexion', style: AppTypography.labelMedium()),
-                        ),
+                        child: settingsState.isTestingConnection
+                            ? const CircularProgressIndicator()
+                            : OutlinedButton.icon(
+                                onPressed: () async {
+                                  if (settings.aiApiKey.isEmpty) {
+                                    AppToast.showError(context, 'Veuillez entrer une clé API.');
+                                    return;
+                                  }
+
+                                  // Hide keyboard
+                                  FocusScope.of(context).unfocus();
+
+                                  final success = await context.read<SettingsCubit>().testAiConnection();
+                                  if (context.mounted) {
+                                    if (success) {
+                                      AppToast.showSuccess(context, 'Connexion réussie !');
+                                    } else {
+                                      AppToast.showError(context, 'Échec de la connexion. Vérifiez la clé API.');
+                                    }
+                                  }
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: context.cTextPrimary,
+                                  side: BorderSide(color: context.cBorderStrong),
+                                  backgroundColor: context.cSurfaceRaised,
+                                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.m),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+                                  ),
+                                ),
+                                icon: Icon(Icons.check_circle_outline, size: 18, color: context.cTextSecondary),
+                                label: Text('Tester la connexion', style: AppTypography.labelMedium()),
+                              ),
                       ),
                       const SizedBox(height: AppSpacing.xxxxl),
 
@@ -559,39 +589,45 @@ class ThemeSelectorState extends State<ThemeSelector> {
             ),
           ),
         ),
-        if (_isExpanded) ...[
-          Row(
+        AnimatedSize(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOutCubic,
+          child: _isExpanded ? Column(
             children: [
-              Expanded(child: ThemeOptionCard(
-                label: 'Auto',
-                icon: Icons.brightness_auto_outlined,
-                isSelected: widget.currentTheme == ThemeMode.system,
-                onTap: () {
-                  context.read<ThemeCubit>().setTheme(ThemeMode.system);
-                },
-              )),
-              const SizedBox(width: AppSpacing.s),
-              Expanded(child: ThemeOptionCard(
-                label: 'Clair',
-                icon: Icons.light_mode_outlined,
-                isSelected: widget.currentTheme == ThemeMode.light,
-                onTap: () {
-                  context.read<ThemeCubit>().setTheme(ThemeMode.light);
-                },
-              )),
-              const SizedBox(width: AppSpacing.s),
-              Expanded(child: ThemeOptionCard(
-                label: 'Sombre',
-                icon: Icons.dark_mode_outlined,
-                isSelected: widget.currentTheme == ThemeMode.dark,
-                onTap: () {
-                  context.read<ThemeCubit>().setTheme(ThemeMode.dark);
-                },
-              )),
+              Row(
+                children: [
+                  Expanded(child: ThemeOptionCard(
+                    label: 'Auto',
+                    icon: Icons.brightness_auto_outlined,
+                    isSelected: widget.currentTheme == ThemeMode.system,
+                    onTap: () {
+                      context.read<ThemeCubit>().setTheme(ThemeMode.system);
+                    },
+                  )),
+                  const SizedBox(width: AppSpacing.s),
+                  Expanded(child: ThemeOptionCard(
+                    label: 'Clair',
+                    icon: Icons.light_mode_outlined,
+                    isSelected: widget.currentTheme == ThemeMode.light,
+                    onTap: () {
+                      context.read<ThemeCubit>().setTheme(ThemeMode.light);
+                    },
+                  )),
+                  const SizedBox(width: AppSpacing.s),
+                  Expanded(child: ThemeOptionCard(
+                    label: 'Sombre',
+                    icon: Icons.dark_mode_outlined,
+                    isSelected: widget.currentTheme == ThemeMode.dark,
+                    onTap: () {
+                      context.read<ThemeCubit>().setTheme(ThemeMode.dark);
+                    },
+                  )),
+                ],
+              ),
+              const SizedBox(height: AppSpacing.m),
             ],
-          ),
-          const SizedBox(height: AppSpacing.m),
-        ],
+          ) : const SizedBox.shrink(),
+        ),
       ],
     );
   }

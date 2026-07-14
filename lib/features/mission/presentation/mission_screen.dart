@@ -5,6 +5,7 @@ import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
 import '../../../shared/widgets/page_header.dart';
 import '../../../shared/painters/dashed_border_painter.dart';
+import '../../../core/widgets/app_toast.dart';
 import 'resizable_text_field.dart';
 import 'mission_cubit.dart';
 
@@ -202,32 +203,7 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
                                 });
                                 context.read<MissionCubit>().updateMission(_missionController.text.trim());
                                 
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Row(
-                                      children: [
-                                        Icon(Icons.check, color: context.cSage, size: 14),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          'Mission mise à jour',
-                                          style: AppTypography.inter(
-                                            size: 12,
-                                            color: context.cTextPrimary,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    backgroundColor: context.cSurfaceRaised,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(999),
-                                      side: BorderSide(color: context.cBorderStrong),
-                                    ),
-                                    behavior: SnackBarBehavior.floating,
-                                    margin: const EdgeInsets.only(bottom: 24, left: 24, right: 24),
-                                    elevation: 10,
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                                  ),
-                                );
+                                AppToast.showSuccess(context, 'Mission mise à jour');
                               },
                               style: FilledButton.styleFrom(
                                 backgroundColor: context.cBrass,
@@ -326,6 +302,7 @@ class _DashedHint extends StatelessWidget {
         child: Text(
           text,
           style: AppTypography.inter(size: 13, color: context.cTextSecondary).copyWith(height: 1.4),
+          textAlign: TextAlign.center,
         ),
       ),
     );
@@ -428,17 +405,11 @@ class _ScheduleModal extends StatelessWidget {
                   child: FilledButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Rappel de révision programmé',
-                            style: AppTypography.inter(size: 14, color: context.cTextPrimary),
-                          ),
-                          backgroundColor: context.cSurfaceRaised,
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          duration: const Duration(seconds: 2),
-                        ),
+                      AppToast.show(
+                        context,
+                        'Rappel de révision programmé',
+                        icon: Icons.notifications_active_outlined,
+                        iconColor: context.cBrass,
                       );
                     },
                     style: FilledButton.styleFrom(

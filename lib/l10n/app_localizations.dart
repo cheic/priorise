@@ -104,13 +104,13 @@ abstract class AppLocalizations {
   /// **'Priorise'**
   String get appName;
 
-  /// Accroche de l'application
+  /// Accroche splash
   ///
   /// In fr, this message translates to:
-  /// **'Priorité aux priorités'**
+  /// **'L\'ESSENTIEL D\'ABORD'**
   String get tagline;
 
-  /// Titre de l'écran principal
+  /// Onglet aujourd'hui
   ///
   /// In fr, this message translates to:
   /// **'Aujourd\'hui'**
@@ -133,6 +133,600 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Commencer'**
   String get start;
+
+  /// No description provided for @navToday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aujourd\'hui'**
+  String get navToday;
+
+  /// No description provided for @navRoles.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rôles'**
+  String get navRoles;
+
+  /// No description provided for @navPriorise.
+  ///
+  /// In fr, this message translates to:
+  /// **'Priorise'**
+  String get navPriorise;
+
+  /// No description provided for @navReview.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bilan'**
+  String get navReview;
+
+  /// No description provided for @hello.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bonjour'**
+  String get hello;
+
+  /// No description provided for @eyebrowRoles.
+  ///
+  /// In fr, this message translates to:
+  /// **'CE QUE VOUS INCARNEZ'**
+  String get eyebrowRoles;
+
+  /// No description provided for @titleRoles.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rôles de vie'**
+  String get titleRoles;
+
+  /// No description provided for @eyebrowMatrix.
+  ///
+  /// In fr, this message translates to:
+  /// **'OÙ VA VOTRE ATTENTION'**
+  String get eyebrowMatrix;
+
+  /// No description provided for @titleMatrix.
+  ///
+  /// In fr, this message translates to:
+  /// **'Matrice'**
+  String get titleMatrix;
+
+  /// No description provided for @eyebrowReview.
+  ///
+  /// In fr, this message translates to:
+  /// **'AMÉLIORATION CONTINUE'**
+  String get eyebrowReview;
+
+  /// No description provided for @titleReview.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bilan'**
+  String get titleReview;
+
+  /// No description provided for @sideRailSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Gestion des priorités'**
+  String get sideRailSubtitle;
+
+  /// No description provided for @sideRailSection.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'application'**
+  String get sideRailSection;
+
+  /// No description provided for @sideRailQuote.
+  ///
+  /// In fr, this message translates to:
+  /// **'« Ce n\'est pas votre agenda qui doit dicter vos priorités — ce sont vos priorités qui doivent dicter votre agenda. »'**
+  String get sideRailQuote;
+
+  /// No description provided for @onb1Title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas une todo-list de plus'**
+  String get onb1Title;
+
+  /// No description provided for @onb1Desc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Priorise part d\'un principe simple : ce qui est important passe avant ce qui est urgent. Pas l\'inverse.'**
+  String get onb1Desc;
+
+  /// No description provided for @onb2Title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Organisez-vous par rôles'**
+  String get onb2Title;
+
+  /// No description provided for @onb2Desc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Parent, professionnel, ami — vos tâches se rattachent à qui vous êtes, pas à des listes anonymes.'**
+  String get onb2Desc;
+
+  /// No description provided for @onb3Title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une grosse pierre par semaine'**
+  String get onb3Title;
+
+  /// No description provided for @onb3Desc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Chaque dimanche, choisissez une seule priorité par rôle. Le reste se glisse autour, jamais avant.'**
+  String get onb3Desc;
+
+  /// No description provided for @onb4Title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sans culpabilité, sans score'**
+  String get onb4Title;
+
+  /// No description provided for @onb4Desc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas de streaks, pas de notes chiffrées. Juste un miroir honnête, semaine après semaine.'**
+  String get onb4Desc;
+
+  /// No description provided for @weeklyStones.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vos pierres de la semaine'**
+  String get weeklyStones;
+
+  /// No description provided for @todayPriority.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre priorité, aujourd\'hui'**
+  String get todayPriority;
+
+  /// No description provided for @restOfWeek.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le reste de la semaine'**
+  String get restOfWeek;
+
+  /// No description provided for @quadrantLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quadrant II'**
+  String get quadrantLabel;
+
+  /// No description provided for @emptyFocus.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune Grosse Pierre définie.\nOuvrez la planification.'**
+  String get emptyFocus;
+
+  /// No description provided for @noTasksYet.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune tâche pour cette semaine'**
+  String get noTasksYet;
+
+  /// No description provided for @addTaskHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une tâche…'**
+  String get addTaskHint;
+
+  /// No description provided for @weekNotPlanned.
+  ///
+  /// In fr, this message translates to:
+  /// **'Semaine non planifiée'**
+  String get weekNotPlanned;
+
+  /// No description provided for @planWeek.
+  ///
+  /// In fr, this message translates to:
+  /// **'Planifier'**
+  String get planWeek;
+
+  /// No description provided for @settingsEyebrow.
+  ///
+  /// In fr, this message translates to:
+  /// **'VOTRE ATELIER'**
+  String get settingsEyebrow;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paramètres'**
+  String get settingsTitle;
+
+  /// No description provided for @sectionProfile.
+  ///
+  /// In fr, this message translates to:
+  /// **'Profil'**
+  String get sectionProfile;
+
+  /// No description provided for @myMission.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ma mission'**
+  String get myMission;
+
+  /// No description provided for @myMissionSub.
+  ///
+  /// In fr, this message translates to:
+  /// **'Consultée et modifiée occasionnellement, pas chaque semaine'**
+  String get myMissionSub;
+
+  /// No description provided for @weekPlanning.
+  ///
+  /// In fr, this message translates to:
+  /// **'Planification de la semaine'**
+  String get weekPlanning;
+
+  /// No description provided for @weekPlanningSub.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rituel du dimanche — 20 minutes'**
+  String get weekPlanningSub;
+
+  /// No description provided for @sectionAppearance.
+  ///
+  /// In fr, this message translates to:
+  /// **'Apparence'**
+  String get sectionAppearance;
+
+  /// No description provided for @gentleReminders.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rappels doux'**
+  String get gentleReminders;
+
+  /// No description provided for @gentleRemindersSub.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une seule notification par jour, jamais plus'**
+  String get gentleRemindersSub;
+
+  /// No description provided for @sectionAI.
+  ///
+  /// In fr, this message translates to:
+  /// **'Intelligence artificielle'**
+  String get sectionAI;
+
+  /// No description provided for @enableAISuggestions.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activer les suggestions IA'**
+  String get enableAISuggestions;
+
+  /// No description provided for @enableAISuggestionsSub.
+  ///
+  /// In fr, this message translates to:
+  /// **'Décomposition de tâches, aide au bilan hebdo'**
+  String get enableAISuggestionsSub;
+
+  /// No description provided for @aiProvider.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fournisseur'**
+  String get aiProvider;
+
+  /// No description provided for @apiKey.
+  ///
+  /// In fr, this message translates to:
+  /// **'Clé API'**
+  String get apiKey;
+
+  /// No description provided for @testConnection.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tester la connexion'**
+  String get testConnection;
+
+  /// No description provided for @connectionSuccess.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion réussie !'**
+  String get connectionSuccess;
+
+  /// No description provided for @enterApiKey.
+  ///
+  /// In fr, this message translates to:
+  /// **'Veuillez entrer une clé API.'**
+  String get enterApiKey;
+
+  /// No description provided for @securityNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre clé reste stockée uniquement sur cet appareil. Rien n\'est envoyé à un serveur Priorise — vos requêtes vont directement du téléphone vers le fournisseur choisi.'**
+  String get securityNote;
+
+  /// No description provided for @themeAuto.
+  ///
+  /// In fr, this message translates to:
+  /// **'Thème Automatique'**
+  String get themeAuto;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In fr, this message translates to:
+  /// **'Thème Clair'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In fr, this message translates to:
+  /// **'Thème Sombre'**
+  String get themeDark;
+
+  /// No description provided for @themeAutoShort.
+  ///
+  /// In fr, this message translates to:
+  /// **'Auto'**
+  String get themeAutoShort;
+
+  /// No description provided for @themeLightShort.
+  ///
+  /// In fr, this message translates to:
+  /// **'Clair'**
+  String get themeLightShort;
+
+  /// No description provided for @themeDarkShort.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sombre'**
+  String get themeDarkShort;
+
+  /// No description provided for @yourRoles.
+  ///
+  /// In fr, this message translates to:
+  /// **'VOS RÔLES DE VIE'**
+  String get yourRoles;
+
+  /// No description provided for @mainRole.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rôle principal'**
+  String get mainRole;
+
+  /// No description provided for @addRole.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter un rôle'**
+  String get addRole;
+
+  /// No description provided for @editRole.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier le rôle'**
+  String get editRole;
+
+  /// No description provided for @roleName.
+  ///
+  /// In fr, this message translates to:
+  /// **'Nom du rôle'**
+  String get roleName;
+
+  /// No description provided for @roleNameHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex. Communauté, Créativité...'**
+  String get roleNameHint;
+
+  /// No description provided for @cancel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Annuler'**
+  String get cancel;
+
+  /// No description provided for @createRole.
+  ///
+  /// In fr, this message translates to:
+  /// **'Créer le rôle'**
+  String get createRole;
+
+  /// No description provided for @saveRole.
+  ///
+  /// In fr, this message translates to:
+  /// **'Enregistrer'**
+  String get saveRole;
+
+  /// No description provided for @colorBrass.
+  ///
+  /// In fr, this message translates to:
+  /// **'Laiton'**
+  String get colorBrass;
+
+  /// No description provided for @colorSage.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sauge'**
+  String get colorSage;
+
+  /// No description provided for @colorClay.
+  ///
+  /// In fr, this message translates to:
+  /// **'Argile'**
+  String get colorClay;
+
+  /// No description provided for @colorSlate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ardoise'**
+  String get colorSlate;
+
+  /// No description provided for @colorAmethyst.
+  ///
+  /// In fr, this message translates to:
+  /// **'Améthyste'**
+  String get colorAmethyst;
+
+  /// No description provided for @colorMoss.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mousse'**
+  String get colorMoss;
+
+  /// No description provided for @reminderScheduled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rappel de révision programmé'**
+  String get reminderScheduled;
+
+  /// No description provided for @schedule.
+  ///
+  /// In fr, this message translates to:
+  /// **'Programmer'**
+  String get schedule;
+
+  /// No description provided for @importantUrgent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Important + Urgent'**
+  String get importantUrgent;
+
+  /// No description provided for @importantNotUrgent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Important + Non Urgent'**
+  String get importantNotUrgent;
+
+  /// No description provided for @notImportantUrgent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Non Important + Urgent'**
+  String get notImportantUrgent;
+
+  /// No description provided for @notImportantNotUrgent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Non Important + Non Urgent'**
+  String get notImportantNotUrgent;
+
+  /// No description provided for @synthesize.
+  ///
+  /// In fr, this message translates to:
+  /// **'Synthétiser avec l\'IA'**
+  String get synthesize;
+
+  /// No description provided for @whatWorked.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce qui a marché'**
+  String get whatWorked;
+
+  /// No description provided for @whatSlipped.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce qui a dérapé'**
+  String get whatSlipped;
+
+  /// No description provided for @monday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lundi'**
+  String get monday;
+
+  /// No description provided for @tuesday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mardi'**
+  String get tuesday;
+
+  /// No description provided for @wednesday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mercredi'**
+  String get wednesday;
+
+  /// No description provided for @thursday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Jeudi'**
+  String get thursday;
+
+  /// No description provided for @friday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vendredi'**
+  String get friday;
+
+  /// No description provided for @saturday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Samedi'**
+  String get saturday;
+
+  /// No description provided for @sunday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dimanche'**
+  String get sunday;
+
+  /// No description provided for @january.
+  ///
+  /// In fr, this message translates to:
+  /// **'janvier'**
+  String get january;
+
+  /// No description provided for @february.
+  ///
+  /// In fr, this message translates to:
+  /// **'février'**
+  String get february;
+
+  /// No description provided for @march.
+  ///
+  /// In fr, this message translates to:
+  /// **'mars'**
+  String get march;
+
+  /// No description provided for @april.
+  ///
+  /// In fr, this message translates to:
+  /// **'avril'**
+  String get april;
+
+  /// No description provided for @may.
+  ///
+  /// In fr, this message translates to:
+  /// **'mai'**
+  String get may;
+
+  /// No description provided for @june.
+  ///
+  /// In fr, this message translates to:
+  /// **'juin'**
+  String get june;
+
+  /// No description provided for @july.
+  ///
+  /// In fr, this message translates to:
+  /// **'juillet'**
+  String get july;
+
+  /// No description provided for @august.
+  ///
+  /// In fr, this message translates to:
+  /// **'août'**
+  String get august;
+
+  /// No description provided for @september.
+  ///
+  /// In fr, this message translates to:
+  /// **'septembre'**
+  String get september;
+
+  /// No description provided for @october.
+  ///
+  /// In fr, this message translates to:
+  /// **'octobre'**
+  String get october;
+
+  /// No description provided for @november.
+  ///
+  /// In fr, this message translates to:
+  /// **'novembre'**
+  String get november;
+
+  /// No description provided for @december.
+  ///
+  /// In fr, this message translates to:
+  /// **'décembre'**
+  String get december;
 }
 
 class _AppLocalizationsDelegate

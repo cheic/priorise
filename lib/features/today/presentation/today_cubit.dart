@@ -3,6 +3,7 @@ import 'package:isar/isar.dart';
 import '../../../core/models/role_model.dart';
 import '../../../core/models/task_model.dart';
 import '../../../core/models/weekly_plan_model.dart';
+import '../../../core/services/widget_service.dart';
 
 // ── State ──────────────────────────────────────────────────────────────────
 
@@ -120,6 +121,7 @@ class TodayCubit extends Cubit<TodayState> {
     });
 
     _load();
+    WidgetService.updateAllWidgets();
   }
 
   Future<void> addTask(String title, int roleId, {bool important = false, bool urgent = false}) async {
@@ -138,6 +140,27 @@ class TodayCubit extends Cubit<TodayState> {
     });
 
     _load();
+    WidgetService.updateAllWidgets();
+  }
+
+  Future<void> updateTask(int taskId, String title, int roleId, {bool important = false, bool urgent = false}) async {
+    final current = state;
+    if (current is! TodayLoaded) return;
+    
+    final task = await isar.tasks.get(taskId);
+    if (task == null) return;
+    
+    task.title = title;
+    task.roleId = roleId;
+    task.important = important;
+    task.urgent = urgent;
+
+    await isar.writeTxn(() async {
+      await isar.tasks.put(task);
+    });
+
+    _load();
+    WidgetService.updateAllWidgets();
   }
 
   Future<void> deleteTask(int taskId) async {
@@ -149,6 +172,7 @@ class TodayCubit extends Cubit<TodayState> {
     });
 
     _load();
+    WidgetService.updateAllWidgets();
   }
 
   Future<void> refresh() => _load();

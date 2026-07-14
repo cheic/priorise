@@ -7,6 +7,7 @@ import 'package:priorise/shared/widgets/role_icons.dart';
 import 'package:priorise/core/models/role_model.dart';
 
 import '../today_cubit.dart';
+import '../../../shell/presentation/shell_cubit.dart';
 
 class TodayRoleChipsRow extends StatelessWidget {
   const TodayRoleChipsRow({required this.state, required this.hPad});
@@ -42,6 +43,7 @@ class TodayRoleChipsRow extends StatelessWidget {
     );
   }
 }
+
 class TodayRoleChipCard extends StatelessWidget {
   const TodayRoleChipCard({super.key, required this.role, required this.state});
 
@@ -57,7 +59,11 @@ class TodayRoleChipCard extends StatelessWidget {
     // Show up to 5 dots
     final dotsCount = totalCount > 5 ? 5 : totalCount;
 
-    return Container(
+    return GestureDetector(
+      onTap: () {
+        context.read<ShellCubit>().selectTab(1);
+      },
+      child: Container(
       width: 120,
       padding: const EdgeInsets.all(AppSpacing.m),
       decoration: BoxDecoration(
@@ -98,6 +104,7 @@ class TodayRoleChipCard extends StatelessWidget {
             ),
           ],
         ],
+      ),
       ),
     );
   }

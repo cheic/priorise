@@ -33,12 +33,14 @@ class CompassPainter extends CustomPainter {
     this.showGlow = false,
     this.strokeScaleFactor = 1.0,
     this.tasks = const [],
+    this.showLabels = true,
   });
 
   final bool isDark;
   final bool showGlow;
   final double strokeScaleFactor;
   final List<CompassTask> tasks;
+  final bool showLabels;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -189,34 +191,36 @@ class CompassPainter extends CustomPainter {
     }
 
     // Texts
-    final textStyle = AppTypography.mono(
-      size: 9 * s,
-      color: isDark ? AppColorsDark.textTertiary : AppColorsLight.textTertiary,
-    );
-    
-    final importText = TextPainter(
-      text: TextSpan(text: 'IMPORTANCE ↑', style: textStyle),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    
-    final urgenceText = TextPainter(
-      text: TextSpan(text: 'URGENCE →', style: textStyle),
-      textDirection: TextDirection.ltr,
-    )..layout();
+    if (showLabels) {
+      final textStyle = AppTypography.mono(
+        size: 9 * s,
+        color: isDark ? AppColorsDark.textTertiary : AppColorsLight.textTertiary,
+      );
+      
+      final importText = TextPainter(
+        text: TextSpan(text: 'IMPORTANCE ↑', style: textStyle),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      
+      final urgenceText = TextPainter(
+        text: TextSpan(text: 'URGENCE →', style: textStyle),
+        textDirection: TextDirection.ltr,
+      )..layout();
 
-    // IMPORTANCE centered at the top
-    // Positioned horizontally centered above the compass
-    importText.paint(
-      canvas,
-      Offset(cx - importText.width / 2, cy - (98 * s) - importText.height - (4 * s)),
-    );
+      // IMPORTANCE centered at the top
+      // Positioned horizontally centered above the compass
+      importText.paint(
+        canvas,
+        Offset(cx - importText.width / 2, cy - (98 * s) - importText.height - (4 * s)),
+      );
 
-    // URGENCE positioned on the right horizontal line
-    // Vertically centered perfectly on the line
-    urgenceText.paint(
-      canvas,
-      Offset(cx + (98 * s) - urgenceText.width, cy - urgenceText.height / 2),
-    );
+      // URGENCE positioned on the right horizontal line
+      // Vertically centered perfectly on the line
+      urgenceText.paint(
+        canvas,
+        Offset(cx + (98 * s) - urgenceText.width, cy - urgenceText.height / 2),
+      );
+    }
   }
 
   @override

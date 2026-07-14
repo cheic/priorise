@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/tokens/app_colors.dart';
 import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
-import '../../../shared/widgets/page_header.dart';
+import '../../../core/widgets/app_toast.dart';
 import '../../shell/presentation/shell_cubit.dart';
 import '../../settings/presentation/settings_cubit.dart';
 import '../../settings/presentation/settings_screen.dart';
+import '../../../shared/utils/slide_up_route.dart';
 import '../../../core/models/enums.dart';
 import 'review_cubit.dart';
 
@@ -19,19 +20,8 @@ class ReviewPage extends StatelessWidget {
       builder: (context, state) {
         final hPad = AppSpacing.screenPaddingH(context);
 
-        return SafeArea(
-          child: Column(
-            children: [
-              PageHeader(
-                eyebrow: 'VOTRE SEMAINE',
-                title: 'Bilan de la semaine',
-                horizontalPadding: hPad,
-              ),
-              
-              // ── Scrollable Content ─────────────────────────────────────────────
-              Expanded(
-                child: Center(
-                  child: ConstrainedBox(
+        return Center(
+          child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 840),
                     child: ListView(
                       padding: EdgeInsets.fromLTRB(
@@ -66,47 +56,26 @@ class ReviewPage extends StatelessWidget {
                         const SizedBox(height: 6),
                         // AI Synthesis Button
                         InkWell(
-                          onTap: () {
+                          onTap: state.isSynthesizing ? null : () {
                             final settingsState = context.read<SettingsCubit>().state.settings;
                             if (settingsState == null) return;
 
                             if (!settingsState.aiSuggestionsEnabled) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    "Activez d'abord les suggestions IA",
-                                    style: AppTypography.inter(size: 13, color: context.cSurface),
-                                  ),
-                                  backgroundColor: context.cTextPrimary,
-                                  behavior: SnackBarBehavior.floating,
-                                  duration: const Duration(seconds: 2),
-                                ),
-                              );
+                              AppToast.show(context, "Activez d'abord les suggestions IA");
                               Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
                             } else if (settingsState.aiApiKey.trim().length < 5) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    "Veuillez configurer une clé API valide",
-                                    style: AppTypography.inter(size: 13, color: context.cSurface),
-                                  ),
-                                  backgroundColor: context.cTextPrimary,
-                                  behavior: SnackBarBehavior.floating,
-                                  duration: const Duration(seconds: 2),
-                                ),
-                              );
+                              AppToast.show(context, "Veuillez configurer une clé API valide");
                               Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
                             } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    "Synthèse IA en cours...",
-                                    style: AppTypography.inter(size: 13, color: context.cSurface),
-                                  ),
-                                  backgroundColor: context.cSage,
-                                  behavior: SnackBarBehavior.floating,
-                                  duration: const Duration(seconds: 2),
-                                ),
+                              context.read<ReviewCubit>().synthesizeWithAI(
+                                provider: settingsState.aiProvider,
+                                apiKey: settingsState.aiApiKey,
+                                onError: (errorMsg) {
+                                  AppToast.showError(context, errorMsg);
+                                },
+                                onSuccess: () {
+                                  AppToast.showSuccess(context, "Synthèse IA terminée !");
+                                },
                               );
                             }
                           },
@@ -122,14 +91,24 @@ class ReviewPage extends StatelessWidget {
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(
-                                  Icons.auto_awesome_rounded,
-                                  size: 14,
-                                  color: context.cTextPrimary,
-                                ),
+                                if (state.isSynthesizing)
+                                  SizedBox(
+                                    width: 14,
+                                    height: 14,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: context.cTextPrimary,
+                                    ),
+                                  )
+                                else
+                                  Icon(
+                                    Icons.auto_awesome_rounded,
+                                    size: 14,
+                                    color: context.cTextPrimary,
+                                  ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  "Synthétiser avec l'IA (optionnel)",
+                                  state.isSynthesizing ? "Synthèse en cours..." : "Synthétiser avec l'IA (optionnel)",
                                   style: AppTypography.inter(
                                     size: 13,
                                     weight: FontWeight.w500,
@@ -167,12 +146,8 @@ class ReviewPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                ),
               ),
-            ],
-          ),
-        );
+            );
       },
     );
   }
@@ -280,6 +255,7 @@ class _AttentionCard extends StatelessWidget {
         child: Text(
           "Aucun rôle défini pour l'instant.",
           style: AppTypography.inter(size: 13, color: context.cTextTertiary),
+          textAlign: TextAlign.center,
         ),
       );
     }

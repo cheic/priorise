@@ -4,12 +4,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:priorise/l10n/app_localizations.dart';
 import 'core/di/injection.dart';
 import 'core/router/app_router.dart';
 import 'core/themes/app_theme.dart';
 import 'core/themes/theme_cubit.dart';
 import 'features/settings/presentation/settings_cubit.dart';
 import 'shared/mock_ai_cubit.dart';
+import 'core/services/widget_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +28,11 @@ Future<void> main() async {
   await setupDependencies();
 
   runApp(const PrioriseApp());
+
+  // Sync widgets after the app is fully running to avoid MissingPluginException
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetService.updateAllWidgets().catchError((_) {});
+  });
 }
 
 class PrioriseApp extends StatelessWidget {
@@ -47,6 +54,8 @@ class PrioriseApp extends StatelessWidget {
             theme: AppTheme.light(),
             darkTheme: AppTheme.dark(),
             themeMode: themeMode,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
             initialRoute: AppRoutes.splash,
             onGenerateRoute: generateRoute,
           );

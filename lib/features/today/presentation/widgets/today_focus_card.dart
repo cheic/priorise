@@ -8,6 +8,7 @@ import 'package:priorise/core/tokens/app_spacing.dart';
 import 'package:priorise/core/tokens/app_typography.dart';
 
 import '../today_cubit.dart';
+import 'today_fab.dart';
 
 class TodayFocusCard extends StatelessWidget {
   const TodayFocusCard({required this.state});
@@ -52,26 +53,81 @@ class TodayFocusCard extends StatelessWidget {
             .firstWhere((r) => r.roleId == role.id, orElse: () => BigRock())
             .text;
 
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(AppSpacing.l),
-      decoration: BoxDecoration(
-        // Border: 1px solid rgba(184,147,91,0.4) (brass at 40%)
-        border: Border.all(
-          color: context.cBrass.withAlpha(102), // 0.4 * 255 ≈ 102
+    return Dismissible(
+      key: ValueKey('focus_${task.id}'),
+      direction: DismissDirection.endToStart,
+      confirmDismiss: (direction) async {
+        return await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: context.cSurfaceRaised,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
+            title: Text(
+              'Supprimer la tâche ?',
+              style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
+            ),
+            content: Text(
+              'Êtes-vous sûr de vouloir supprimer "${task.title}" ?',
+              style: AppTypography.inter(size: 14, color: context.cTextSecondary),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('Annuler', style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('Supprimer', style: AppTypography.inter(color: context.cError, weight: FontWeight.w600)),
+              ),
+            ],
+          ),
+        );
+      },
+      onDismissed: (_) {
+        context.read<TodayCubit>().deleteTask(task.id);
+      },
+      background: Container(
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: AppSpacing.l),
+        decoration: BoxDecoration(
+          color: context.cError.withAlpha(50),
+          borderRadius: BorderRadius.circular(AppSpacing.radiusM),
         ),
-        borderRadius: BorderRadius.circular(AppSpacing.radiusM),
-        // Background: gradient with brassGlow
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            context.cBrassGlow,
-            context.cSurface,
-          ],
-        ),
+        child: Icon(Icons.delete_outline, color: context.cError),
       ),
-      child: Column(
+      child: GestureDetector(
+      onTap: () {
+        final todayCubit = context.read<TodayCubit>();
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (context) => BlocProvider.value(
+            value: todayCubit,
+            child: TodayCaptureTaskSheet(taskToEdit: task),
+          ),
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(AppSpacing.l),
+        decoration: BoxDecoration(
+          // Border: 1px solid rgba(184,147,91,0.4) (brass at 40%)
+          border: Border.all(
+            color: context.cBrass.withAlpha(102), // 0.4 * 255 ≈ 102
+          ),
+          borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+          // Background: gradient with brassGlow
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              context.cBrassGlow,
+              context.cSurface,
+            ],
+          ),
+        ),
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -116,6 +172,8 @@ class TodayFocusCard extends StatelessWidget {
             ),
           ],
         ],
+      ),
+      ),
       ),
     );
   }

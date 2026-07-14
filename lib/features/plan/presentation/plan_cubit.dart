@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isar/isar.dart';
 import '../../../core/models/role_model.dart';
 import '../../../core/models/task_model.dart';
+import '../../../core/services/widget_service.dart';
 import 'dart:async';
 
 class PlanState {
@@ -93,6 +94,7 @@ class PlanCubit extends Cubit<PlanState> {
     });
 
     await _load();
+    WidgetService.updateAllWidgets();
   }
 
   @override

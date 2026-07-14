@@ -153,7 +153,7 @@ class _SplashScreenState extends State<SplashScreen>
                           width: compassSize,
                           height: compassSize,
                           child: CustomPaint(
-                            painter: CompassPainter(isDark: isDark, showGlow: true),
+                            painter: CompassPainter(isDark: isDark, showGlow: false, showLabels: false),
                           ),
                         ),
                         const SizedBox(height: AppSpacing.xl),

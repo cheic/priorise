@@ -11,6 +11,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:priorise/l10n/app_localizations.dart';
 import '../../../core/router/app_router.dart';
 import '../../../core/tokens/app_colors.dart';
 import '../../../core/tokens/app_spacing.dart';
@@ -18,26 +19,26 @@ import '../../../core/tokens/app_typography.dart';
 import 'onboarding_cubit.dart';
 
 // ── Slide data (record tuple) ─────────────────────────────────────────────
-final _slides = <(IconData, String, String)>[
+List<(IconData, String, String)> _getSlides(AppLocalizations l) => [
   (
     Icons.description_outlined,
-    'Pas une todo-list de plus',
-    'Priorise part d\'un principe simple\u00a0: ce qui est important passe avant ce qui est urgent. Pas l\'inverse.',
+    l.onb1Title,
+    l.onb1Desc,
   ),
   (
     Icons.groups_outlined,
-    'Organisez-vous par rôles',
-    'Parent, professionnel, ami\u00a0— vos tâches se rattachent à qui vous êtes, pas à des listes anonymes.',
+    l.onb2Title,
+    l.onb2Desc,
   ),
   (
     Icons.calendar_today_outlined,
-    'Une grosse pierre par semaine',
-    'Chaque dimanche, choisissez une seule priorité par rôle. Le reste se glisse autour, jamais avant.',
+    l.onb3Title,
+    l.onb3Desc,
   ),
   (
     Icons.explore_outlined,
-    'Sans culpabilité, sans score',
-    'Pas de streaks, pas de notes chiffrées. Juste un miroir honnête, semaine après semaine.',
+    l.onb4Title,
+    l.onb4Desc,
   ),
 ];
 
@@ -125,7 +126,7 @@ class _OnboardingViewState extends State<_OnboardingView> {
                       onPressed: () =>
                           context.read<OnboardingCubit>().skip(),
                       child: Text(
-                        'Passer',
+                        AppLocalizations.of(context)!.skip,
                         style: AppTypography.labelMedium(
                           color: context.cTextSecondary,
                         ),
@@ -142,7 +143,8 @@ class _OnboardingViewState extends State<_OnboardingView> {
                         context.read<OnboardingCubit>().goToPage(i),
                     itemCount: OnboardingState.totalPages,
                     itemBuilder: (context, index) {
-                      final (icon, title, description) = _slides[index];
+                      final slides = _getSlides(AppLocalizations.of(context)!);
+                      final (icon, title, description) = slides[index];
                       return _SlidePage(
                         icon: icon,
                         title: title,
@@ -185,7 +187,7 @@ class _OnboardingViewState extends State<_OnboardingView> {
                             ),
                           ),
                           child: Text(
-                            state.isLastPage ? 'Commencer' : 'Suivant',
+                            state.isLastPage ? AppLocalizations.of(context)!.start : AppLocalizations.of(context)!.next,
                             style: AppTypography.buttonText(
                               color: context.cInk,
                             ),

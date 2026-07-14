@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/tokens/app_colors.dart';
 import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
-import '../../../shared/widgets/page_header.dart';
 import '../../../shared/painters/compass_painter.dart';
 import '../../roles/presentation/roles_cubit.dart';
 import '../../../core/models/enums.dart';
@@ -18,24 +17,12 @@ class MatrixPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final hPad = AppSpacing.screenPaddingH(context);
 
-    return SafeArea(
-      bottom: false,
-      child: BlocBuilder<RolesCubit, RolesState>(
-        builder: (context, rolesState) {
-          return BlocBuilder<MatrixCubit, MatrixState>(
-            builder: (context, matrixState) {
-          return Column(
-            children: [
-              PageHeader(
-                eyebrow: 'OÙ VA VOTRE ATTENTION',
-                title: 'Matrice',
-                horizontalPadding: hPad,
-              ),
-
-              // ── Scrollable Content ─────────────────────────────────────────────
-              Expanded(
-                child: Center(
-                  child: ConstrainedBox(
+    return BlocBuilder<RolesCubit, RolesState>(
+      builder: (context, rolesState) {
+        return BlocBuilder<MatrixCubit, MatrixState>(
+          builder: (context, matrixState) {
+            return Center(
+              child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 840),
                     child: ListView(
                       padding: EdgeInsets.fromLTRB(
@@ -252,15 +239,11 @@ class MatrixPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    },
-  ),
-);
+            );
+          },
+        );
+      },
+    );
   }
 
   List<CompassTask> _buildCompassTasks(MatrixState mState, RolesState rState, BuildContext context) {

@@ -4,7 +4,6 @@ import 'package:priorise/core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_colors.dart';
 import '../../../core/tokens/app_typography.dart';
 import '../../../core/models/enums.dart';
-import '../../../shared/widgets/page_header.dart';
 import '../../../shared/widgets/card_border_painter.dart';
 import '../../../shared/widgets/role_icons.dart';
 import 'roles_cubit.dart';
@@ -16,20 +15,8 @@ class RolesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final hPad = AppSpacing.screenPaddingH(context);
 
-    return SafeArea(
-      bottom: false,
-      child: Column(
-        children: [
-          PageHeader(
-            eyebrow: 'CE QUE VOUS INCARNEZ',
-            title: 'Rôles de vie',
-            horizontalPadding: hPad,
-          ),
-          
-          // ── Scrollable Content ─────────────────────────────────────────────
-          Expanded(
-            child: Center(
-              child: ConstrainedBox(
+    return Center(
+      child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 840),
                 child: BlocBuilder<RolesCubit, RolesState>(
                   builder: (context, state) {
@@ -61,12 +48,56 @@ class RolesPage extends StatelessWidget {
                             child: Text(
                               "Aucun rôle n'a encore été défini. Ajoutez-en un pour commencer.",
                               style: AppTypography.inter(size: 14, color: context.cTextSecondary),
+                              textAlign: TextAlign.center,
                             ),
                           ),
 
                         ...state.roles.map((role) {
                           final roleColor = role.accent.color(context);
-                          return GestureDetector(
+                          return Dismissible(
+                            key: ValueKey('role_${role.id}'),
+                            direction: DismissDirection.endToStart,
+                            confirmDismiss: (direction) async {
+                              return await showDialog<bool>(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  backgroundColor: context.cSurfaceRaised,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
+                                  title: Text(
+                                    'Supprimer le rôle ?',
+                                    style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
+                                  ),
+                                  content: Text(
+                                    'Êtes-vous sûr de vouloir supprimer "${role.name}" ?',
+                                    style: AppTypography.inter(size: 14, color: context.cTextSecondary),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.of(context).pop(false),
+                                      child: Text('Annuler', style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
+                                    ),
+                                    TextButton(
+                                      onPressed: () => Navigator.of(context).pop(true),
+                                      child: Text('Supprimer', style: AppTypography.inter(color: context.cError, weight: FontWeight.w600)),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            onDismissed: (_) {
+                              context.read<RolesCubit>().deleteRole(role.id);
+                            },
+                            background: Container(
+                              alignment: Alignment.centerRight,
+                              margin: const EdgeInsets.only(bottom: 10),
+                              padding: const EdgeInsets.only(right: AppSpacing.l),
+                              decoration: BoxDecoration(
+                                color: context.cError.withAlpha(50),
+                                borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+                              ),
+                              child: Icon(Icons.delete_outline, color: context.cError),
+                            ),
+                            child: GestureDetector(
                             onTap: () => AddRoleSheet.show(
                               context, 
                               initialId: role.id,
@@ -130,6 +161,7 @@ class RolesPage extends StatelessWidget {
                                 ),
                               ),
                             ),
+                          ),
                           );
                         }),
                         
@@ -165,10 +197,6 @@ class RolesPage extends StatelessWidget {
                   },
                 ),
               ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
@@ -238,23 +266,26 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
   Widget build(BuildContext context) {
     final bottomInsets = MediaQuery.viewInsetsOf(context).bottom;
 
-    return Container(
-      margin: EdgeInsets.only(
-        top: 40,
-        left: 16,
-        right: 16,
-        bottom: bottomInsets > 0 ? bottomInsets + 16 : 24,
-      ),
-      decoration: BoxDecoration(
-        color: context.cSurface,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: context.cBorderStrong),
-      ),
-      padding: const EdgeInsets.fromLTRB(AppSpacing.xl, AppSpacing.l, AppSpacing.xl, AppSpacing.xxl),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+    return Padding(
+      padding: EdgeInsets.only(bottom: bottomInsets),
+      child: Container(
+        margin: const EdgeInsets.only(
+          top: 40,
+          left: 16,
+          right: 16,
+          bottom: 24,
+        ),
+        decoration: BoxDecoration(
+          color: context.cSurface,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: context.cBorderStrong),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(AppSpacing.xl, AppSpacing.l, AppSpacing.xl, AppSpacing.xxl),
+          child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
           // Handle
           Center(
             child: Container(
@@ -432,7 +463,9 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
               ),
             ],
           ),
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }

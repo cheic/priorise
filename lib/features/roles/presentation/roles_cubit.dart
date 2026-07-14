@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:isar/isar.dart';
 import '../../../core/models/role_model.dart';
 import '../../../core/models/enums.dart';
+import '../../../core/services/widget_service.dart';
 
 class RolesState {
   final List<LifeRole> roles;
@@ -47,6 +48,7 @@ class RolesCubit extends Cubit<RolesState> {
     });
     
     await loadRoles();
+    WidgetService.updateAllWidgets();
   }
 
   Future<void> updateRole(int id, String name, RoleAccent accent, String iconKey) async {
@@ -62,6 +64,7 @@ class RolesCubit extends Cubit<RolesState> {
       });
       
       await loadRoles();
+      WidgetService.updateAllWidgets();
     }
   }
 
@@ -70,5 +73,6 @@ class RolesCubit extends Cubit<RolesState> {
       await isar.lifeRoles.delete(id);
     });
     await loadRoles();
+    WidgetService.updateAllWidgets();
   }
 }

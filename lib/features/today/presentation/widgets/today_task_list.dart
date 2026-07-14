@@ -8,6 +8,7 @@ import 'package:priorise/core/tokens/app_spacing.dart';
 import 'package:priorise/core/tokens/app_typography.dart';
 
 import '../today_cubit.dart';
+import 'today_fab.dart';
 
 class TodayTaskCardContainer extends StatelessWidget {
   const TodayTaskCardContainer({required this.state});
@@ -57,25 +58,29 @@ class TodayTaskCardContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSpacing.radiusM),
         border: Border.all(color: context.cBorder),
       ),
-      padding: const EdgeInsets.all(AppSpacing.l),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: List.generate(remainingTasks.length, (i) {
-          final task = remainingTasks[i];
-          final isLast = i == remainingTasks.length - 1;
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TodayTaskRow(task: task, state: state),
-              if (!isLast)
-                Divider(
-                  color: context.cBorder,
-                  height: AppSpacing.xxl,
-                  thickness: 1,
-                ),
-            ],
-          );
-        }),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(remainingTasks.length, (i) {
+            final task = remainingTasks[i];
+            final isLast = i == remainingTasks.length - 1;
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TodayTaskRow(task: task, state: state),
+                if (!isLast)
+                  Divider(
+                    color: context.cBorder,
+                    height: 1,
+                    thickness: 1,
+                    indent: AppSpacing.l,
+                    endIndent: AppSpacing.l,
+                  ),
+              ],
+            );
+          }),
+        ),
       ),
     );
   }
@@ -99,6 +104,33 @@ class TodayTaskRow extends StatelessWidget {
     return Dismissible(
       key: ValueKey(task.id),
       direction: DismissDirection.endToStart,
+      confirmDismiss: (direction) async {
+        return await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: context.cSurfaceRaised,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
+            title: Text(
+              'Supprimer la tâche ?',
+              style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
+            ),
+            content: Text(
+              'Êtes-vous sûr de vouloir supprimer "${task.title}" ?',
+              style: AppTypography.inter(size: 14, color: context.cTextSecondary),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: Text('Annuler', style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: Text('Supprimer', style: AppTypography.inter(color: context.cError, weight: FontWeight.w600)),
+              ),
+            ],
+          ),
+        );
+      },
       onDismissed: (_) {
         context.read<TodayCubit>().deleteTask(task.id);
       },
@@ -109,19 +141,34 @@ class TodayTaskRow extends StatelessWidget {
         child: Icon(Icons.delete_outline, color: context.cError),
       ),
       child: GestureDetector(
-        onTap: () => context.read<TodayCubit>().toggleTask(task.id),
-      behavior: HitTestBehavior.opaque,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Checkbox ROUND: 19px, border-radius 50%, 1.5px
-            Padding(
-              padding: const EdgeInsets.only(top: 2),
-              child: TodayRoundCheckbox(isDone: task.done),
+        onTap: () {
+          final todayCubit = context.read<TodayCubit>();
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) => BlocProvider.value(
+              value: todayCubit,
+              child: TodayCaptureTaskSheet(taskToEdit: task),
             ),
-            const SizedBox(width: AppSpacing.m),
+          );
+        },
+        behavior: HitTestBehavior.opaque,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.l, vertical: AppSpacing.m),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Checkbox ROUND: 19px, border-radius 50%, 1.5px
+              GestureDetector(
+                onTap: () => context.read<TodayCubit>().toggleTask(task.id),
+                behavior: HitTestBehavior.opaque,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 2, right: 8, bottom: 8),
+                  child: TodayRoundCheckbox(isDone: task.done),
+                ),
+              ),
+              const SizedBox(width: AppSpacing.m - 8),
             // Content
             Expanded(
               child: Column(
@@ -198,9 +245,11 @@ class TodayRoundCheckbox extends StatelessWidget {
           width: 1.5,
         ),
       ),
-      child: isDone
-          ? Icon(Icons.check, color: context.cInk, size: 12)
-          : null,
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 200),
+        opacity: isDone ? 1.0 : 0.0,
+        child: Icon(Icons.check, color: context.cInk, size: 12),
+      ),
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import '../services/secure_storage_service.dart';
 import '../services/database_service.dart';
 import '../services/notification_service.dart';
+import '../services/ai_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -28,4 +29,7 @@ Future<void> setupDependencies() async {
   final notificationService = NotificationService();
   await notificationService.init();
   getIt.registerSingleton<NotificationService>(notificationService);
+
+  // AI Service
+  getIt.registerLazySingleton<AiService>(() => AiService());
 }

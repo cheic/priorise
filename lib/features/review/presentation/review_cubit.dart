@@ -3,18 +3,22 @@ import 'package:isar/isar.dart';
 import '../../../core/models/weekly_review_model.dart';
 import '../../../core/models/role_model.dart';
 import '../../../core/models/task_model.dart';
+import '../../../core/di/injection.dart';
+import '../../../core/services/ai_service.dart';
 
 class ReviewState {
   final WeeklyReview? review;
   final List<LifeRole> roles;
   final List<Task> tasksForWeek;
   final bool isLoading;
+  final bool isSynthesizing;
 
   const ReviewState({
     this.review,
     this.roles = const [],
     this.tasksForWeek = const [],
     this.isLoading = true,
+    this.isSynthesizing = false,
   });
 
   ReviewState copyWith({
@@ -22,12 +26,14 @@ class ReviewState {
     List<LifeRole>? roles,
     List<Task>? tasksForWeek,
     bool? isLoading,
+    bool? isSynthesizing,
   }) {
     return ReviewState(
       review: review ?? this.review,
       roles: roles ?? this.roles,
       tasksForWeek: tasksForWeek ?? this.tasksForWeek,
       isLoading: isLoading ?? this.isLoading,
+      isSynthesizing: isSynthesizing ?? this.isSynthesizing,
     );
   }
 }
@@ -67,5 +73,44 @@ class ReviewCubit extends Cubit<ReviewState> {
     });
 
     emit(state.copyWith(review: currentReview));
+  }
+
+  Future<void> synthesizeWithAI({
+    required String provider,
+    required String apiKey,
+    required Function(String) onError,
+    required Function() onSuccess,
+  }) async {
+    if (state.isSynthesizing) return;
+    
+    emit(state.copyWith(isSynthesizing: true));
+
+    try {
+      final aiService = getIt<AiService>();
+      final result = await aiService.synthesizeReview(
+        provider: provider,
+        apiKey: apiKey,
+        roles: state.roles,
+        tasks: state.tasksForWeek,
+        currentWorked: state.review?.whatWorked ?? "",
+        currentSlipped: state.review?.whatSlipped ?? "",
+      );
+
+      final currentReview = state.review;
+      if (currentReview != null) {
+        currentReview.whatWorked = result['whatWorked'] ?? "L'IA n'a pas pu synthétiser ce point.";
+        currentReview.whatSlipped = result['whatSlipped'] ?? "L'IA n'a pas pu synthétiser ce point.";
+        await isar.writeTxn(() async {
+          await isar.weeklyReviews.put(currentReview);
+        });
+        emit(state.copyWith(review: currentReview));
+      }
+      
+      onSuccess();
+    } catch (e) {
+      onError(e.toString().replaceAll("Exception: ", ""));
+    } finally {
+      emit(state.copyWith(isSynthesizing: false));
+    }
   }
 }
