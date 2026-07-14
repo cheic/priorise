@@ -26,7 +26,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     } else {
       final newSettings = AppSettings()
         ..id = AppSettings.singletonId
-        ..gentleRemindersEnabled = true
+        ..gentleRemindersEnabled = false
         ..aiSuggestionsEnabled = false;
       
       await _db.isar.writeTxn(() async {

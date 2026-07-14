@@ -7,6 +7,8 @@ import 'package:priorise/features/shell/presentation/shell_cubit.dart';
 import 'package:priorise/shared/widgets/page_header.dart';
 
 import '../today_cubit.dart';
+import '../../../settings/presentation/settings_screen.dart';
+import '../../../mission/presentation/mission_screen.dart';
 
 class TodayHeader extends StatelessWidget {
   const TodayHeader({required this.state, required this.hPad});
@@ -23,6 +25,16 @@ class TodayHeader extends StatelessWidget {
       eyebrow: dayLabel,
       title: 'Bonjour',
       horizontalPadding: hPad,
+      trailing: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SettingsPage()),
+          );
+        },
+        child: Icon(Icons.settings_outlined, color: context.cTextSecondary, size: 24),
+      ),
     );
   }
 
@@ -47,21 +59,24 @@ class TodayMissionLink extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 14),
       child: GestureDetector(
         onTap: () {
-          context.read<ShellCubit>().selectTab(1); // Switch to Mission screen
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const MissionScreen()),
+          );
         },
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               Icons.flag_rounded, // Assuming similar to the flag icon
-              size: 13,
+              size: 16,
               color: context.cTextTertiary,
             ),
-            const SizedBox(width: 7),
+            const SizedBox(width: 8),
             Text(
               'Voir ma mission',
               style: AppTypography.inter(
-                size: 11.5,
+                size: 13.5,
                 color: context.cTextTertiary,
               ),
             ),
@@ -81,7 +96,7 @@ class TodayRitualBanner extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20),
       child: GestureDetector(
         onTap: () {
-          context.read<ShellCubit>().selectTab(4); // Switch to Planification screen
+          context.read<ShellCubit>().selectTab(3); // Switch to Planification screen
         },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),

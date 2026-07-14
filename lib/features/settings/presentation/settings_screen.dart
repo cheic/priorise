@@ -10,6 +10,7 @@ import '../../../core/themes/theme_cubit.dart';
 import '../../../core/di/injection.dart';
 import '../../../core/services/notification_service.dart';
 import 'settings_cubit.dart';
+import '../../mission/presentation/mission_screen.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -71,14 +72,17 @@ class SettingsPageState extends State<SettingsPage> {
           _apiKeyController.text = settings.aiApiKey;
         }
 
-        return SafeArea(
-          bottom: false,
-          child: Column(
-            children: [
+        return Scaffold(
+          backgroundColor: context.cSurface,
+          body: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
               PageHeader(
                 eyebrow: 'VOTRE ATELIER',
                 title: 'Paramètres',
                 horizontalPadding: hPad,
+                showBackButton: true,
               ),
 
               // ── Scrollable Content ─────────────────────────────────────────────
@@ -97,12 +101,17 @@ class SettingsPageState extends State<SettingsPage> {
                     SettingClickableRow(
                       label: 'Ma mission',
                       sub: 'Consultée et modifiée occasionnellement, pas chaque semaine',
-                      onTap: () => context.read<ShellCubit>().selectTab(1),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const MissionScreen()),
+                        );
+                      },
                     ),
                     SettingClickableRow(
                       label: 'Planification de la semaine',
                       sub: 'Rituel du dimanche — 20 minutes',
-                      onTap: () => context.read<ShellCubit>().selectTab(4),
+                      onTap: () => context.read<ShellCubit>().selectTab(3),
                     ),
                     const SizedBox(height: AppSpacing.xxl),
 
@@ -139,13 +148,15 @@ class SettingsPageState extends State<SettingsPage> {
 
                       const FieldLabel('Fournisseur'),
                       const SizedBox(height: AppSpacing.s),
-                      GridView.count(
-                        crossAxisCount: 2,
+                      GridView(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        mainAxisSpacing: AppSpacing.m,
-                        crossAxisSpacing: AppSpacing.m,
-                        childAspectRatio: 2.2,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: AppSpacing.m,
+                          crossAxisSpacing: AppSpacing.m,
+                          mainAxisExtent: 110, // Fixed height avoids overflow on narrow screens
+                        ),
                         children: [
                           ProviderCard(
                             name: 'Claude',
@@ -287,10 +298,11 @@ class SettingsPageState extends State<SettingsPage> {
               ),
             ],
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
+    },
+  );
+}
 }
 
 class SectionTitle extends StatelessWidget {

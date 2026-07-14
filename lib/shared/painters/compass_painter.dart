@@ -106,12 +106,15 @@ class CompassPainter extends CustomPainter {
     final cx = 115.0 * s;
     final cy = 115.0 * s;
 
+    final brass = isDark ? AppColorsDark.brass : AppColorsLight.brass;
+    final textTertiary = isDark ? AppColorsDark.textTertiary : AppColorsLight.textTertiary;
+
     // Outer circle
     canvas.drawCircle(
       Offset(cx, cy),
       98 * s,
       Paint()
-        ..color = isDark ? AppColorsDark.borderStrong : AppColorsLight.borderStrong
+        ..color = brass.withAlpha(128) // opacity 0.5 like in mockup
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1 * s,
     );
@@ -121,7 +124,7 @@ class CompassPainter extends CustomPainter {
       Offset(cx, cy),
       65 * s,
       Paint()
-        ..color = isDark ? AppColorsDark.border : AppColorsLight.border
+        ..color = textTertiary.withAlpha(70) // Plus visible que border
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1 * s,
     );
@@ -145,7 +148,7 @@ class CompassPainter extends CustomPainter {
 
     // Axes
     final axisPaint = Paint()
-      ..color = isDark ? AppColorsDark.borderStrong : AppColorsLight.borderStrong
+      ..color = textTertiary.withAlpha(120) // Plus visible que borderStrong
       ..strokeWidth = 1 * s;
 
     canvas.drawLine(Offset(17 * s, cy), Offset(213 * s, cy), axisPaint);

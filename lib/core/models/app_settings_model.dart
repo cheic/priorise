@@ -22,7 +22,7 @@ class AppSettings {
   AppLocale locale = AppLocale.fr;
 
   /// "Une seule notification par jour, jamais plus" — voir mockup Paramètres.
-  bool gentleRemindersEnabled = true;
+  bool gentleRemindersEnabled = false;
 
   /// Off par défaut — l'IA est strictement opt-in, jamais activée d'office.
   bool aiSuggestionsEnabled = false;

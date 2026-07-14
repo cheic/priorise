@@ -61,9 +61,11 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
   Widget build(BuildContext context) {
     final hPad = AppSpacing.screenPaddingH(context);
 
-    return SafeArea(
-      bottom: false,
-      child: BlocConsumer<MissionCubit, MissionState>(
+    return Scaffold(
+      backgroundColor: context.cSurface,
+      body: SafeArea(
+        bottom: false,
+        child: BlocConsumer<MissionCubit, MissionState>(
         listener: (context, state) {
           if (state is MissionLoaded && !_isEditing) {
             _missionController.text = state.statement;
@@ -88,6 +90,7 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
                 eyebrow: 'CE QUI VOUS GUIDE',
                 title: 'Mission',
                 horizontalPadding: hPad,
+                showBackButton: true,
               ),
               Expanded(
                 child: ListView(
@@ -294,6 +297,7 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
             ],
           );
         },
+      ),
       ),
     );
   }

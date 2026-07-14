@@ -48,11 +48,9 @@ class _AppShellView extends StatelessWidget {
     final screenClass = AppSpacing.screenClass(context);
     final pages = <Widget>[
       const TodayScreen(),
-      const MissionScreen(),
       const RolesPage(),
       const MatrixPage(),
       const ReviewPage(),
-      const SettingsPage(),
     ];
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -122,39 +120,25 @@ class _BottomNav extends StatelessWidget {
               onTap: () => onSelect(0),
             ),
             _NavButton(
-              label: 'Mission',
-              icon: Icons.flag_outlined,
-              activeIcon: Icons.flag,
-              active: selectedIndex == 1,
-              onTap: () => onSelect(1),
-            ),
-            _NavButton(
               label: 'Rôles',
               icon: Icons.people_outline,
               activeIcon: Icons.people,
-              active: selectedIndex == 2,
-              onTap: () => onSelect(2),
+              active: selectedIndex == 1,
+              onTap: () => onSelect(1),
             ),
             _NavButton(
               label: 'Priorise',
               icon: Icons.explore_outlined,
               activeIcon: Icons.explore,
-              active: selectedIndex == 3,
-              onTap: () => onSelect(3),
+              active: selectedIndex == 2,
+              onTap: () => onSelect(2),
             ),
             _NavButton(
               label: 'Bilan',
               icon: Icons.schedule_outlined,
               activeIcon: Icons.schedule,
-              active: selectedIndex == 4,
-              onTap: () => onSelect(4),
-            ),
-            _NavButton(
-              label: 'Réglages',
-              icon: Icons.settings_outlined,
-              activeIcon: Icons.settings,
-              active: selectedIndex == 5,
-              onTap: () => onSelect(5),
+              active: selectedIndex == 3,
+              onTap: () => onSelect(3),
             ),
           ],
         ),
@@ -275,34 +259,22 @@ class _SideRail extends StatelessWidget {
               onTap: () => onSelect(0),
             ),
             _RailButton(
-              label: 'Mission',
-              icon: Icons.flag_outlined,
+              label: 'Rôles',
+              icon: Icons.people_outline,
               active: selectedIndex == 1,
               onTap: () => onSelect(1),
             ),
             _RailButton(
-              label: 'Rôles',
-              icon: Icons.people_outline,
+              label: 'Priorise',
+              icon: Icons.explore_outlined,
               active: selectedIndex == 2,
               onTap: () => onSelect(2),
             ),
             _RailButton(
-              label: 'Priorise',
-              icon: Icons.explore_outlined,
-              active: selectedIndex == 3,
-              onTap: () => onSelect(3),
-            ),
-            _RailButton(
               label: 'Bilan',
               icon: Icons.schedule_outlined,
-              active: selectedIndex == 4,
-              onTap: () => onSelect(4),
-            ),
-            _RailButton(
-              label: 'Réglages',
-              icon: Icons.settings_outlined,
-              active: selectedIndex == 5,
-              onTap: () => onSelect(5),
+              active: selectedIndex == 3,
+              onTap: () => onSelect(3),
             ),
             const Spacer(),
             Container(

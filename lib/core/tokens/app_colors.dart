@@ -81,9 +81,7 @@ abstract final class AppColorsLight {
 
 /// Extension pratique pour lire les tokens depuis le contexte.
 extension AppColorsX on BuildContext {
-  bool get _isDark =>
-      MediaQuery.platformBrightnessOf(this) == Brightness.dark ||
-      Theme.of(this).brightness == Brightness.dark;
+  bool get _isDark => Theme.of(this).brightness == Brightness.dark;
 
   Color get cInk =>
       _isDark ? AppColorsDark.ink : AppColorsLight.bg;

@@ -6,6 +6,7 @@ import '../../../core/tokens/app_typography.dart';
 import '../../../shared/widgets/page_header.dart';
 import '../../shell/presentation/shell_cubit.dart';
 import '../../settings/presentation/settings_cubit.dart';
+import '../../settings/presentation/settings_screen.dart';
 import '../../../core/models/enums.dart';
 import 'review_cubit.dart';
 
@@ -81,7 +82,7 @@ class ReviewPage extends StatelessWidget {
                                   duration: const Duration(seconds: 2),
                                 ),
                               );
-                              context.read<ShellCubit>().selectTab(5); // 5 = Paramètres
+                              Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
                             } else if (settingsState.aiApiKey.trim().length < 5) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -94,7 +95,7 @@ class ReviewPage extends StatelessWidget {
                                   duration: const Duration(seconds: 2),
                                 ),
                               );
-                              context.read<ShellCubit>().selectTab(5); // 5 = Paramètres
+                              Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

@@ -9,11 +9,15 @@ class PageHeader extends StatelessWidget {
     required this.eyebrow,
     required this.title,
     this.horizontalPadding,
+    this.trailing,
+    this.showBackButton = false,
   });
 
   final String eyebrow;
   final String title;
   final double? horizontalPadding;
+  final Widget? trailing;
+  final bool showBackButton;
 
   @override
   Widget build(BuildContext context) {
@@ -31,23 +35,43 @@ class PageHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            eyebrow.toUpperCase(),
-            style: AppTypography.mono(
-              size: 10,
-              color: context.cBrass,
-              letterSpacing: 10 * 0.14,
-            ),
+          Row(
+            children: [
+              if (showBackButton && Navigator.canPop(context))
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  behavior: HitTestBehavior.opaque,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0, bottom: 2.0),
+                    child: Icon(Icons.arrow_back, color: context.cTextSecondary, size: 16),
+                  ),
+                ),
+              Text(
+                eyebrow.toUpperCase(),
+                style: AppTypography.mono(
+                  size: 10,
+                  color: context.cBrass,
+                  letterSpacing: 10 * 0.14,
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: AppSpacing.xs),
-          Text(
-            title,
-            style: AppTypography.fraunces(
-              size: 23,
-              weight: 560,
-              color: context.cTextPrimary,
-              height: 1.15,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                title,
+                style: AppTypography.fraunces(
+                  size: 23,
+                  weight: 560,
+                  color: context.cTextPrimary,
+                  height: 1.15,
+                ),
+              ),
+              if (trailing != null) trailing!,
+            ],
           ),
         ],
       ),
