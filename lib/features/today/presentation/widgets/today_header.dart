@@ -1,3 +1,5 @@
+import 'package:priorise/l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:priorise/core/tokens/app_colors.dart';
@@ -29,7 +31,7 @@ class TodayHeader extends StatelessWidget {
 
     return PageHeader(
       eyebrow: dayLabel,
-      title: 'Bonjour',
+      title: AppLocalizations.of(context)!.hello,
       horizontalPadding: hPad,
       trailing: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -148,7 +150,7 @@ class TodayRitualBanner extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Semaine non planifiée',
+                      AppLocalizations.of(context)!.weekNotPlanned,
                       style: AppTypography.inter(
                         size: 12.5,
                         weight: FontWeight.w600,
@@ -157,7 +159,7 @@ class TodayRitualBanner extends StatelessWidget {
                     ),
                     const SizedBox(height: 1),
                     Text(
-                      'Dimanche, 20 min pour poser vos grosses pierres',
+                      AppLocalizations.of(context)!.weekPlanningSub,
                       style: AppTypography.inter(
                         size: 10.5,
                         color: context.cTextTertiary,

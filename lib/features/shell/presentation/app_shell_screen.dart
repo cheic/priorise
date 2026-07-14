@@ -135,7 +135,7 @@ class _AppShellViewState extends State<_AppShellView> {
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
               child: Text(
-                'Annuler',
+                AppLocalizations.of(context)!.cancel,
                 style: AppTypography.labelMedium(color: dialogContext.cTextSecondary),
               ),
             ),
@@ -314,7 +314,7 @@ class _GlobalHeader extends StatelessWidget {
     if (l == null) {
       return PageHeader(
         eyebrow: '',
-        title: 'Priorise',
+        title: AppLocalizations.of(context)!.navPriorise,
         horizontalPadding: hPad,
       );
     }
@@ -443,7 +443,7 @@ class _SideRail extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Priorise',
+                      AppLocalizations.of(context)!.navPriorise,
                       style: AppTypography.fraunces(
                         size: 20,
                         weight: 560,

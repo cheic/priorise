@@ -1,3 +1,5 @@
+import 'package:priorise/l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:priorise/core/tokens/app_colors.dart';
@@ -235,7 +237,7 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      'Annuler',
+                      AppLocalizations.of(context)!.cancel,
                       style: AppTypography.inter(
                         size: 13,
                         weight: FontWeight.w500,
@@ -287,7 +289,7 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
                     ),
                     alignment: Alignment.center,
                     child: Text(
-                      'Enregistrer',
+                      AppLocalizations.of(context)!.saveRole,
                       style: AppTypography.inter(
                         size: 13.5,
                         weight: FontWeight.w600,

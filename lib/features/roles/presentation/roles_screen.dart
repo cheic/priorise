@@ -1,3 +1,5 @@
+import 'package:priorise/l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:priorise/core/tokens/app_spacing.dart';
@@ -33,7 +35,7 @@ class RolesPage extends StatelessWidget {
                       ),
                       children: [
                         Text(
-                          'VOS RÔLES DE VIE',
+                          AppLocalizations.of(context)!.yourRoles,
                           style: AppTypography.mono(
                             size: 11,
                             color: context.cTextTertiary,
@@ -90,7 +92,7 @@ class RolesPage extends StatelessWidget {
                                           actions: [
                                             TextButton(
                                               onPressed: () => Navigator.of(context).pop(false),
-                                              child: Text('Annuler', style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
+                                              child: Text(AppLocalizations.of(context)!.cancel, style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
                                             ),
                                             TextButton(
                                               onPressed: () => Navigator.of(context).pop(true),
@@ -148,7 +150,7 @@ class RolesPage extends StatelessWidget {
                                                   ),
                                                   const SizedBox(height: 3),
                                                   Text(
-                                                    'Rôle principal', // Mock subtitle
+                                                    AppLocalizations.of(context)!.mainRole, // Mock subtitle
                                                     style: AppTypography.inter(
                                                       size: 12,
                                                       color: context.cTextSecondary,
@@ -185,7 +187,7 @@ class RolesPage extends StatelessWidget {
                                 Icon(Icons.add, size: 16, color: context.cTextTertiary),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'Ajouter un rôle',
+                                  AppLocalizations.of(context)!.addRole,
                                   style: AppTypography.inter(
                                     size: 13,
                                     color: context.cTextTertiary,
@@ -302,7 +304,7 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
           ),
           const SizedBox(height: AppSpacing.xl),
           Text(
-            widget.initialName != null ? 'Modifier le rôle' : 'Ajouter un rôle',
+            widget.initialName != null ? AppLocalizations.of(context)!.editRole : AppLocalizations.of(context)!.addRole,
             style: AppTypography.fraunces(
               size: 20,
               weight: 560,
@@ -311,13 +313,13 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
           ),
           const SizedBox(height: AppSpacing.xxl),
           
-          _buildLabel('Nom du rôle'),
+          _buildLabel(AppLocalizations.of(context)!.roleName),
           const SizedBox(height: AppSpacing.s),
           TextField(
             controller: _nameController,
             style: AppTypography.inter(size: 14, color: context.cTextPrimary),
             decoration: InputDecoration(
-              hintText: 'Ex. Communauté, Créativité...',
+              hintText: AppLocalizations.of(context)!.roleNameHint,
               hintStyle: AppTypography.inter(size: 14, color: context.cTextTertiary),
               filled: true,
               fillColor: context.cSurfaceRaised,
@@ -412,7 +414,7 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
                       borderRadius: BorderRadius.circular(AppSpacing.radiusS),
                     ),
                     child: Text(
-                      'Annuler',
+                      AppLocalizations.of(context)!.cancel,
                       style: AppTypography.inter(
                         size: 13,
                         weight: FontWeight.w600,
@@ -454,7 +456,7 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
                       borderRadius: BorderRadius.circular(AppSpacing.radiusS),
                     ),
                     child: Text(
-                      widget.initialName != null ? 'Enregistrer' : 'Créer le rôle',
+                      widget.initialName != null ? AppLocalizations.of(context)!.saveRole : AppLocalizations.of(context)!.createRole,
                       style: AppTypography.inter(
                         size: 13,
                         weight: FontWeight.w600,

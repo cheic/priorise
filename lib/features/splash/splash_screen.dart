@@ -16,6 +16,8 @@
 // DURÉE : temps réel du chargement SecureStorage (isFirstLaunch).
 //   Pas de Future.delayed artificiel > 100ms.
 //   L'animation (600ms) court en parallèle du chargement.
+import 'package:priorise/l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../core/di/injection.dart';
@@ -159,7 +161,7 @@ class _SplashScreenState extends State<SplashScreen>
                         const SizedBox(height: AppSpacing.xl),
                         // ── Nom de l'application ──────────────────────
                         Text(
-                          'Priorise',
+                          AppLocalizations.of(context)!.navPriorise,
                           style: AppTypography.fraunces(
                             size: titleSize,
                             weight: 650,

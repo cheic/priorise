@@ -1,3 +1,5 @@
+import 'package:priorise/l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/tokens/app_colors.dart';
@@ -222,7 +224,7 @@ class MatrixPage extends StatelessWidget {
                               children: [
                                 Expanded(child: _LegendItem(color: context.cClay, title: 'Agir', subtitle: 'Important & urgent — ce qui ne peut pas attendre')),
                                 const SizedBox(width: 10),
-                                Expanded(child: _LegendItem(color: context.cBrass, title: 'Planifier', subtitle: 'Important, non urgent — le vrai travail, votre priorise')),
+                                Expanded(child: _LegendItem(color: context.cBrass, title: AppLocalizations.of(context)!.planWeek, subtitle: 'Important, non urgent — le vrai travail, votre priorise')),
                               ],
                             ),
                             const SizedBox(height: 10),

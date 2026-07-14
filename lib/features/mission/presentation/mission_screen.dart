@@ -1,3 +1,5 @@
+import 'package:priorise/l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/tokens/app_colors.dart';
@@ -189,7 +191,7 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
                                 ),
                               ),
                               child: Text(
-                                'Annuler',
+                                AppLocalizations.of(context)!.cancel,
                                 style: AppTypography.inter(size: 14, weight: FontWeight.w500, color: context.cTextSecondary),
                               ),
                             ),
@@ -214,7 +216,7 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
                                 ),
                               ),
                               child: Text(
-                                'Enregistrer',
+                                AppLocalizations.of(context)!.saveRole,
                                 style: AppTypography.inter(size: 14, weight: FontWeight.w600, color: context.cInk),
                               ),
                             ),
@@ -397,7 +399,7 @@ class _ScheduleModal extends StatelessWidget {
                         borderRadius: BorderRadius.circular(AppSpacing.radiusS),
                       ),
                     ),
-                    child: Text('Annuler', style: AppTypography.inter(size: 15, weight: FontWeight.w500)),
+                    child: Text(AppLocalizations.of(context)!.cancel, style: AppTypography.inter(size: 15, weight: FontWeight.w500)),
                   ),
                 ),
                 const SizedBox(width: 12),

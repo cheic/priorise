@@ -1,3 +1,5 @@
+import 'package:priorise/l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:priorise/core/models/enums.dart';
@@ -91,7 +93,7 @@ class TodayFocusCard extends StatelessWidget {
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
-                    child: Text('Annuler', style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
+                    child: Text(AppLocalizations.of(context)!.cancel, style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
                   ),
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(true),

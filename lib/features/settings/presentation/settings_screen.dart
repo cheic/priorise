@@ -1,3 +1,5 @@
+import 'package:priorise/l10n/app_localizations.dart';
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,8 +89,8 @@ class SettingsPageState extends State<SettingsPage> {
             child: Column(
               children: [
               PageHeader(
-                eyebrow: 'VOTRE ATELIER',
-                title: 'Paramètres',
+                eyebrow: AppLocalizations.of(context)!.settingsEyebrow,
+                title: AppLocalizations.of(context)!.settingsTitle,
                 horizontalPadding: hPad,
                 showBackButton: true,
               ),
@@ -104,11 +106,11 @@ class SettingsPageState extends State<SettingsPage> {
                   ),
                   children: [
                     // ── Profil ──
-                    const SectionTitle('Profil'),
+                    SectionTitle(AppLocalizations.of(context)!.sectionProfile),
                     const SizedBox(height: AppSpacing.m),
                     SettingClickableRow(
-                      label: 'Ma mission',
-                      sub: 'Consultée et modifiée occasionnellement, pas chaque semaine',
+                      label: AppLocalizations.of(context)!.myMission,
+                      sub: AppLocalizations.of(context)!.myMissionSub,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -117,8 +119,8 @@ class SettingsPageState extends State<SettingsPage> {
                       },
                     ),
                     SettingClickableRow(
-                      label: 'Planification de la semaine',
-                      sub: 'Rituel du dimanche — 20 minutes',
+                      label: AppLocalizations.of(context)!.weekPlanning,
+                      sub: AppLocalizations.of(context)!.weekPlanningSub,
                       onTap: () async {
                         final planResult = await Navigator.push<String>(
                           context,
@@ -137,7 +139,7 @@ class SettingsPageState extends State<SettingsPage> {
                     const SizedBox(height: AppSpacing.xxl),
 
                     // ── Apparence ──
-                    const SectionTitle('Apparence'),
+                    SectionTitle(AppLocalizations.of(context)!.sectionAppearance),
                     const SizedBox(height: AppSpacing.m),
                     BlocBuilder<ThemeCubit, ThemeMode>(
                       builder: (context, themeMode) {
@@ -145,19 +147,19 @@ class SettingsPageState extends State<SettingsPage> {
                       },
                     ),
                     SettingToggleRow(
-                      label: 'Rappels doux',
-                      sub: 'Une seule notification par jour, jamais plus',
+                      label: AppLocalizations.of(context)!.gentleReminders,
+                      sub: AppLocalizations.of(context)!.gentleRemindersSub,
                       initialOn: notificationsEnabled,
                       onChanged: _toggleNotifications,
                     ),
                     const SizedBox(height: AppSpacing.xxl),
 
                     // ── Intelligence artificielle ──
-                    const SectionTitle('Intelligence artificielle'),
+                    SectionTitle(AppLocalizations.of(context)!.sectionAI),
                     const SizedBox(height: AppSpacing.m),
                     SettingToggleRow(
-                      label: 'Activer les suggestions IA',
-                      sub: 'Décomposition de tâches, aide au bilan hebdo',
+                      label: AppLocalizations.of(context)!.enableAISuggestions,
+                      sub: AppLocalizations.of(context)!.enableAISuggestionsSub,
                       initialOn: aiEnabled,
                       onChanged: (val) {
                         context.read<SettingsCubit>().updateAiSuggestions(val);
@@ -167,7 +169,7 @@ class SettingsPageState extends State<SettingsPage> {
                     if (aiEnabled) ...[
                       const SizedBox(height: AppSpacing.l),
 
-                      const FieldLabel('Fournisseur'),
+                      FieldLabel(AppLocalizations.of(context)!.aiProvider),
                       const SizedBox(height: AppSpacing.s),
                       GridView(
                         shrinkWrap: true,
@@ -225,7 +227,7 @@ class SettingsPageState extends State<SettingsPage> {
                       ),
                       const SizedBox(height: AppSpacing.xl),
 
-                      const FieldLabel('Clé API'),
+                      FieldLabel(AppLocalizations.of(context)!.apiKey),
                       const SizedBox(height: AppSpacing.s),
                       TextField(
                         controller: _apiKeyController,
@@ -299,7 +301,7 @@ class SettingsPageState extends State<SettingsPage> {
                                   ),
                                 ),
                                 icon: Icon(Icons.check_circle_outline, size: 18, color: context.cTextSecondary),
-                                label: Text('Tester la connexion', style: AppTypography.labelMedium()),
+                                label: Text(AppLocalizations.of(context)!.testConnection, style: AppTypography.labelMedium()),
                               ),
                       ),
                       const SizedBox(height: AppSpacing.xxxxl),
@@ -323,7 +325,7 @@ class SettingsPageState extends State<SettingsPage> {
                             const SizedBox(width: AppSpacing.m),
                             Expanded(
                               child: Text(
-                                'Votre clé reste stockée uniquement sur cet appareil. Rien n\'est envoyé à un serveur Priorise — vos requêtes vont directement du téléphone vers le fournisseur choisi.',
+                                AppLocalizations.of(context)!.securityNote,
                                 style: AppTypography.bodySmall(color: context.cTextSecondary),
                               ),
                             ),
@@ -543,11 +545,11 @@ class ThemeSelectorState extends State<ThemeSelector> {
   String get _title {
     switch (widget.currentTheme) {
       case ThemeMode.system:
-        return 'Thème Automatique';
+        return AppLocalizations.of(context)!.themeAuto;
       case ThemeMode.light:
-        return 'Thème Clair';
+        return AppLocalizations.of(context)!.themeLight;
       case ThemeMode.dark:
-        return 'Thème Sombre';
+        return AppLocalizations.of(context)!.themeDark;
     }
   }
 
@@ -605,7 +607,7 @@ class ThemeSelectorState extends State<ThemeSelector> {
               Row(
                 children: [
                   Expanded(child: ThemeOptionCard(
-                    label: 'Auto',
+                    label: AppLocalizations.of(context)!.themeAutoShort,
                     icon: Icons.brightness_auto_outlined,
                     isSelected: widget.currentTheme == ThemeMode.system,
                     onTap: () {
@@ -614,7 +616,7 @@ class ThemeSelectorState extends State<ThemeSelector> {
                   )),
                   const SizedBox(width: AppSpacing.s),
                   Expanded(child: ThemeOptionCard(
-                    label: 'Clair',
+                    label: AppLocalizations.of(context)!.themeLightShort,
                     icon: Icons.light_mode_outlined,
                     isSelected: widget.currentTheme == ThemeMode.light,
                     onTap: () {
@@ -623,7 +625,7 @@ class ThemeSelectorState extends State<ThemeSelector> {
                   )),
                   const SizedBox(width: AppSpacing.s),
                   Expanded(child: ThemeOptionCard(
-                    label: 'Sombre',
+                    label: AppLocalizations.of(context)!.themeDarkShort,
                     icon: Icons.dark_mode_outlined,
                     isSelected: widget.currentTheme == ThemeMode.dark,
                     onTap: () {

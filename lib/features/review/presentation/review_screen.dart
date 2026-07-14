@@ -1,3 +1,5 @@
+import 'package:priorise/l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/tokens/app_colors.dart';
@@ -31,10 +33,10 @@ class ReviewPage extends StatelessWidget {
                         AppSpacing.xxxxl,
                       ),
                       children: [
-                        const _SectionTitle('Rétrospective'),
+                        _SectionTitle(AppLocalizations.of(context)!.titleReview),
                         const SizedBox(height: 4),
                         Text(
-                          'Vos réponses restent privées, stockées uniquement sur cet appareil.',
+                          AppLocalizations.of(context)!.securityNote,
                           style: AppTypography.inter(
                             size: 11,
                             color: context.cTextTertiary,
