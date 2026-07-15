@@ -1,8 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:isar/isar.dart';
+import '../../../domain/usecases/role_usecases.dart';
 import '../../../core/models/role_model.dart';
 import '../../../core/models/enums.dart';
-import '../../../core/services/widget_service.dart';
 
 class RolesState {
   final List<LifeRole> roles;
@@ -25,54 +24,43 @@ class RolesState {
 }
 
 class RolesCubit extends Cubit<RolesState> {
-  final Isar isar;
+  final GetAllRolesUseCase getAllRoles;
+  final AddRoleUseCase addRoleUseCase;
+  final UpdateRoleUseCase updateRoleUseCase;
+  final DeleteRoleUseCase deleteRoleUseCase;
 
-  RolesCubit(this.isar) : super(const RolesState()) {
+  RolesCubit({
+    required this.getAllRoles,
+    required this.addRoleUseCase,
+    required this.updateRoleUseCase,
+    required this.deleteRoleUseCase,
+  }) : super(const RolesState()) {
     loadRoles();
   }
 
   Future<void> loadRoles() async {
     emit(state.copyWith(isLoading: true));
-    final roles = await isar.lifeRoles.where().findAll();
-    emit(state.copyWith(roles: roles, isLoading: false));
-  }
-
-  Future<void> addRole(String name, RoleAccent accent, String iconKey) async {
-    final role = LifeRole()
-      ..name = name
-      ..iconKey = iconKey
-      ..accent = accent;
-
-    await isar.writeTxn(() async {
-      await isar.lifeRoles.put(role);
-    });
-    
-    await loadRoles();
-    WidgetService.updateAllWidgets();
-  }
-
-  Future<void> updateRole(int id, String name, RoleAccent accent, String iconKey) async {
-    final role = await isar.lifeRoles.get(id);
-    if (role != null) {
-      role
-        ..name = name
-        ..iconKey = iconKey
-        ..accent = accent;
-
-      await isar.writeTxn(() async {
-        await isar.lifeRoles.put(role);
-      });
-      
-      await loadRoles();
-      WidgetService.updateAllWidgets();
+    try {
+      final roles = await getAllRoles();
+      emit(state.copyWith(roles: roles, isLoading: false));
+    } catch (e) {
+      // Handle error if needed
+      emit(state.copyWith(isLoading: false));
     }
   }
 
+  Future<void> addRole(String name, RoleAccent accent, String iconKey) async {
+    await addRoleUseCase(name, accent, iconKey);
+    loadRoles();
+  }
+
+  Future<void> updateRole(int id, String name, RoleAccent accent, String iconKey) async {
+    await updateRoleUseCase(id, name, accent, iconKey);
+    loadRoles();
+  }
+
   Future<void> deleteRole(int id) async {
-    await isar.writeTxn(() async {
-      await isar.lifeRoles.delete(id);
-    });
-    await loadRoles();
-    WidgetService.updateAllWidgets();
+    await deleteRoleUseCase(id);
+    loadRoles();
   }
 }

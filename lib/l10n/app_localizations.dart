@@ -134,6 +134,60 @@ abstract class AppLocalizations {
   /// **'Commencer'**
   String get start;
 
+  /// No description provided for @delete.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer'**
+  String get delete;
+
+  /// No description provided for @later.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus tard'**
+  String get later;
+
+  /// No description provided for @allow.
+  ///
+  /// In fr, this message translates to:
+  /// **'Autoriser'**
+  String get allow;
+
+  /// No description provided for @notifications.
+  ///
+  /// In fr, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @notificationPermissionText.
+  ///
+  /// In fr, this message translates to:
+  /// **'Priorise a besoin de vous envoyer des notifications pour vos rappels doux (une fois par jour maximum) et pour votre session de planification hebdomadaire.\n\nAutorisez-vous l\'application à vous envoyer des notifications ?'**
+  String get notificationPermissionText;
+
+  /// No description provided for @month1.
+  ///
+  /// In fr, this message translates to:
+  /// **'1 mois'**
+  String get month1;
+
+  /// No description provided for @months3.
+  ///
+  /// In fr, this message translates to:
+  /// **'3 mois'**
+  String get months3;
+
+  /// No description provided for @months6.
+  ///
+  /// In fr, this message translates to:
+  /// **'6 mois'**
+  String get months6;
+
+  /// No description provided for @year1.
+  ///
+  /// In fr, this message translates to:
+  /// **'1 an'**
+  String get year1;
+
   /// No description provided for @navToday.
   ///
   /// In fr, this message translates to:
@@ -434,6 +488,12 @@ abstract class AppLocalizations {
   /// **'Votre clé reste stockée uniquement sur cet appareil. Rien n\'est envoyé à un serveur Priorise — vos requêtes vont directement du téléphone vers le fournisseur choisi.'**
   String get securityNote;
 
+  /// No description provided for @providerChangedMsg.
+  ///
+  /// In fr, this message translates to:
+  /// **'Fournisseur modifié. N\'oubliez pas d\'entrer votre nouvelle clé API.'**
+  String get providerChangedMsg;
+
   /// No description provided for @themeAuto.
   ///
   /// In fr, this message translates to:
@@ -613,6 +673,228 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Ce qui a dérapé'**
   String get whatSlipped;
+
+  /// No description provided for @quickCapture.
+  ///
+  /// In fr, this message translates to:
+  /// **'Capture rapide'**
+  String get quickCapture;
+
+  /// No description provided for @quickCaptureHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Qu\'avez-vous en tête ?'**
+  String get quickCaptureHint;
+
+  /// No description provided for @add.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter'**
+  String get add;
+
+  /// No description provided for @captureTask.
+  ///
+  /// In fr, this message translates to:
+  /// **'Capturer une tâche'**
+  String get captureTask;
+
+  /// No description provided for @editTask.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier la tâche'**
+  String get editTask;
+
+  /// No description provided for @whatLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quoi'**
+  String get whatLabel;
+
+  /// No description provided for @taskHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex. Rappeler le plombier'**
+  String get taskHint;
+
+  /// No description provided for @roleLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rôle'**
+  String get roleLabel;
+
+  /// No description provided for @noRolesDefined.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun rôle n\'a encore été défini.\nAllez dans l\'onglet Rôles pour en créer un avant d\'ajouter une tâche.'**
+  String get noRolesDefined;
+
+  /// No description provided for @priorityMatrixLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Priorité (Matrice)'**
+  String get priorityMatrixLabel;
+
+  /// No description provided for @selectPriority.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sélectionner une priorité'**
+  String get selectPriority;
+
+  /// No description provided for @priorityStrategic.
+  ///
+  /// In fr, this message translates to:
+  /// **'Stratégique / À planifier'**
+  String get priorityStrategic;
+
+  /// No description provided for @priorityUrgent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Urgent et Important'**
+  String get priorityUrgent;
+
+  /// No description provided for @priorityDelegate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Distraction / À déléguer'**
+  String get priorityDelegate;
+
+  /// No description provided for @priorityEliminate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Inutile / À éliminer'**
+  String get priorityEliminate;
+
+  /// No description provided for @taskAdded.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tâche ajoutée à votre journée'**
+  String get taskAdded;
+
+  /// No description provided for @taskUpdated.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tâche modifiée'**
+  String get taskUpdated;
+
+  /// No description provided for @deleteRoleTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer le rôle ?'**
+  String get deleteRoleTitle;
+
+  /// No description provided for @deleteRoleDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Êtes-vous sûr de vouloir supprimer \"{roleName}\" ?'**
+  String deleteRoleDesc(String roleName);
+
+  /// No description provided for @deleteTaskTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Supprimer la tâche ?'**
+  String get deleteTaskTitle;
+
+  /// No description provided for @deleteTaskDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Êtes-vous sûr de vouloir supprimer \"{taskName}\" ?'**
+  String deleteTaskDesc(String taskName);
+
+  /// No description provided for @matrixInfoTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Matrice d\'Eisenhower'**
+  String get matrixInfoTitle;
+
+  /// No description provided for @matrixInfoDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une méthode simple pour visualiser où va vraiment votre attention.'**
+  String get matrixInfoDesc;
+
+  /// No description provided for @matrixInfoQ1Title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Agir (Urgent & Important)'**
+  String get matrixInfoQ1Title;
+
+  /// No description provided for @matrixInfoQ1Desc.
+  ///
+  /// In fr, this message translates to:
+  /// **'En haut à gauche. Ce qui ne peut pas attendre. À traiter immédiatement.'**
+  String get matrixInfoQ1Desc;
+
+  /// No description provided for @matrixInfoQ2Title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Planifier (Important, Non urgent)'**
+  String get matrixInfoQ2Title;
+
+  /// No description provided for @matrixInfoQ2Desc.
+  ///
+  /// In fr, this message translates to:
+  /// **'En haut à droite. Le vrai travail de fond, celui qui fait avancer vos objectifs.'**
+  String get matrixInfoQ2Desc;
+
+  /// No description provided for @matrixInfoQ3Title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déléguer (Urgent, Non important)'**
+  String get matrixInfoQ3Title;
+
+  /// No description provided for @matrixInfoQ3Desc.
+  ///
+  /// In fr, this message translates to:
+  /// **'En bas à gauche. Les interruptions et fausses urgences. À confier si possible.'**
+  String get matrixInfoQ3Desc;
+
+  /// No description provided for @matrixInfoQ4Title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Laisser filer (Ni urgent ni important)'**
+  String get matrixInfoQ4Title;
+
+  /// No description provided for @matrixInfoQ4Desc.
+  ///
+  /// In fr, this message translates to:
+  /// **'En bas à droite. Les distractions et le coût caché de votre temps.'**
+  String get matrixInfoQ4Desc;
+
+  /// No description provided for @understood.
+  ///
+  /// In fr, this message translates to:
+  /// **'Compris'**
+  String get understood;
+
+  /// No description provided for @planReview.
+  ///
+  /// In fr, this message translates to:
+  /// **'Planifier une révision'**
+  String get planReview;
+
+  /// No description provided for @planReviewDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Une mission se révise rarement, mais délibérément. Choisissez une échéance — vous recevrez un rappel unique, pas une notification récurrente.'**
+  String get planReviewDesc;
+
+  /// No description provided for @inTime.
+  ///
+  /// In fr, this message translates to:
+  /// **'DANS'**
+  String get inTime;
+
+  /// No description provided for @iconLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Icône'**
+  String get iconLabel;
+
+  /// No description provided for @colorLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Couleur'**
+  String get colorLabel;
 
   /// No description provided for @monday.
   ///

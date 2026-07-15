@@ -11,7 +11,6 @@ import '../../../core/tokens/app_colors.dart';
 import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
 import '../../../core/di/injection.dart';
-import '../../../core/services/database_service.dart';
 import 'today_cubit.dart';
 import 'widgets/today_header.dart';
 import 'widgets/today_role_chips.dart';
@@ -25,7 +24,15 @@ class TodayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => TodayCubit(getIt<DatabaseService>().isar),
+      create: (_) => TodayCubit(
+        getTodayTasks: getIt(),
+        getAllRoles: getIt(),
+        getCurrentPlan: getIt(),
+        toggleTaskUseCase: getIt(),
+        addTaskUseCase: getIt(),
+        updateTaskUseCase: getIt(),
+        deleteTaskUseCase: getIt(),
+      ),
       child: const _TodayView(),
     );
   }

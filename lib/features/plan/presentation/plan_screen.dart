@@ -4,7 +4,6 @@ import '../../../core/tokens/app_colors.dart';
 import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
 import '../../../shared/widgets/page_header.dart';
-import '../../shell/presentation/shell_cubit.dart';
 import 'plan_cubit.dart';
 
 class PlanScreen extends StatelessWidget {

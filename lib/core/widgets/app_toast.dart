@@ -45,4 +45,8 @@ class AppToast {
   static void showError(BuildContext context, String message) {
     show(context, message, icon: Icons.error_outline, iconColor: context.cError);
   }
+
+  static void showInfo(BuildContext context, String message) {
+    show(context, message, icon: Icons.info_outline, iconColor: context.cTextTertiary);
+  }
 }

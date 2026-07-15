@@ -58,7 +58,10 @@ class PrioriseApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ThemeCubit()),
-        BlocProvider(create: (_) => SettingsCubit()),
+        BlocProvider(create: (_) => SettingsCubit(
+          getSettingsUseCase: getIt(),
+          saveSettingsUseCase: getIt(),
+        )),
         BlocProvider(create: (_) => MockAiCubit()),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(

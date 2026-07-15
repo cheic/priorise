@@ -8,7 +8,6 @@ import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
 import '../../../core/widgets/app_toast.dart';
 import '../../../shared/widgets/page_header.dart';
-import '../../shell/presentation/shell_cubit.dart';
 import '../../../shared/mock_ai_cubit.dart';
 import '../../../core/themes/theme_cubit.dart';
 import '../../../core/di/injection.dart';
@@ -16,7 +15,6 @@ import '../../../core/services/notification_service.dart';
 import 'settings_cubit.dart';
 import '../../mission/presentation/mission_screen.dart';
 import '../../../shared/utils/slide_up_route.dart';
-import '../../../core/services/database_service.dart';
 import '../../plan/presentation/plan_cubit.dart';
 import '../../plan/presentation/plan_screen.dart';
 
@@ -33,15 +31,21 @@ class SettingsPageState extends State<SettingsPage> {
   late final TextEditingController _apiKeyController;
   Timer? _debounce;
 
+  late final SettingsCubit _settingsCubit;
+
   @override
   void initState() {
     super.initState();
+    _settingsCubit = context.read<SettingsCubit>();
     _apiKeyController = TextEditingController();
   }
 
   @override
   void dispose() {
-    _debounce?.cancel();
+    if (_debounce?.isActive ?? false) {
+      _debounce?.cancel();
+      _settingsCubit.updateAiApiKey(_apiKeyController.text);
+    }
     _apiKeyController.dispose();
     super.dispose();
   }
@@ -126,7 +130,13 @@ class SettingsPageState extends State<SettingsPage> {
                           context,
                           SlideUpRoute<String>(
                             page: BlocProvider(
-                              create: (_) => PlanCubit(getIt<DatabaseService>().isar),
+                              create: (_) => PlanCubit(
+                                getAllRoles: getIt(),
+                                getTasks: getIt(),
+                                addTask: getIt(),
+                                updateTask: getIt(),
+                                deleteTask: getIt(),
+                              )..loadPlan(),
                               child: const PlanScreen(),
                             ),
                           ),
@@ -186,42 +196,60 @@ class SettingsPageState extends State<SettingsPage> {
                             hint: 'Anthropic',
                             icon: Icons.auto_awesome_outlined,
                             isSelected: selectedProvider == 'Claude',
-                            onTap: () => context.read<SettingsCubit>().updateAiProvider('Claude'),
+                            onTap: () {
+                              context.read<SettingsCubit>().updateAiProvider('Claude');
+                              AppToast.showInfo(context, AppLocalizations.of(context)!.providerChangedMsg);
+                            },
                           ),
                           ProviderCard(
                             name: 'Gemini',
                             hint: 'Google',
                             icon: Icons.lens_blur,
                             isSelected: selectedProvider == 'Gemini',
-                            onTap: () => context.read<SettingsCubit>().updateAiProvider('Gemini'),
+                            onTap: () {
+                              context.read<SettingsCubit>().updateAiProvider('Gemini');
+                              AppToast.showInfo(context, AppLocalizations.of(context)!.providerChangedMsg);
+                            },
                           ),
                           ProviderCard(
                             name: 'GPT',
                             hint: 'OpenAI',
                             icon: Icons.grid_view,
                             isSelected: selectedProvider == 'GPT',
-                            onTap: () => context.read<SettingsCubit>().updateAiProvider('GPT'),
+                            onTap: () {
+                              context.read<SettingsCubit>().updateAiProvider('GPT');
+                              AppToast.showInfo(context, AppLocalizations.of(context)!.providerChangedMsg);
+                            },
                           ),
                           ProviderCard(
                             name: 'Kimi',
                             hint: 'Moonshot AI',
                             icon: Icons.arrow_outward,
                             isSelected: selectedProvider == 'Kimi',
-                            onTap: () => context.read<SettingsCubit>().updateAiProvider('Kimi'),
+                            onTap: () {
+                              context.read<SettingsCubit>().updateAiProvider('Kimi');
+                              AppToast.showInfo(context, AppLocalizations.of(context)!.providerChangedMsg);
+                            },
                           ),
                           ProviderCard(
                             name: 'Qwen',
                             hint: 'Alibaba',
                             icon: Icons.explore_outlined,
                             isSelected: selectedProvider == 'Qwen',
-                            onTap: () => context.read<SettingsCubit>().updateAiProvider('Qwen'),
+                            onTap: () {
+                              context.read<SettingsCubit>().updateAiProvider('Qwen');
+                              AppToast.showInfo(context, AppLocalizations.of(context)!.providerChangedMsg);
+                            },
                           ),
                           ProviderCard(
                             name: 'Mistral',
                             hint: 'Mistral AI',
                             icon: Icons.air_outlined,
                             isSelected: selectedProvider == 'Mistral',
-                            onTap: () => context.read<SettingsCubit>().updateAiProvider('Mistral'),
+                            onTap: () {
+                              context.read<SettingsCubit>().updateAiProvider('Mistral');
+                              AppToast.showInfo(context, AppLocalizations.of(context)!.providerChangedMsg);
+                            },
                           ),
                         ],
                       ),
@@ -274,7 +302,17 @@ class SettingsPageState extends State<SettingsPage> {
                             ? const CircularProgressIndicator()
                             : OutlinedButton.icon(
                                 onPressed: () async {
-                                  if (settings.aiApiKey.isEmpty) {
+                                  final cubit = context.read<SettingsCubit>();
+                                  if (_debounce?.isActive ?? false) {
+                                    _debounce?.cancel();
+                                    await cubit.updateAiApiKey(_apiKeyController.text);
+                                  } else if (_apiKeyController.text != settings.aiApiKey) {
+                                    await cubit.updateAiApiKey(_apiKeyController.text);
+                                  }
+                                  
+                                  if (!context.mounted) return;
+
+                                  if (_apiKeyController.text.isEmpty) {
                                     AppToast.showError(context, 'Veuillez entrer une clé API.');
                                     return;
                                   }
@@ -282,7 +320,7 @@ class SettingsPageState extends State<SettingsPage> {
                                   // Hide keyboard
                                   FocusScope.of(context).unfocus();
 
-                                  final success = await context.read<SettingsCubit>().testAiConnection();
+                                  final success = await cubit.testAiConnection();
                                   if (context.mounted) {
                                     if (success) {
                                       AppToast.showSuccess(context, 'Connexion réussie !');

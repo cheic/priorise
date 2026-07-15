@@ -11,7 +11,7 @@ import '../../../shared/widgets/role_icons.dart';
 import 'roles_cubit.dart';
 
 class RolesPage extends StatelessWidget {
-  const RolesPage();
+  const RolesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -82,11 +82,11 @@ class RolesPage extends StatelessWidget {
                                           backgroundColor: context.cSurfaceRaised,
                                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
                                           title: Text(
-                                            'Supprimer le rôle ?',
+                                            AppLocalizations.of(context)!.deleteRoleTitle,
                                             style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
                                           ),
                                           content: Text(
-                                            'Êtes-vous sûr de vouloir supprimer "${role.name}" ?',
+                                            AppLocalizations.of(context)!.deleteRoleDesc(role.name),
                                             style: AppTypography.inter(size: 14, color: context.cTextSecondary),
                                           ),
                                           actions: [
@@ -96,7 +96,7 @@ class RolesPage extends StatelessWidget {
                                             ),
                                             TextButton(
                                               onPressed: () => Navigator.of(context).pop(true),
-                                              child: Text('Supprimer', style: AppTypography.inter(color: context.cError, weight: FontWeight.w600)),
+                                              child: Text(AppLocalizations.of(context)!.delete, style: AppTypography.inter(color: context.cError, weight: FontWeight.w600)),
                                             ),
                                           ],
                                         ),
@@ -340,7 +340,7 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
           ),
           
           const SizedBox(height: AppSpacing.xl),
-          _buildLabel("Couleur d'accent"),
+          _buildLabel(AppLocalizations.of(context)!.colorLabel),
           const SizedBox(height: AppSpacing.m),
           Wrap(
             spacing: 12,
@@ -370,7 +370,7 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
           ),
           
           const SizedBox(height: AppSpacing.xl),
-          _buildLabel("Icône"),
+          _buildLabel(AppLocalizations.of(context)!.iconLabel),
           const SizedBox(height: AppSpacing.m),
           Wrap(
             spacing: 12,

@@ -27,6 +27,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get start => 'Get started';
 
   @override
+  String get delete => 'Delete';
+
+  @override
+  String get later => 'Later';
+
+  @override
+  String get allow => 'Allow';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get notificationPermissionText =>
+      'Priorise needs to send you notifications for gentle reminders (once a day max) and for your weekly planning session.\n\nDo you allow the app to send you notifications?';
+
+  @override
+  String get month1 => '1 month';
+
+  @override
+  String get months3 => '3 months';
+
+  @override
+  String get months6 => '6 months';
+
+  @override
+  String get year1 => '1 year';
+
+  @override
   String get navToday => 'Today';
 
   @override
@@ -184,6 +212,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your key is stored only on this device. Nothing is sent to a Priorise server — your requests go directly from your phone to your chosen provider.';
 
   @override
+  String get providerChangedMsg =>
+      'Provider changed. Don\'t forget to enter your new API key.';
+
+  @override
   String get themeAuto => 'Auto Theme';
 
   @override
@@ -272,6 +304,128 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get whatSlipped => 'What slipped';
+
+  @override
+  String get quickCapture => 'Quick capture';
+
+  @override
+  String get quickCaptureHint => 'What\'s on your mind?';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get captureTask => 'Capture task';
+
+  @override
+  String get editTask => 'Edit task';
+
+  @override
+  String get whatLabel => 'What';
+
+  @override
+  String get taskHint => 'E.g. Call the plumber';
+
+  @override
+  String get roleLabel => 'Role';
+
+  @override
+  String get noRolesDefined =>
+      'No roles defined yet.\nGo to the Roles tab to create one before adding a task.';
+
+  @override
+  String get priorityMatrixLabel => 'Priority (Matrix)';
+
+  @override
+  String get selectPriority => 'Select a priority';
+
+  @override
+  String get priorityStrategic => 'Strategic / To plan';
+
+  @override
+  String get priorityUrgent => 'Urgent and Important';
+
+  @override
+  String get priorityDelegate => 'Distraction / To delegate';
+
+  @override
+  String get priorityEliminate => 'Useless / To eliminate';
+
+  @override
+  String get taskAdded => 'Task added to your day';
+
+  @override
+  String get taskUpdated => 'Task updated';
+
+  @override
+  String get deleteRoleTitle => 'Delete role?';
+
+  @override
+  String deleteRoleDesc(String roleName) {
+    return 'Are you sure you want to delete \"$roleName\"?';
+  }
+
+  @override
+  String get deleteTaskTitle => 'Delete task?';
+
+  @override
+  String deleteTaskDesc(String taskName) {
+    return 'Are you sure you want to delete \"$taskName\"?';
+  }
+
+  @override
+  String get matrixInfoTitle => 'Eisenhower Matrix';
+
+  @override
+  String get matrixInfoDesc =>
+      'A simple method to visualize where your attention really goes.';
+
+  @override
+  String get matrixInfoQ1Title => 'Do (Urgent & Important)';
+
+  @override
+  String get matrixInfoQ1Desc =>
+      'Top left. What cannot wait. To be handled immediately.';
+
+  @override
+  String get matrixInfoQ2Title => 'Schedule (Important, Not urgent)';
+
+  @override
+  String get matrixInfoQ2Desc =>
+      'Top right. The real foundational work that advances your goals.';
+
+  @override
+  String get matrixInfoQ3Title => 'Delegate (Urgent, Not important)';
+
+  @override
+  String get matrixInfoQ3Desc =>
+      'Bottom left. Interruptions and false emergencies. Delegate if possible.';
+
+  @override
+  String get matrixInfoQ4Title => 'Drop (Not urgent, Not important)';
+
+  @override
+  String get matrixInfoQ4Desc =>
+      'Bottom right. Distractions and the hidden cost of your time.';
+
+  @override
+  String get understood => 'Understood';
+
+  @override
+  String get planReview => 'Schedule a review';
+
+  @override
+  String get planReviewDesc =>
+      'A mission is rarely reviewed, but deliberately so. Choose a deadline — you\'ll receive a one-time reminder, not a recurring notification.';
+
+  @override
+  String get inTime => 'IN';
+
+  @override
+  String get iconLabel => 'Icon';
+
+  @override
+  String get colorLabel => 'Color';
 
   @override
   String get monday => 'Monday';

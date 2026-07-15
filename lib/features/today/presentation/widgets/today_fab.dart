@@ -12,7 +12,7 @@ import 'package:priorise/core/models/task_model.dart';
 import '../today_cubit.dart';
 
 class TodayFab extends StatelessWidget {
-  const TodayFab();
+  const TodayFab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class TodayCaptureTaskSheet extends StatefulWidget {
 class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
   final _titleController = TextEditingController();
   int? _selectedRoleId;
-  String? _selectedPriority;
+  int? _selectedPriorityIndex;
 
   @override
   void initState() {
@@ -73,13 +73,13 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
       _titleController.text = widget.taskToEdit!.title;
       _selectedRoleId = widget.taskToEdit!.roleId;
       if (widget.taskToEdit!.important && !widget.taskToEdit!.urgent) {
-        _selectedPriority = 'Stratégique / À planifier';
+        _selectedPriorityIndex = 0;
       } else if (widget.taskToEdit!.important && widget.taskToEdit!.urgent) {
-        _selectedPriority = 'Urgent et Important';
+        _selectedPriorityIndex = 1;
       } else if (!widget.taskToEdit!.important && widget.taskToEdit!.urgent) {
-        _selectedPriority = 'Distraction / À déléguer';
+        _selectedPriorityIndex = 2;
       } else {
-        _selectedPriority = 'Inutile / À éliminer';
+        _selectedPriorityIndex = 3;
       }
     }
   }
@@ -102,12 +102,12 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
     }
     
     final priorities = [
-      'Stratégique / À planifier',
-      'Urgent et Important',
-      'Distraction / À déléguer',
-      'Inutile / À éliminer'
+      AppLocalizations.of(context)!.priorityStrategic,
+      AppLocalizations.of(context)!.priorityUrgent,
+      AppLocalizations.of(context)!.priorityDelegate,
+      AppLocalizations.of(context)!.priorityEliminate,
     ];
-    _selectedPriority ??= priorities.first;
+    _selectedPriorityIndex ??= 0;
 
     return Padding(
       padding: EdgeInsets.only(bottom: bottomInset),
@@ -142,7 +142,7 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
           ),
           // Title
           Text(
-            widget.taskToEdit == null ? 'Capturer une tâche' : 'Modifier la tâche',
+            widget.taskToEdit == null ? AppLocalizations.of(context)!.captureTask : AppLocalizations.of(context)!.editTask,
             style: AppTypography.fraunces(
               size: 17,
               weight: 560,
@@ -151,16 +151,16 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
           ),
           const SizedBox(height: 16),
           // Field 1: Quoi
-          const TodayModalLabel(text: 'Quoi'),
+          TodayModalLabel(text: AppLocalizations.of(context)!.whatLabel),
           const SizedBox(height: 6),
           TodayModalTextField(
-            hint: 'Ex. Rappeler le plombier',
+            hint: AppLocalizations.of(context)!.taskHint,
             controller: _titleController,
             autofocus: true,
           ),
           const SizedBox(height: 16),
           // Field 2: Rôle
-          const TodayModalLabel(text: 'Rôle'),
+          TodayModalLabel(text: AppLocalizations.of(context)!.roleLabel),
           const SizedBox(height: 8),
           if (roles.isEmpty)
             Container(
@@ -171,7 +171,7 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
                 border: Border.all(color: context.cBorder),
               ),
               child: Text(
-                "Aucun rôle n'a encore été défini.\nAllez dans l'onglet Rôles pour en créer un avant d'ajouter une tâche.",
+                AppLocalizations.of(context)!.noRolesDefined,
                 style: AppTypography.inter(size: 13, color: context.cTextSecondary).copyWith(height: 1.4),
                 textAlign: TextAlign.center,
               ),
@@ -182,7 +182,7 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemCount: roles.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                separatorBuilder: (_, _) => const SizedBox(width: 8),
                 itemBuilder: (context, index) {
                   final role = roles[index];
                   final isSelected = _selectedRoleId == role.id;
@@ -213,13 +213,16 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
             ),
           const SizedBox(height: 16),
           // Field 3: Important ? Urgent ?
-          const TodayModalLabel(text: 'Priorité (Matrice)'),
+          TodayModalLabel(text: AppLocalizations.of(context)!.priorityMatrixLabel),
           const SizedBox(height: 8),
-          TodayModalDropdownField<String>(
-            hint: 'Sélectionner une priorité',
-            value: _selectedPriority,
-            items: priorities.map((p) => DropdownMenuItem(value: p, child: Text(p))).toList(),
-            onChanged: (val) => setState(() => _selectedPriority = val),
+          TodayModalDropdownField<int>(
+            hint: AppLocalizations.of(context)!.selectPriority,
+            value: _selectedPriorityIndex,
+            items: List.generate(
+              priorities.length, 
+              (i) => DropdownMenuItem(value: i, child: Text(priorities[i])),
+            ),
+            onChanged: (val) => setState(() => _selectedPriorityIndex = val),
           ),
           const SizedBox(height: 24),
           // Actions
@@ -255,13 +258,13 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
                     if (title.isNotEmpty && _selectedRoleId != null) {
                       bool important = false;
                       bool urgent = false;
-                      if (_selectedPriority == 'Stratégique / À planifier') {
+                      if (_selectedPriorityIndex == 0) {
                         important = true;
                         urgent = false;
-                      } else if (_selectedPriority == 'Urgent et Important') {
+                      } else if (_selectedPriorityIndex == 1) {
                         important = true;
                         urgent = true;
-                      } else if (_selectedPriority == 'Distraction / À déléguer') {
+                      } else if (_selectedPriorityIndex == 2) {
                         important = false;
                         urgent = true;
                       } else {
@@ -271,11 +274,11 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
                       if (widget.taskToEdit == null) {
                         context.read<TodayCubit>().addTask(title, _selectedRoleId!, important: important, urgent: urgent);
                         Navigator.of(context).pop();
-                        AppToast.showSuccess(context, 'Tâche ajoutée à votre journée');
+                        AppToast.showSuccess(context, AppLocalizations.of(context)!.taskAdded);
                       } else {
                         context.read<TodayCubit>().updateTask(widget.taskToEdit!.id, title, _selectedRoleId!, important: important, urgent: urgent);
                         Navigator.of(context).pop();
-                        AppToast.showSuccess(context, 'Tâche modifiée');
+                        AppToast.showSuccess(context, AppLocalizations.of(context)!.taskUpdated);
                       }
                     }
                   },
@@ -310,7 +313,7 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
 
 class TodayModalLabel extends StatelessWidget {
   final String text;
-  const TodayModalLabel({required this.text});
+  const TodayModalLabel({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -329,7 +332,7 @@ class TodayModalTextField extends StatelessWidget {
   final String hint;
   final TextEditingController? controller;
   final bool autofocus;
-  const TodayModalTextField({required this.hint, this.controller, this.autofocus = false});
+  const TodayModalTextField({super.key, required this.hint, this.controller, this.autofocus = false});
 
   @override
   Widget build(BuildContext context) {
@@ -361,7 +364,7 @@ class TodayModalDropdownField<T> extends StatelessWidget {
   final T? value;
   final ValueChanged<T?>? onChanged;
 
-  const TodayModalDropdownField({
+  const TodayModalDropdownField({super.key, 
     required this.hint,
     required this.items,
     this.value,

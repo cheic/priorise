@@ -17,29 +17,39 @@ const AppSettingsSchema = CollectionSchema(
   name: r'AppSettings',
   id: -5633561779022347008,
   properties: {
-    r'aiSuggestionsEnabled': PropertySchema(
+    r'aiApiKey': PropertySchema(
       id: 0,
+      name: r'aiApiKey',
+      type: IsarType.string,
+    ),
+    r'aiProvider': PropertySchema(
+      id: 1,
+      name: r'aiProvider',
+      type: IsarType.string,
+    ),
+    r'aiSuggestionsEnabled': PropertySchema(
+      id: 2,
       name: r'aiSuggestionsEnabled',
       type: IsarType.bool,
     ),
     r'firstLaunchCompleted': PropertySchema(
-      id: 1,
+      id: 3,
       name: r'firstLaunchCompleted',
       type: IsarType.bool,
     ),
     r'gentleRemindersEnabled': PropertySchema(
-      id: 2,
+      id: 4,
       name: r'gentleRemindersEnabled',
       type: IsarType.bool,
     ),
     r'locale': PropertySchema(
-      id: 3,
+      id: 5,
       name: r'locale',
       type: IsarType.string,
       enumMap: _AppSettingslocaleEnumValueMap,
     ),
     r'themeMode': PropertySchema(
-      id: 4,
+      id: 6,
       name: r'themeMode',
       type: IsarType.string,
       enumMap: _AppSettingsthemeModeEnumValueMap,
@@ -65,6 +75,8 @@ int _appSettingsEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.aiApiKey.length * 3;
+  bytesCount += 3 + object.aiProvider.length * 3;
   bytesCount += 3 + object.locale.name.length * 3;
   bytesCount += 3 + object.themeMode.name.length * 3;
   return bytesCount;
@@ -76,11 +88,13 @@ void _appSettingsSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeBool(offsets[0], object.aiSuggestionsEnabled);
-  writer.writeBool(offsets[1], object.firstLaunchCompleted);
-  writer.writeBool(offsets[2], object.gentleRemindersEnabled);
-  writer.writeString(offsets[3], object.locale.name);
-  writer.writeString(offsets[4], object.themeMode.name);
+  writer.writeString(offsets[0], object.aiApiKey);
+  writer.writeString(offsets[1], object.aiProvider);
+  writer.writeBool(offsets[2], object.aiSuggestionsEnabled);
+  writer.writeBool(offsets[3], object.firstLaunchCompleted);
+  writer.writeBool(offsets[4], object.gentleRemindersEnabled);
+  writer.writeString(offsets[5], object.locale.name);
+  writer.writeString(offsets[6], object.themeMode.name);
 }
 
 AppSettings _appSettingsDeserialize(
@@ -90,15 +104,17 @@ AppSettings _appSettingsDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = AppSettings();
-  object.aiSuggestionsEnabled = reader.readBool(offsets[0]);
-  object.firstLaunchCompleted = reader.readBool(offsets[1]);
-  object.gentleRemindersEnabled = reader.readBool(offsets[2]);
+  object.aiApiKey = reader.readString(offsets[0]);
+  object.aiProvider = reader.readString(offsets[1]);
+  object.aiSuggestionsEnabled = reader.readBool(offsets[2]);
+  object.firstLaunchCompleted = reader.readBool(offsets[3]);
+  object.gentleRemindersEnabled = reader.readBool(offsets[4]);
   object.id = id;
   object.locale =
-      _AppSettingslocaleValueEnumMap[reader.readStringOrNull(offsets[3])] ??
+      _AppSettingslocaleValueEnumMap[reader.readStringOrNull(offsets[5])] ??
           AppLocale.fr;
   object.themeMode =
-      _AppSettingsthemeModeValueEnumMap[reader.readStringOrNull(offsets[4])] ??
+      _AppSettingsthemeModeValueEnumMap[reader.readStringOrNull(offsets[6])] ??
           AppThemeMode.dark;
   return object;
 }
@@ -111,15 +127,19 @@ P _appSettingsDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readBool(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readBool(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 2:
       return (reader.readBool(offset)) as P;
     case 3:
+      return (reader.readBool(offset)) as P;
+    case 4:
+      return (reader.readBool(offset)) as P;
+    case 5:
       return (_AppSettingslocaleValueEnumMap[reader.readStringOrNull(offset)] ??
           AppLocale.fr) as P;
-    case 4:
+    case 6:
       return (_AppSettingsthemeModeValueEnumMap[
               reader.readStringOrNull(offset)] ??
           AppThemeMode.dark) as P;
@@ -240,6 +260,277 @@ extension AppSettingsQueryWhere
 
 extension AppSettingsQueryFilter
     on QueryBuilder<AppSettings, AppSettings, QFilterCondition> {
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition> aiApiKeyEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'aiApiKey',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiApiKeyGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'aiApiKey',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiApiKeyLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'aiApiKey',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition> aiApiKeyBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'aiApiKey',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiApiKeyStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'aiApiKey',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiApiKeyEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'aiApiKey',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiApiKeyContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'aiApiKey',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition> aiApiKeyMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'aiApiKey',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiApiKeyIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'aiApiKey',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiApiKeyIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'aiApiKey',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiProviderEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'aiProvider',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiProviderGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'aiProvider',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiProviderLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'aiProvider',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiProviderBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'aiProvider',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiProviderStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'aiProvider',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiProviderEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'aiProvider',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiProviderContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'aiProvider',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiProviderMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'aiProvider',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiProviderIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'aiProvider',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
+      aiProviderIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'aiProvider',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QAfterFilterCondition>
       aiSuggestionsEnabledEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
@@ -602,6 +893,30 @@ extension AppSettingsQueryLinks
 
 extension AppSettingsQuerySortBy
     on QueryBuilder<AppSettings, AppSettings, QSortBy> {
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy> sortByAiApiKey() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aiApiKey', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy> sortByAiApiKeyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aiApiKey', Sort.desc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy> sortByAiProvider() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aiProvider', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy> sortByAiProviderDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aiProvider', Sort.desc);
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
       sortByAiSuggestionsEnabled() {
     return QueryBuilder.apply(this, (query) {
@@ -671,6 +986,30 @@ extension AppSettingsQuerySortBy
 
 extension AppSettingsQuerySortThenBy
     on QueryBuilder<AppSettings, AppSettings, QSortThenBy> {
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy> thenByAiApiKey() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aiApiKey', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy> thenByAiApiKeyDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aiApiKey', Sort.desc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy> thenByAiProvider() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aiProvider', Sort.asc);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QAfterSortBy> thenByAiProviderDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'aiProvider', Sort.desc);
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QAfterSortBy>
       thenByAiSuggestionsEnabled() {
     return QueryBuilder.apply(this, (query) {
@@ -752,6 +1091,20 @@ extension AppSettingsQuerySortThenBy
 
 extension AppSettingsQueryWhereDistinct
     on QueryBuilder<AppSettings, AppSettings, QDistinct> {
+  QueryBuilder<AppSettings, AppSettings, QDistinct> distinctByAiApiKey(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'aiApiKey', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<AppSettings, AppSettings, QDistinct> distinctByAiProvider(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'aiProvider', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<AppSettings, AppSettings, QDistinct>
       distinctByAiSuggestionsEnabled() {
     return QueryBuilder.apply(this, (query) {
@@ -793,6 +1146,18 @@ extension AppSettingsQueryProperty
   QueryBuilder<AppSettings, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<AppSettings, String, QQueryOperations> aiApiKeyProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'aiApiKey');
+    });
+  }
+
+  QueryBuilder<AppSettings, String, QQueryOperations> aiProviderProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'aiProvider');
     });
   }
 

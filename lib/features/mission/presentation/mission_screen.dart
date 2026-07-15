@@ -8,6 +8,7 @@ import '../../../core/tokens/app_typography.dart';
 import '../../../shared/widgets/page_header.dart';
 import '../../../shared/painters/dashed_border_painter.dart';
 import '../../../core/widgets/app_toast.dart';
+import '../../../core/di/injection.dart';
 import 'resizable_text_field.dart';
 import 'mission_cubit.dart';
 
@@ -17,7 +18,10 @@ class MissionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => MissionCubit(),
+      create: (_) => MissionCubit(
+        getMissionUseCase: getIt(),
+        saveMissionUseCase: getIt(),
+      ),
       child: const _MissionScreenContent(),
     );
   }
@@ -347,17 +351,17 @@ class _ScheduleModal extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'Planifier une révision',
+              AppLocalizations.of(context)!.planReview,
               style: AppTypography.fraunces(size: 20, weight: 600, color: context.cTextPrimary),
             ),
             const SizedBox(height: 12),
             Text(
-              'Une mission se révise rarement, mais délibérément. Choisissez une échéance — vous recevrez un rappel unique, pas une notification récurrente.',
+              AppLocalizations.of(context)!.planReviewDesc,
               style: AppTypography.inter(size: 13, color: context.cTextSecondary).copyWith(height: 1.5),
             ),
             const SizedBox(height: 24),
             Text(
-              'DANS',
+              AppLocalizations.of(context)!.inTime,
               style: AppTypography.mono(size: 11, color: context.cTextTertiary, letterSpacing: 1),
             ),
             const SizedBox(height: 8),
@@ -375,11 +379,11 @@ class _ScheduleModal extends StatelessWidget {
                   dropdownColor: context.cSurfaceRaised,
                   icon: Icon(Icons.expand_more, color: context.cTextSecondary),
                   style: AppTypography.inter(size: 15, color: context.cTextPrimary),
-                  items: const [
-                    DropdownMenuItem(value: 1, child: Text('1 mois')),
-                    DropdownMenuItem(value: 3, child: Text('3 mois')),
-                    DropdownMenuItem(value: 6, child: Text('6 mois')),
-                    DropdownMenuItem(value: 12, child: Text('1 an')),
+                  items: [
+                    DropdownMenuItem(value: 1, child: Text(AppLocalizations.of(context)!.month1)),
+                    DropdownMenuItem(value: 3, child: Text(AppLocalizations.of(context)!.months3)),
+                    DropdownMenuItem(value: 6, child: Text(AppLocalizations.of(context)!.months6)),
+                    DropdownMenuItem(value: 12, child: Text(AppLocalizations.of(context)!.year1)),
                   ],
                   onChanged: (val) {},
                 ),
@@ -422,7 +426,7 @@ class _ScheduleModal extends StatelessWidget {
                         borderRadius: BorderRadius.circular(AppSpacing.radiusS),
                       ),
                     ),
-                    child: Text('Programmer', style: AppTypography.inter(size: 15, weight: FontWeight.w600)),
+                    child: Text(AppLocalizations.of(context)!.schedule, style: AppTypography.inter(size: 15, weight: FontWeight.w600)),
                   ),
                 ),
               ],

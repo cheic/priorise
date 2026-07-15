@@ -7,7 +7,6 @@ import '../../../core/tokens/app_colors.dart';
 import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
 import '../../../shared/painters/compass_painter.dart';
-import '../../../core/models/task_model.dart';
 import '../../../core/services/widget_service.dart';
 
 import '../../today/presentation/today_screen.dart';
@@ -19,10 +18,8 @@ import '../../matrix/presentation/matrix_cubit.dart';
 import '../../review/presentation/review_screen.dart';
 import '../../review/presentation/review_cubit.dart';
 import '../../settings/presentation/settings_screen.dart';
-import '../../plan/presentation/plan_screen.dart';
-import '../../plan/presentation/plan_cubit.dart';
 import '../../../core/di/injection.dart';
-import '../../../core/services/database_service.dart';
+import '../../../domain/usecases/task_usecases.dart';
 import '../../../shared/utils/fade_indexed_stack.dart';
 import '../../../shared/widgets/page_header.dart';
 import '../../../shared/utils/slide_up_route.dart';
@@ -35,14 +32,25 @@ class AppShellScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isar = getIt<DatabaseService>().isar;
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ShellCubit(initialIndex: initialIndex)),
-        BlocProvider(create: (_) => RolesCubit(isar)..loadRoles()),
-        BlocProvider(create: (_) => MatrixCubit(isar)..loadTasks()),
-        BlocProvider(create: (_) => ReviewCubit(isar)),
+        BlocProvider(create: (_) => RolesCubit(
+          getAllRoles: getIt(),
+          addRoleUseCase: getIt(),
+          updateRoleUseCase: getIt(),
+          deleteRoleUseCase: getIt(),
+        )..loadRoles()),
+        BlocProvider(create: (_) => MatrixCubit(
+          getPendingTasks: getIt(),
+          watchTasksUseCase: getIt(),
+        )..loadTasks()),
+        BlocProvider(create: (_) => ReviewCubit(
+          getReviewByDate: getIt(),
+          saveReviewUseCase: getIt(),
+          getAllRoles: getIt(),
+          getTasks: getIt(), // Using GetAllTasksUseCase is better here! Let's just pass getIt() assuming it matches the type
+        )),
       ],
       child: const _AppShellView(),
     );
@@ -97,7 +105,7 @@ class _AppShellViewState extends State<_AppShellView> {
             side: BorderSide(color: dialogContext.cBorder),
           ),
           title: Text(
-            'Capture rapide',
+            AppLocalizations.of(context)!.quickCapture,
             style: AppTypography.fraunces(
               size: 18,
               weight: 560,
@@ -109,7 +117,7 @@ class _AppShellViewState extends State<_AppShellView> {
             autofocus: true,
             style: AppTypography.inter(size: 14, color: dialogContext.cTextPrimary),
             decoration: InputDecoration(
-              hintText: 'Qu\'avez-vous en tête ?',
+              hintText: AppLocalizations.of(context)!.quickCaptureHint,
               hintStyle: AppTypography.inter(size: 14, color: dialogContext.cTextTertiary),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppSpacing.radiusS),
@@ -151,7 +159,7 @@ class _AppShellViewState extends State<_AppShellView> {
                 ),
               ),
               child: Text(
-                'Ajouter',
+                AppLocalizations.of(context)!.add,
                 style: AppTypography.labelMedium(color: dialogContext.cInk),
               ),
             ),
@@ -165,22 +173,15 @@ class _AppShellViewState extends State<_AppShellView> {
     final trimmed = text.trim();
     if (trimmed.isEmpty) return;
 
-    final isar = getIt<DatabaseService>().isar;
-    final task = Task()
-      ..title = trimmed
-      ..roleId = 0
-      ..important = false
-      ..urgent = false
-      ..weekStart = DateTime.now();
-
-    isar.writeTxn(() async {
-      await isar.tasks.put(task);
-    }).then((_) {
+    final addTaskUseCase = getIt<AddTaskUseCase>();
+    addTaskUseCase(trimmed, 0).then((_) {
       WidgetService.updateAllWidgets().catchError((_) {});
       // Refresh today's list if we have a TodayCubit in context
-      try {
-        context.read<TodayCubit>().refresh();
-      } catch (_) {}
+      if (mounted) {
+        try {
+          context.read<TodayCubit>().refresh();
+        } catch (_) {}
+      }
     });
 
     controller.clear();
@@ -202,7 +203,18 @@ class _AppShellViewState extends State<_AppShellView> {
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: overlayStyle,
-      child: BlocBuilder<ShellCubit, int>(
+      child: BlocConsumer<ShellCubit, int>(
+        listener: (context, currentIndex) {
+          if (currentIndex == 0) {
+            context.read<TodayCubit>().refresh();
+          } else if (currentIndex == 1) {
+            context.read<RolesCubit>().loadRoles();
+          } else if (currentIndex == 2) {
+            context.read<MatrixCubit>().loadTasks();
+          } else if (currentIndex == 3) {
+            context.read<ReviewCubit>().refresh();
+          }
+        },
         builder: (context, currentIndex) {
           if (screenClass == ScreenClass.expanded) {
             return Scaffold(

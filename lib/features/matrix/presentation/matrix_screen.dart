@@ -7,7 +7,6 @@ import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
 import '../../../shared/painters/compass_painter.dart';
 import '../../roles/presentation/roles_cubit.dart';
-import '../../../core/models/enums.dart';
 import '../../../core/models/task_model.dart';
 import 'dart:math';
 import 'matrix_cubit.dart';
@@ -116,7 +115,7 @@ class MatrixPage extends StatelessWidget {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  'Matrice d\'Eisenhower',
+                                                  AppLocalizations.of(context)!.matrixInfoTitle,
                                                   style: AppTypography.fraunces(
                                                     size: 20,
                                                     weight: 600,
@@ -131,8 +130,8 @@ class MatrixPage extends StatelessWidget {
                                             ),
                                             const SizedBox(height: 8),
                                             Text(
-                                              'Une méthode simple pour visualiser où va vraiment votre attention.',
-                                              style: AppTypography.inter(
+                                                AppLocalizations.of(context)!.matrixInfoDesc,
+                                                style: AppTypography.inter(
                                                 size: 13,
                                                 color: context.cTextSecondary,
                                               ).copyWith(height: 1.4),
@@ -140,26 +139,26 @@ class MatrixPage extends StatelessWidget {
                                             const SizedBox(height: 32),
                                             buildItem(
                                               context.cBrassBright,
-                                              'Agir (Urgent & Important)',
-                                              'En haut à gauche. Ce qui ne peut pas attendre. À traiter immédiatement.',
+                                              AppLocalizations.of(context)!.matrixInfoQ1Title,
+                                              AppLocalizations.of(context)!.matrixInfoQ1Desc,
                                             ),
                                             const SizedBox(height: 20),
                                             buildItem(
                                               context.cBrass,
-                                              'Planifier (Important, Non urgent)',
-                                              'En haut à droite. Le vrai travail de fond, celui qui fait avancer vos objectifs.',
+                                              AppLocalizations.of(context)!.matrixInfoQ2Title,
+                                              AppLocalizations.of(context)!.matrixInfoQ2Desc,
                                             ),
                                             const SizedBox(height: 20),
                                             buildItem(
                                               context.cClay,
-                                              'Déléguer (Urgent, Non important)',
-                                              'En bas à gauche. Les interruptions et fausses urgences. À confier si possible.',
+                                              AppLocalizations.of(context)!.matrixInfoQ3Title,
+                                              AppLocalizations.of(context)!.matrixInfoQ3Desc,
                                             ),
                                             const SizedBox(height: 20),
                                             buildItem(
                                               context.cTextTertiary,
-                                              'Laisser filer (Ni urgent ni important)',
-                                              'En bas à droite. Les distractions et le coût caché de votre temps.',
+                                              AppLocalizations.of(context)!.matrixInfoQ4Title,
+                                              AppLocalizations.of(context)!.matrixInfoQ4Desc,
                                             ),
                                             const SizedBox(height: 32),
                                             Align(
@@ -174,8 +173,8 @@ class MatrixPage extends StatelessWidget {
                                                   ),
                                                 ),
                                                 child: Text(
-                                                  'Compris',
-                                                  style: AppTypography.inter(
+                                                    AppLocalizations.of(context)!.understood,
+                                                    style: AppTypography.inter(
                                                     size: 14,
                                                     weight: FontWeight.w600,
                                                     color: context.cBrassBright,

@@ -2,7 +2,6 @@ import 'package:priorise/l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:priorise/core/models/enums.dart';
 import 'package:priorise/core/models/role_model.dart';
 import 'package:priorise/core/models/weekly_plan_model.dart';
 import 'package:priorise/core/tokens/app_colors.dart';
@@ -13,7 +12,7 @@ import '../today_cubit.dart';
 import 'today_fab.dart';
 
 class TodayFocusCard extends StatelessWidget {
-  const TodayFocusCard({required this.state});
+  const TodayFocusCard({super.key, required this.state});
 
   final TodayLoaded state;
 
@@ -83,11 +82,11 @@ class TodayFocusCard extends StatelessWidget {
                 backgroundColor: context.cSurfaceRaised,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
                 title: Text(
-                  'Supprimer la tâche ?',
+                  AppLocalizations.of(context)!.deleteTaskTitle,
                   style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
                 ),
                 content: Text(
-                  'Êtes-vous sûr de vouloir supprimer "${task.title}" ?',
+                  AppLocalizations.of(context)!.deleteTaskDesc(task.title),
                   style: AppTypography.inter(size: 14, color: context.cTextSecondary),
                 ),
                 actions: [
@@ -97,7 +96,7 @@ class TodayFocusCard extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(true),
-                    child: Text('Supprimer', style: AppTypography.inter(color: context.cError, weight: FontWeight.w600)),
+                    child: Text(AppLocalizations.of(context)!.delete, style: AppTypography.inter(color: context.cError, weight: FontWeight.w600)),
                   ),
                 ],
               ),

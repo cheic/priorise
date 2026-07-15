@@ -6,6 +6,15 @@
   "skip": "Skip",
   "next": "Next",
   "start": "Get started",
+  "delete": "Delete",
+  "later": "Later",
+  "allow": "Allow",
+  "notifications": "Notifications",
+  "notificationPermissionText": "Priorise needs to send you notifications for gentle reminders (once a day max) and for your weekly planning session.\n\nDo you allow the app to send you notifications?",
+  "month1": "1 month",
+  "months3": "3 months",
+  "months6": "6 months",
+  "year1": "1 year",
 
   "navToday": "Today",
   "navRoles": "Roles",
@@ -62,6 +71,7 @@
   "connectionSuccess": "Connection successful!",
   "enterApiKey": "Please enter an API key.",
   "securityNote": "Your key is stored only on this device. Nothing is sent to a Priorise server — your requests go directly from your phone to your chosen provider.",
+  "providerChangedMsg": "Provider changed. Don't forget to enter your new API key.",
   "themeAuto": "Auto Theme",
   "themeLight": "Light Theme",
   "themeDark": "Dark Theme",
@@ -96,6 +106,59 @@
   "synthesize": "Synthesize with AI",
   "whatWorked": "What worked",
   "whatSlipped": "What slipped",
+
+  "quickCapture": "Quick capture",
+  "quickCaptureHint": "What's on your mind?",
+  "add": "Add",
+
+  "captureTask": "Capture task",
+  "editTask": "Edit task",
+  "whatLabel": "What",
+  "taskHint": "E.g. Call the plumber",
+  "roleLabel": "Role",
+  "noRolesDefined": "No roles defined yet.\nGo to the Roles tab to create one before adding a task.",
+  "priorityMatrixLabel": "Priority (Matrix)",
+  "selectPriority": "Select a priority",
+  "priorityStrategic": "Strategic / To plan",
+  "priorityUrgent": "Urgent and Important",
+  "priorityDelegate": "Distraction / To delegate",
+  "priorityEliminate": "Useless / To eliminate",
+  "taskAdded": "Task added to your day",
+  "taskUpdated": "Task updated",
+
+  "deleteRoleTitle": "Delete role?",
+  "deleteRoleDesc": "Are you sure you want to delete \"{roleName}\"?",
+  "@deleteRoleDesc": {
+    "placeholders": {
+      "roleName": { "type": "String" }
+    }
+  },
+  "deleteTaskTitle": "Delete task?",
+  "deleteTaskDesc": "Are you sure you want to delete \"{taskName}\"?",
+  "@deleteTaskDesc": {
+    "placeholders": {
+      "taskName": { "type": "String" }
+    }
+  },
+
+  "matrixInfoTitle": "Eisenhower Matrix",
+  "matrixInfoDesc": "A simple method to visualize where your attention really goes.",
+  "matrixInfoQ1Title": "Do (Urgent & Important)",
+  "matrixInfoQ1Desc": "Top left. What cannot wait. To be handled immediately.",
+  "matrixInfoQ2Title": "Schedule (Important, Not urgent)",
+  "matrixInfoQ2Desc": "Top right. The real foundational work that advances your goals.",
+  "matrixInfoQ3Title": "Delegate (Urgent, Not important)",
+  "matrixInfoQ3Desc": "Bottom left. Interruptions and false emergencies. Delegate if possible.",
+  "matrixInfoQ4Title": "Drop (Not urgent, Not important)",
+  "matrixInfoQ4Desc": "Bottom right. Distractions and the hidden cost of your time.",
+  "understood": "Understood",
+
+  "planReview": "Schedule a review",
+  "planReviewDesc": "A mission is rarely reviewed, but deliberately so. Choose a deadline — you'll receive a one-time reminder, not a recurring notification.",
+  "inTime": "IN",
+  
+  "iconLabel": "Icon",
+  "colorLabel": "Color",
 
   "monday": "Monday",
   "tuesday": "Tuesday",

@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:isar/isar.dart';
 import '../../../core/models/role_model.dart';
 import '../../../core/models/task_model.dart';
 import '../../../core/models/weekly_plan_model.dart';
+import '../../../domain/usecases/task_usecases.dart';
 import '../../../core/services/widget_service.dart';
+import '../../../domain/usecases/role_usecases.dart';
+import '../../../domain/usecases/plan_usecases.dart';
 
 // ── State ──────────────────────────────────────────────────────────────────
 
@@ -54,32 +56,31 @@ class TodayError extends TodayState {
 // ── Cubit ──────────────────────────────────────────────────────────────────
 
 class TodayCubit extends Cubit<TodayState> {
-  TodayCubit(this.isar) : super(TodayLoading()) {
+  TodayCubit({
+    required this.getTodayTasks,
+    required this.getAllRoles,
+    required this.getCurrentPlan,
+    required this.toggleTaskUseCase,
+    required this.addTaskUseCase,
+    required this.updateTaskUseCase,
+    required this.deleteTaskUseCase,
+  }) : super(TodayLoading()) {
     _load();
   }
 
-  final Isar isar;
+  final GetTodayTasksUseCase getTodayTasks;
+  final GetAllRolesUseCase getAllRoles;
+  final GetCurrentPlanUseCase getCurrentPlan;
+  final ToggleTaskUseCase toggleTaskUseCase;
+  final AddTaskUseCase addTaskUseCase;
+  final UpdateTaskUseCase updateTaskUseCase;
+  final DeleteTaskUseCase deleteTaskUseCase;
 
   Future<void> _load() async {
     try {
-      final now = DateTime.now();
-      
-      // We consider tasks that are undone OR done today.
-      final startOfDay = DateTime(now.year, now.month, now.day);
-      final endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
-
-      final roles = await isar.lifeRoles.where().findAll();
-      
-      // All undone tasks or tasks done today.
-      final tasks = await isar.tasks.where()
-          .filter()
-          .doneEqualTo(false)
-          .or()
-          .doneAtBetween(startOfDay, endOfDay)
-          .findAll();
-          
-      // Find current weekly plan to get big rocks.
-      final currentPlan = await isar.weeklyPlans.where().sortByWeekStartDesc().findFirst();
+      final roles = await getAllRoles();
+      final tasks = await getTodayTasks();
+      final currentPlan = await getCurrentPlan();
 
       emit(TodayLoaded(
         roles: roles,
@@ -88,7 +89,7 @@ class TodayCubit extends Cubit<TodayState> {
         currentPlan: currentPlan,
       ));
     } catch (e) {
-      emit(TodayError("Erreur lors du chargement des tâches : $e"));
+      emit(TodayError("Erreur lors du chargement : $e"));
     }
   }
 
@@ -103,76 +104,27 @@ class TodayCubit extends Cubit<TodayState> {
   }
 
   Future<void> toggleTask(int taskId) async {
-    final current = state;
-    if (current is! TodayLoaded) return;
-
-    final task = await isar.tasks.get(taskId);
-    if (task == null) return;
-
-    task.done = !task.done;
-    if (task.done) {
-      task.doneAt = DateTime.now();
-    } else {
-      task.doneAt = null;
-    }
-
-    await isar.writeTxn(() async {
-      await isar.tasks.put(task);
-    });
-
+    await toggleTaskUseCase(taskId);
+    WidgetService.updateAllWidgets().catchError((_) {});
     _load();
-    WidgetService.updateAllWidgets();
   }
 
   Future<void> addTask(String title, int roleId, {bool important = false, bool urgent = false}) async {
-    final current = state;
-    if (current is! TodayLoaded) return;
-    
-    final newTask = Task()
-      ..title = title
-      ..roleId = roleId
-      ..important = important
-      ..urgent = urgent
-      ..weekStart = DateTime.now();
-
-    await isar.writeTxn(() async {
-      await isar.tasks.put(newTask);
-    });
-
+    await addTaskUseCase(title, roleId, important: important, urgent: urgent);
+    WidgetService.updateAllWidgets().catchError((_) {});
     _load();
-    WidgetService.updateAllWidgets();
   }
 
   Future<void> updateTask(int taskId, String title, int roleId, {bool important = false, bool urgent = false}) async {
-    final current = state;
-    if (current is! TodayLoaded) return;
-    
-    final task = await isar.tasks.get(taskId);
-    if (task == null) return;
-    
-    task.title = title;
-    task.roleId = roleId;
-    task.important = important;
-    task.urgent = urgent;
-
-    await isar.writeTxn(() async {
-      await isar.tasks.put(task);
-    });
-
+    await updateTaskUseCase(taskId, title, roleId, important: important, urgent: urgent);
+    WidgetService.updateAllWidgets().catchError((_) {});
     _load();
-    WidgetService.updateAllWidgets();
   }
 
   Future<void> deleteTask(int taskId) async {
-    final current = state;
-    if (current is! TodayLoaded) return;
-    
-    await isar.writeTxn(() async {
-      await isar.tasks.delete(taskId);
-    });
-
+    await deleteTaskUseCase(taskId);
+    WidgetService.updateAllWidgets().catchError((_) {});
     _load();
-    WidgetService.updateAllWidgets();
   }
 
   Future<void> refresh() => _load();

@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/services/database_service.dart';
 import '../../../core/models/app_settings_model.dart';
 import '../../../core/di/injection.dart';
 import '../../../core/services/ai_service.dart';
+import '../../../domain/usecases/settings_usecases.dart';
 
 class SettingsState {
   final AppSettings? settings;
@@ -19,27 +19,19 @@ class SettingsState {
 }
 
 class SettingsCubit extends Cubit<SettingsState> {
-  final DatabaseService _db;
+  final GetSettingsUseCase getSettingsUseCase;
+  final SaveSettingsUseCase saveSettingsUseCase;
 
-  SettingsCubit() : _db = getIt<DatabaseService>(), super(const SettingsState()) {
+  SettingsCubit({
+    required this.getSettingsUseCase,
+    required this.saveSettingsUseCase,
+  }) : super(const SettingsState()) {
     _initSettings();
   }
 
   Future<void> _initSettings() async {
-    final settings = await _db.isar.appSettings.get(AppSettings.singletonId);
-    if (settings != null) {
-      emit(state.copyWith(settings: settings));
-    } else {
-      final newSettings = AppSettings()
-        ..id = AppSettings.singletonId
-        ..gentleRemindersEnabled = false
-        ..aiSuggestionsEnabled = false;
-      
-      await _db.isar.writeTxn(() async {
-        await _db.isar.appSettings.put(newSettings);
-      });
-      emit(state.copyWith(settings: newSettings));
-    }
+    final settings = await getSettingsUseCase();
+    emit(state.copyWith(settings: settings));
   }
 
   AppSettings _cloneSettings(AppSettings current) {
@@ -59,9 +51,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     if (current == null) return;
 
     final newSettings = _cloneSettings(current)..gentleRemindersEnabled = enabled;
-    await _db.isar.writeTxn(() async {
-      await _db.isar.appSettings.put(newSettings);
-    });
+    await saveSettingsUseCase(newSettings);
     emit(state.copyWith(settings: newSettings));
   }
 
@@ -70,20 +60,19 @@ class SettingsCubit extends Cubit<SettingsState> {
     if (current == null) return;
 
     final newSettings = _cloneSettings(current)..aiSuggestionsEnabled = enabled;
-    await _db.isar.writeTxn(() async {
-      await _db.isar.appSettings.put(newSettings);
-    });
+    await saveSettingsUseCase(newSettings);
     emit(state.copyWith(settings: newSettings));
   }
 
   Future<void> updateAiProvider(String provider) async {
     final current = state.settings;
     if (current == null) return;
+    if (current.aiProvider == provider) return;
 
-    final newSettings = _cloneSettings(current)..aiProvider = provider;
-    await _db.isar.writeTxn(() async {
-      await _db.isar.appSettings.put(newSettings);
-    });
+    final newSettings = _cloneSettings(current)
+      ..aiProvider = provider
+      ..aiApiKey = '';
+    await saveSettingsUseCase(newSettings);
     emit(state.copyWith(settings: newSettings));
   }
 
@@ -92,9 +81,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     if (current == null) return;
 
     final newSettings = _cloneSettings(current)..aiApiKey = apiKey;
-    await _db.isar.writeTxn(() async {
-      await _db.isar.appSettings.put(newSettings);
-    });
+    await saveSettingsUseCase(newSettings);
     emit(state.copyWith(settings: newSettings));
   }
 

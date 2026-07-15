@@ -10,7 +10,6 @@ import '../models/role_model.dart';
 /// Service qui synchronise les données Isar vers les widgets Android
 /// via home_widget (SharedPreferences bridge).
 class WidgetService {
-  static const _androidGroupId = 'sn.smapp.priorise.widgets';
 
   /// Met à jour TOUS les widgets d'un coup.
   /// Appelé après chaque modification de tâche/rôle.

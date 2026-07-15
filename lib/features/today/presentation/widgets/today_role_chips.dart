@@ -10,7 +10,7 @@ import '../today_cubit.dart';
 import '../../../shell/presentation/shell_cubit.dart';
 
 class TodayRoleChipsRow extends StatelessWidget {
-  const TodayRoleChipsRow({required this.state, required this.hPad});
+  const TodayRoleChipsRow({super.key, required this.state, required this.hPad});
 
   final TodayLoaded state;
   final double hPad;

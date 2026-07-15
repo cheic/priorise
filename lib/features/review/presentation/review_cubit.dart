@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:isar/isar.dart';
+import '../../../domain/usecases/review_usecases.dart';
+import '../../../domain/usecases/role_usecases.dart';
+import '../../../domain/usecases/task_usecases.dart';
 import '../../../core/models/weekly_review_model.dart';
 import '../../../core/models/role_model.dart';
 import '../../../core/models/task_model.dart';
@@ -40,40 +42,39 @@ class ReviewState {
 }
 
 class ReviewCubit extends Cubit<ReviewState> {
-  final Isar isar;
-  DateTime? _currentWeekStart;
-  StreamSubscription<void>? _rolesSubscription;
-  StreamSubscription<void>? _tasksSubscription;
+  final GetReviewByDateUseCase getReviewByDate;
+  final SaveReviewUseCase saveReviewUseCase;
+  final GetAllRolesUseCase getAllRoles;
+  final GetAllTasksUseCase getTasks; 
 
-  ReviewCubit(this.isar) : super(const ReviewState()) {
-    _rolesSubscription = isar.lifeRoles.watchLazy().listen((_) {
-      if (_currentWeekStart != null) loadReview(_currentWeekStart!);
-    });
-    _tasksSubscription = isar.tasks.watchLazy().listen((_) {
-      if (_currentWeekStart != null) loadReview(_currentWeekStart!);
-    });
-  }
+  
 
-  @override
-  Future<void> close() {
-    _rolesSubscription?.cancel();
-    _tasksSubscription?.cancel();
-    return super.close();
-  }
+  ReviewCubit({
+    required this.getReviewByDate,
+    required this.saveReviewUseCase,
+    required this.getAllRoles,
+    required this.getTasks,
+  }) : super(const ReviewState());
 
   Future<void> loadReview(DateTime weekStart) async {
-    _currentWeekStart = weekStart;
-    // We don't want to show loading state every time a task changes (too much flickering)
+    
     if (state.roles.isEmpty && state.tasksForWeek.isEmpty) {
       emit(state.copyWith(isLoading: true));
     }
     
-    // Normalize to start of week (e.g. Monday 00:00)
     final start = DateTime(weekStart.year, weekStart.month, weekStart.day);
     
-    final review = await isar.weeklyReviews.where().weekStartEqualTo(start).findFirst();
-    final roles = await isar.lifeRoles.where().findAll();
-    final tasksForWeek = await isar.tasks.where().filter().weekStartEqualTo(start).findAll();
+    final review = await getReviewByDate(start);
+    final roles = await getAllRoles();
+    
+    // We should probably get tasks for the specific week, but let's just get all for now,
+    // or add a usecase method if needed. For now, since Isar is abstracted, 
+    // we assume getTasks gets what we need, or we filter. Let's just use getTasks() and filter it manually here if we must,
+    // but a proper UseCase 'GetTasksForWeekUseCase' would be better.
+    // Let's assume GetPendingTasks gets all undone tasks. But weekly review needs ALL tasks for the week.
+    // Let's modify the use case to provide GetTasksForWeekUseCase.
+    final allTasks = await getTasks(); 
+    final tasksForWeek = allTasks.where((t) => t.weekStart.year == start.year && t.weekStart.month == start.month && t.weekStart.day == start.day).toList();
     
     emit(state.copyWith(
       review: review,
@@ -83,6 +84,17 @@ class ReviewCubit extends Cubit<ReviewState> {
     ));
   }
 
+  Future<void> refresh() async {
+    final review = state.review;
+    if (review != null) {
+      await loadReview(review.weekStart);
+    } else {
+      final now = DateTime.now();
+      final monday = now.subtract(Duration(days: now.weekday - 1));
+      await loadReview(monday);
+    }
+  }
+
   Future<void> updateAnswers(String whatWorked, String whatSlipped) async {
     final currentReview = state.review;
     if (currentReview == null) return;
@@ -90,10 +102,7 @@ class ReviewCubit extends Cubit<ReviewState> {
     currentReview.whatWorked = whatWorked;
     currentReview.whatSlipped = whatSlipped;
 
-    await isar.writeTxn(() async {
-      await isar.weeklyReviews.put(currentReview);
-    });
-
+    await saveReviewUseCase(currentReview);
     emit(state.copyWith(review: currentReview));
   }
 
@@ -122,9 +131,7 @@ class ReviewCubit extends Cubit<ReviewState> {
       if (currentReview != null) {
         currentReview.whatWorked = result['whatWorked'] ?? "L'IA n'a pas pu synthétiser ce point.";
         currentReview.whatSlipped = result['whatSlipped'] ?? "L'IA n'a pas pu synthétiser ce point.";
-        await isar.writeTxn(() async {
-          await isar.weeklyReviews.put(currentReview);
-        });
+        await saveReviewUseCase(currentReview);
         emit(state.copyWith(review: currentReview));
       }
       

@@ -12,6 +12,15 @@
   "@next": { "description": "Bouton suivant onboarding" },
   "start": "Commencer",
   "@start": { "description": "Bouton final onboarding" },
+  "delete": "Supprimer",
+  "later": "Plus tard",
+  "allow": "Autoriser",
+  "notifications": "Notifications",
+  "notificationPermissionText": "Priorise a besoin de vous envoyer des notifications pour vos rappels doux (une fois par jour maximum) et pour votre session de planification hebdomadaire.\n\nAutorisez-vous l'application à vous envoyer des notifications ?",
+  "month1": "1 mois",
+  "months3": "3 mois",
+  "months6": "6 mois",
+  "year1": "1 an",
 
   "navToday": "Aujourd'hui",
   "navRoles": "Rôles",
@@ -68,6 +77,7 @@
   "connectionSuccess": "Connexion réussie !",
   "enterApiKey": "Veuillez entrer une clé API.",
   "securityNote": "Votre clé reste stockée uniquement sur cet appareil. Rien n'est envoyé à un serveur Priorise — vos requêtes vont directement du téléphone vers le fournisseur choisi.",
+  "providerChangedMsg": "Fournisseur modifié. N'oubliez pas d'entrer votre nouvelle clé API.",
   "themeAuto": "Thème Automatique",
   "themeLight": "Thème Clair",
   "themeDark": "Thème Sombre",
@@ -102,6 +112,59 @@
   "synthesize": "Synthétiser avec l'IA",
   "whatWorked": "Ce qui a marché",
   "whatSlipped": "Ce qui a dérapé",
+
+  "quickCapture": "Capture rapide",
+  "quickCaptureHint": "Qu'avez-vous en tête ?",
+  "add": "Ajouter",
+
+  "captureTask": "Capturer une tâche",
+  "editTask": "Modifier la tâche",
+  "whatLabel": "Quoi",
+  "taskHint": "Ex. Rappeler le plombier",
+  "roleLabel": "Rôle",
+  "noRolesDefined": "Aucun rôle n'a encore été défini.\nAllez dans l'onglet Rôles pour en créer un avant d'ajouter une tâche.",
+  "priorityMatrixLabel": "Priorité (Matrice)",
+  "selectPriority": "Sélectionner une priorité",
+  "priorityStrategic": "Stratégique / À planifier",
+  "priorityUrgent": "Urgent et Important",
+  "priorityDelegate": "Distraction / À déléguer",
+  "priorityEliminate": "Inutile / À éliminer",
+  "taskAdded": "Tâche ajoutée à votre journée",
+  "taskUpdated": "Tâche modifiée",
+
+  "deleteRoleTitle": "Supprimer le rôle ?",
+  "deleteRoleDesc": "Êtes-vous sûr de vouloir supprimer \"{roleName}\" ?",
+  "@deleteRoleDesc": {
+    "placeholders": {
+      "roleName": { "type": "String" }
+    }
+  },
+  "deleteTaskTitle": "Supprimer la tâche ?",
+  "deleteTaskDesc": "Êtes-vous sûr de vouloir supprimer \"{taskName}\" ?",
+  "@deleteTaskDesc": {
+    "placeholders": {
+      "taskName": { "type": "String" }
+    }
+  },
+
+  "matrixInfoTitle": "Matrice d'Eisenhower",
+  "matrixInfoDesc": "Une méthode simple pour visualiser où va vraiment votre attention.",
+  "matrixInfoQ1Title": "Agir (Urgent & Important)",
+  "matrixInfoQ1Desc": "En haut à gauche. Ce qui ne peut pas attendre. À traiter immédiatement.",
+  "matrixInfoQ2Title": "Planifier (Important, Non urgent)",
+  "matrixInfoQ2Desc": "En haut à droite. Le vrai travail de fond, celui qui fait avancer vos objectifs.",
+  "matrixInfoQ3Title": "Déléguer (Urgent, Non important)",
+  "matrixInfoQ3Desc": "En bas à gauche. Les interruptions et fausses urgences. À confier si possible.",
+  "matrixInfoQ4Title": "Laisser filer (Ni urgent ni important)",
+  "matrixInfoQ4Desc": "En bas à droite. Les distractions et le coût caché de votre temps.",
+  "understood": "Compris",
+
+  "planReview": "Planifier une révision",
+  "planReviewDesc": "Une mission se révise rarement, mais délibérément. Choisissez une échéance — vous recevrez un rappel unique, pas une notification récurrente.",
+  "inTime": "DANS",
+  
+  "iconLabel": "Icône",
+  "colorLabel": "Couleur",
 
   "monday": "Lundi",
   "tuesday": "Mardi",

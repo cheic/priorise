@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:isar/isar.dart';
+import '../../../domain/usecases/role_usecases.dart';
+import '../../../domain/usecases/task_usecases.dart';
 import '../../../core/models/role_model.dart';
 import '../../../core/models/task_model.dart';
 import '../../../core/services/widget_service.dart';
@@ -30,24 +31,30 @@ class PlanState {
 }
 
 class PlanCubit extends Cubit<PlanState> {
-  final Isar isar;
+  final GetAllRolesUseCase getAllRoles;
+  final GetAllTasksUseCase getTasks;
+  final AddTaskUseCase addTask;
+  final UpdateTaskUseCase updateTask;
+  final DeleteTaskUseCase deleteTask;
   Timer? _debounceTimer;
 
-  PlanCubit(this.isar) : super(const PlanState()) {
-    _load();
-  }
+  PlanCubit({
+    required this.getAllRoles,
+    required this.getTasks,
+    required this.addTask,
+    required this.updateTask,
+    required this.deleteTask,
+  }) : super(const PlanState());
 
-  Future<void> _load() async {
+  Future<void> loadPlan() async {
     emit(state.copyWith(isLoading: true));
 
-    final roles = await isar.lifeRoles.where().findAll();
-    
-    // Find one strategic task (important && !urgent && !done) per role for the current week
-    // We'll just fetch all not done tasks and pick the first strategic one per role.
-    final tasks = await isar.tasks.where().filter().doneEqualTo(false).importantEqualTo(true).urgentEqualTo(false).findAll();
+    final roles = await getAllRoles();
+    final tasks = await getTasks();
+    final strategicTasks = tasks.where((t) => t.important == true && t.urgent == false && t.done == false);
     
     final Map<int, Task> roleTasks = {};
-    for (final task in tasks) {
+    for (final task in strategicTasks) {
       if (!roleTasks.containsKey(task.roleId)) {
         roleTasks[task.roleId] = task;
       }
@@ -71,29 +78,19 @@ class PlanCubit extends Cubit<PlanState> {
     final textTrimmed = text.trim();
     final existingTask = state.roleTasks[roleId];
 
-    await isar.writeTxn(() async {
-      if (textTrimmed.isEmpty) {
-        if (existingTask != null) {
-          await isar.tasks.delete(existingTask.id);
-        }
-      } else {
-        if (existingTask != null) {
-          existingTask.title = textTrimmed;
-          await isar.tasks.put(existingTask);
-        } else {
-          final newTask = Task()
-            ..title = textTrimmed
-            ..roleId = roleId
-            ..important = true
-            ..urgent = false
-            ..done = false
-            ..weekStart = DateTime.now(); // or week start logic
-          await isar.tasks.put(newTask);
-        }
+    if (textTrimmed.isEmpty) {
+      if (existingTask != null) {
+        await deleteTask(existingTask.id);
       }
-    });
+    } else {
+      if (existingTask != null) {
+        await updateTask(existingTask.id, textTrimmed, existingTask.roleId, important: true, urgent: false);
+      } else {
+        await addTask(textTrimmed, roleId, important: true, urgent: false);
+      }
+    }
 
-    await _load();
+    await loadPlan();
     WidgetService.updateAllWidgets();
   }
 

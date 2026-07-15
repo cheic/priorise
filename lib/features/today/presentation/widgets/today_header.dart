@@ -16,10 +16,9 @@ import '../../../../shared/utils/slide_up_route.dart';
 import '../../../plan/presentation/plan_screen.dart';
 import '../../../plan/presentation/plan_cubit.dart';
 import '../../../../core/di/injection.dart';
-import '../../../../core/services/database_service.dart';
 
 class TodayHeader extends StatelessWidget {
-  const TodayHeader({required this.state, required this.hPad});
+  const TodayHeader({super.key, required this.state, required this.hPad});
 
   final TodayLoaded state;
   final double hPad;
@@ -59,7 +58,7 @@ class TodayHeader extends StatelessWidget {
 }
 
 class TodayMissionLink extends StatelessWidget {
-  const TodayMissionLink();
+  const TodayMissionLink({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +95,7 @@ class TodayMissionLink extends StatelessWidget {
 }
 
 class TodayRitualBanner extends StatelessWidget {
-  const TodayRitualBanner();
+  const TodayRitualBanner({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +107,13 @@ class TodayRitualBanner extends StatelessWidget {
             context,
             SlideUpRoute<String>(
               page: BlocProvider(
-                create: (_) => PlanCubit(getIt<DatabaseService>().isar),
+                create: (_) => PlanCubit(
+                  getAllRoles: getIt(),
+                  getTasks: getIt(),
+                  addTask: getIt(),
+                  updateTask: getIt(),
+                  deleteTask: getIt(),
+                )..loadPlan(),
                 child: const PlanScreen(),
               ),
             ),

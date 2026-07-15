@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../core/tokens/app_colors.dart';
 
 class FadeIndexedStack extends StatefulWidget {
   final int index;
@@ -7,11 +6,11 @@ class FadeIndexedStack extends StatefulWidget {
   final Duration duration;
 
   const FadeIndexedStack({
-    Key? key,
+    super.key,
     required this.index,
     required this.children,
     this.duration = const Duration(milliseconds: 300),
-  }) : super(key: key);
+  });
 
   @override
   FadeIndexedStackState createState() => FadeIndexedStackState();

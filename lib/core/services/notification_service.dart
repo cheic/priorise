@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:priorise/l10n/app_localizations.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:autostart_settings/autostart_settings.dart';
 
@@ -116,14 +117,14 @@ class NotificationService {
         return AlertDialog(
           backgroundColor: context.cSurfaceRaised,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
-          title: Text('Notifications', style: AppTypography.displaySmall(color: context.cTextPrimary)),
+          title: Text(AppLocalizations.of(context)!.notifications, style: AppTypography.displaySmall(color: context.cTextPrimary)),
           content: Text(
-            'Priorise a besoin de vous envoyer des notifications pour vos rappels doux (une fois par jour maximum) et pour votre session de planification hebdomadaire.\n\nAutorisez-vous l\'application à vous envoyer des notifications ?',
+            AppLocalizations.of(context)!.notificationPermissionText,
             style: AppTypography.bodySmall(color: context.cTextSecondary),
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Plus tard', style: AppTypography.labelMedium(color: context.cTextTertiary)),
+              child: Text(AppLocalizations.of(context)!.later, style: AppTypography.labelMedium(color: context.cTextTertiary)),
               onPressed: () => Navigator.of(context).pop(false),
             ),
             ElevatedButton(
@@ -132,7 +133,7 @@ class NotificationService {
                 foregroundColor: context.cInk,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusS)),
               ),
-              child: Text('Autoriser', style: AppTypography.labelMedium()),
+              child: Text(AppLocalizations.of(context)!.allow, style: AppTypography.labelMedium()),
               onPressed: () => Navigator.of(context).pop(true),
             ),
           ],

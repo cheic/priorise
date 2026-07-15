@@ -27,6 +27,34 @@ class AppLocalizationsFr extends AppLocalizations {
   String get start => 'Commencer';
 
   @override
+  String get delete => 'Supprimer';
+
+  @override
+  String get later => 'Plus tard';
+
+  @override
+  String get allow => 'Autoriser';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get notificationPermissionText =>
+      'Priorise a besoin de vous envoyer des notifications pour vos rappels doux (une fois par jour maximum) et pour votre session de planification hebdomadaire.\n\nAutorisez-vous l\'application à vous envoyer des notifications ?';
+
+  @override
+  String get month1 => '1 mois';
+
+  @override
+  String get months3 => '3 mois';
+
+  @override
+  String get months6 => '6 mois';
+
+  @override
+  String get year1 => '1 an';
+
+  @override
   String get navToday => 'Aujourd\'hui';
 
   @override
@@ -187,6 +215,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Votre clé reste stockée uniquement sur cet appareil. Rien n\'est envoyé à un serveur Priorise — vos requêtes vont directement du téléphone vers le fournisseur choisi.';
 
   @override
+  String get providerChangedMsg =>
+      'Fournisseur modifié. N\'oubliez pas d\'entrer votre nouvelle clé API.';
+
+  @override
   String get themeAuto => 'Thème Automatique';
 
   @override
@@ -275,6 +307,128 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get whatSlipped => 'Ce qui a dérapé';
+
+  @override
+  String get quickCapture => 'Capture rapide';
+
+  @override
+  String get quickCaptureHint => 'Qu\'avez-vous en tête ?';
+
+  @override
+  String get add => 'Ajouter';
+
+  @override
+  String get captureTask => 'Capturer une tâche';
+
+  @override
+  String get editTask => 'Modifier la tâche';
+
+  @override
+  String get whatLabel => 'Quoi';
+
+  @override
+  String get taskHint => 'Ex. Rappeler le plombier';
+
+  @override
+  String get roleLabel => 'Rôle';
+
+  @override
+  String get noRolesDefined =>
+      'Aucun rôle n\'a encore été défini.\nAllez dans l\'onglet Rôles pour en créer un avant d\'ajouter une tâche.';
+
+  @override
+  String get priorityMatrixLabel => 'Priorité (Matrice)';
+
+  @override
+  String get selectPriority => 'Sélectionner une priorité';
+
+  @override
+  String get priorityStrategic => 'Stratégique / À planifier';
+
+  @override
+  String get priorityUrgent => 'Urgent et Important';
+
+  @override
+  String get priorityDelegate => 'Distraction / À déléguer';
+
+  @override
+  String get priorityEliminate => 'Inutile / À éliminer';
+
+  @override
+  String get taskAdded => 'Tâche ajoutée à votre journée';
+
+  @override
+  String get taskUpdated => 'Tâche modifiée';
+
+  @override
+  String get deleteRoleTitle => 'Supprimer le rôle ?';
+
+  @override
+  String deleteRoleDesc(String roleName) {
+    return 'Êtes-vous sûr de vouloir supprimer \"$roleName\" ?';
+  }
+
+  @override
+  String get deleteTaskTitle => 'Supprimer la tâche ?';
+
+  @override
+  String deleteTaskDesc(String taskName) {
+    return 'Êtes-vous sûr de vouloir supprimer \"$taskName\" ?';
+  }
+
+  @override
+  String get matrixInfoTitle => 'Matrice d\'Eisenhower';
+
+  @override
+  String get matrixInfoDesc =>
+      'Une méthode simple pour visualiser où va vraiment votre attention.';
+
+  @override
+  String get matrixInfoQ1Title => 'Agir (Urgent & Important)';
+
+  @override
+  String get matrixInfoQ1Desc =>
+      'En haut à gauche. Ce qui ne peut pas attendre. À traiter immédiatement.';
+
+  @override
+  String get matrixInfoQ2Title => 'Planifier (Important, Non urgent)';
+
+  @override
+  String get matrixInfoQ2Desc =>
+      'En haut à droite. Le vrai travail de fond, celui qui fait avancer vos objectifs.';
+
+  @override
+  String get matrixInfoQ3Title => 'Déléguer (Urgent, Non important)';
+
+  @override
+  String get matrixInfoQ3Desc =>
+      'En bas à gauche. Les interruptions et fausses urgences. À confier si possible.';
+
+  @override
+  String get matrixInfoQ4Title => 'Laisser filer (Ni urgent ni important)';
+
+  @override
+  String get matrixInfoQ4Desc =>
+      'En bas à droite. Les distractions et le coût caché de votre temps.';
+
+  @override
+  String get understood => 'Compris';
+
+  @override
+  String get planReview => 'Planifier une révision';
+
+  @override
+  String get planReviewDesc =>
+      'Une mission se révise rarement, mais délibérément. Choisissez une échéance — vous recevrez un rappel unique, pas une notification récurrente.';
+
+  @override
+  String get inTime => 'DANS';
+
+  @override
+  String get iconLabel => 'Icône';
+
+  @override
+  String get colorLabel => 'Couleur';
 
   @override
   String get monday => 'Lundi';

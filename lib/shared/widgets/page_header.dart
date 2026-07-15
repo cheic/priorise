@@ -70,7 +70,7 @@ class PageHeader extends StatelessWidget {
                   height: 1.15,
                 ),
               ),
-              if (trailing != null) trailing!,
+              ?trailing,
             ],
           ),
         ],

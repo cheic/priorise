@@ -6,10 +6,8 @@ import '../../../core/tokens/app_colors.dart';
 import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
 import '../../../core/widgets/app_toast.dart';
-import '../../shell/presentation/shell_cubit.dart';
 import '../../settings/presentation/settings_cubit.dart';
 import '../../settings/presentation/settings_screen.dart';
-import '../../../shared/utils/slide_up_route.dart';
 import '../../../core/models/enums.dart';
 import 'review_cubit.dart';
 

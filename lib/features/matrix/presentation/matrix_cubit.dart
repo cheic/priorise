@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:isar/isar.dart';
+import '../../../domain/usecases/task_usecases.dart';
 import '../../../core/models/task_model.dart';
 
 class MatrixState {
@@ -37,16 +37,20 @@ class MatrixState {
 }
 
 class MatrixCubit extends Cubit<MatrixState> {
-  final Isar isar;
+  final GetPendingTasksUseCase getPendingTasks;
+  final WatchTasksUseCase watchTasksUseCase;
   StreamSubscription<void>? _tasksSubscription;
 
-  MatrixCubit(this.isar) : super(const MatrixState()) {
+  MatrixCubit({
+    required this.getPendingTasks,
+    required this.watchTasksUseCase,
+  }) : super(const MatrixState()) {
     loadTasks();
     _startWatchingTasks();
   }
 
   void _startWatchingTasks() {
-    _tasksSubscription = isar.tasks.watchLazy().listen((_) {
+    _tasksSubscription = watchTasksUseCase().listen((_) {
       loadTasks();
     });
   }
@@ -60,9 +64,7 @@ class MatrixCubit extends Cubit<MatrixState> {
   Future<void> loadTasks() async {
     emit(state.copyWith(isLoading: true));
     
-    // We only want active (not done) tasks, maybe for the current week?
-    // Let's just fetch all not done tasks.
-    final tasks = await isar.tasks.where().filter().doneEqualTo(false).findAll();
+    final tasks = await getPendingTasks();
 
     final urgentImportant = <Task>[];
     final strategic = <Task>[];
