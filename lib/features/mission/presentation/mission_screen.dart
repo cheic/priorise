@@ -101,7 +101,7 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
               ),
               Expanded(
                 child: ListView(
-                  padding: EdgeInsets.fromLTRB(hPad, AppSpacing.xxl, hPad, AppSpacing.xxxxl),
+                  padding: EdgeInsets.fromLTRB(hPad, AppSpacing.xxl, hPad, AppSpacing.xxxxl + MediaQuery.paddingOf(context).bottom),
                   children: [
                     Text(
                       'VOTRE DÉCLARATION',

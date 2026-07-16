@@ -3,6 +3,7 @@ import 'package:priorise/l10n/app_localizations.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../../../core/tokens/app_colors.dart';
 import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
@@ -104,7 +105,7 @@ class SettingsPageState extends State<SettingsPage> {
                 child: ListView(
                   padding: EdgeInsets.only(
                     top: AppSpacing.xxl,
-                    bottom: AppSpacing.xxxxl,
+                    bottom: AppSpacing.xxxxl + MediaQuery.paddingOf(context).bottom,
                     left: hPad,
                     right: hPad,
                   ),
@@ -344,47 +345,85 @@ class SettingsPageState extends State<SettingsPage> {
                       ),
                       const SizedBox(height: AppSpacing.xxxxl),
 
-                      // ── Privacy note ──
-                      Container(
-                        padding: const EdgeInsets.all(AppSpacing.l),
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(AppSpacing.radiusM),
-                          border: Border.all(color: context.cBorder),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(
-                              Icons.shield_outlined,
-                              color: context.cTextSecondary,
-                              size: 20,
-                            ),
-                            const SizedBox(width: AppSpacing.m),
-                            Expanded(
-                              child: Text(
-                                AppLocalizations.of(context)!.securityNote,
-                                style: AppTypography.bodySmall(color: context.cTextSecondary),
+                        // ── Privacy note ──
+                        Container(
+                          padding: const EdgeInsets.all(AppSpacing.l),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+                            border: Border.all(color: context.cBorder),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.shield_outlined,
+                                color: context.cTextSecondary,
+                                size: 20,
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: AppSpacing.m),
+                              Expanded(
+                                child: Text(
+                                  AppLocalizations.of(context)!.securityNote,
+                                  style: AppTypography.bodySmall(color: context.cTextSecondary),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      
-                      const SizedBox(height: AppSpacing.xxxxl),
+                        
+                        const SizedBox(height: AppSpacing.xxxxl),
+                      ],
 
                       // ── À propos ──
                       SectionTitle(AppLocalizations.of(context)!.sectionAbout),
                       const SizedBox(height: AppSpacing.l),
                       
                       SettingClickableRow(
-                        label: AppLocalizations.of(context)!.privacyPolicy,
+                        label: AppLocalizations.of(context)!.userGuide,
                         sub: "",
+                        isCentered: true,
                         onTap: () {
                           showDialog(
                             context: context,
                             builder: (ctx) => AlertDialog(
                               backgroundColor: ctx.cSurfaceRaised,
+                              insetPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.l, vertical: AppSpacing.xxxxl),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+                                side: BorderSide(color: ctx.cBorderStrong),
+                              ),
+                              title: Text(
+                                AppLocalizations.of(ctx)!.userGuide,
+                                style: AppTypography.fraunces(size: 20, weight: 600, color: ctx.cTextPrimary),
+                              ),
+                              content: SingleChildScrollView(
+                                child: Text(
+                                  AppLocalizations.of(ctx)!.userGuideText,
+                                  style: AppTypography.bodyMedium(color: ctx.cTextSecondary),
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(ctx).pop(),
+                                  child: Text(AppLocalizations.of(ctx)!.understood, style: AppTypography.labelMedium(color: ctx.cBrassBright)),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      
+                      SettingClickableRow(
+                        label: AppLocalizations.of(context)!.privacyPolicy,
+                        sub: "",
+                        isCentered: true,
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              backgroundColor: ctx.cSurfaceRaised,
+                              insetPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.l, vertical: AppSpacing.xxxxl),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(AppSpacing.radiusM),
                                 side: BorderSide(color: ctx.cBorderStrong),
@@ -410,30 +449,72 @@ class SettingsPageState extends State<SettingsPage> {
                         },
                       ),
                       
+                      SettingClickableRow(
+                        label: AppLocalizations.of(context)!.termsOfService,
+                        sub: "",
+                        isCentered: true,
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              backgroundColor: ctx.cSurfaceRaised,
+                              insetPadding: const EdgeInsets.symmetric(horizontal: AppSpacing.l, vertical: AppSpacing.xxxxl),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+                                side: BorderSide(color: ctx.cBorderStrong),
+                              ),
+                              title: Text(
+                                AppLocalizations.of(ctx)!.termsOfService,
+                                style: AppTypography.fraunces(size: 20, weight: 600, color: ctx.cTextPrimary),
+                              ),
+                              content: SingleChildScrollView(
+                                child: Text(
+                                  AppLocalizations.of(ctx)!.termsOfServiceText,
+                                  style: AppTypography.bodyMedium(color: ctx.cTextSecondary),
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(ctx).pop(),
+                                  child: Text(AppLocalizations.of(ctx)!.understood, style: AppTypography.labelMedium(color: ctx.cBrassBright)),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      
                       // Version
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.l, vertical: AppSpacing.m),
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(AppSpacing.radiusM),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!.appVersion,
-                              style: AppTypography.labelLarge(color: context.cTextPrimary),
+                      FutureBuilder<PackageInfo>(
+                        future: PackageInfo.fromPlatform(),
+                        builder: (context, snapshot) {
+                          final version = snapshot.hasData
+                              ? '${snapshot.data!.version}+${snapshot.data!.buildNumber}'
+                              : '...';
+                          return Container(
+                            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.l, vertical: AppSpacing.m),
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(AppSpacing.radiusM),
                             ),
-                            Text(
-                              "0.1.0+1",
-                              style: AppTypography.mono(size: 13, weight: FontWeight.w500, color: context.cTextTertiary, letterSpacing: 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.appVersion,
+                                  style: AppTypography.labelLarge(color: context.cTextPrimary),
+                                ),
+                                Text(
+                                  version,
+                                  style: AppTypography.mono(size: 13, weight: FontWeight.w500, color: context.cTextTertiary, letterSpacing: 0),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       ),
                       
                       const SizedBox(height: AppSpacing.xxxxl),
-                    ],
                   ],
                 ),
               ),
@@ -798,10 +879,18 @@ class ThemeOptionCard extends StatelessWidget {
 }
 
 class SettingClickableRow extends StatelessWidget {
-  const SettingClickableRow({super.key, required this.label, required this.sub, required this.onTap});
   final String label;
   final String sub;
   final VoidCallback onTap;
+  final bool isCentered;
+
+  const SettingClickableRow({
+    super.key,
+    required this.label,
+    required this.sub,
+    required this.onTap,
+    this.isCentered = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -817,19 +906,38 @@ class SettingClickableRow extends StatelessWidget {
           border: Border.all(color: context.cBorder),
         ),
         child: Row(
+          mainAxisAlignment: isCentered ? MainAxisAlignment.center : MainAxisAlignment.start,
           children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(label, style: AppTypography.labelLarge(color: context.cTextPrimary)),
-                  const SizedBox(height: 2),
-                  Text(sub, style: AppTypography.bodySmall(color: context.cTextSecondary)),
-                ],
+            if (!isCentered)
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(label, style: AppTypography.labelLarge(color: context.cTextPrimary)),
+                    if (sub.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Text(sub, style: AppTypography.bodySmall(color: context.cTextSecondary)),
+                    ],
+                  ],
+                ),
+              )
+            else
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(label, textAlign: TextAlign.center, style: AppTypography.labelLarge(color: context.cTextPrimary)),
+                    if (sub.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Text(sub, textAlign: TextAlign.center, style: AppTypography.bodySmall(color: context.cTextSecondary)),
+                    ],
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(width: 12),
-            Icon(Icons.chevron_right, color: context.cTextTertiary),
+            if (!isCentered) ...[
+              const SizedBox(width: 12),
+              Icon(Icons.chevron_right, color: context.cTextTertiary),
+            ],
           ],
         ),
       ),
