@@ -59,9 +59,13 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
     );
   }
 
-  String _formatDate(DateTime d) {
-    const months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-    return "Modifiée le ${d.day} ${months[d.month - 1]} · prochaine révision programmée pour octobre";
+  String _formatDate(BuildContext context, DateTime d) {
+    final loc = AppLocalizations.of(context)!;
+    final mois = [
+      loc.january, loc.february, loc.march, loc.april, loc.may, loc.june,
+      loc.july, loc.august, loc.september, loc.october, loc.november, loc.december
+    ];
+    return loc.lastModified(d.day.toString(), mois[d.month - 1], loc.october);
   }
 
   @override
@@ -94,8 +98,8 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
           return Column(
             children: [
               PageHeader(
-                eyebrow: 'CE QUI VOUS GUIDE',
-                title: 'Mission',
+                eyebrow: AppLocalizations.of(context)!.missionEyebrow,
+                title: AppLocalizations.of(context)!.missionTitle,
                 horizontalPadding: hPad,
                 showBackButton: true,
               ),
@@ -104,7 +108,7 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
                   padding: EdgeInsets.fromLTRB(hPad, AppSpacing.xxl, hPad, AppSpacing.xxxxl + MediaQuery.paddingOf(context).bottom),
                   children: [
                     Text(
-                      'VOTRE DÉCLARATION',
+                      AppLocalizations.of(context)!.missionDeclaration,
                       style: AppTypography.mono(
                         size: 11,
                         color: context.cTextTertiary,
@@ -161,17 +165,17 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
                     
                     const SizedBox(height: AppSpacing.s),
                     Text(
-                      _formatDate(loadedState.lastEditedAt),
+                      _formatDate(context, loadedState.lastEditedAt),
                       style: AppTypography.inter(size: 10.5, color: context.cTextTertiary),
                     ),
                     const SizedBox(height: AppSpacing.xxl),
                     
                     // Dashed Hint Cards
-                    _DashedHint(text: 'Qui voulez-vous être, dans vos rôles les plus importants ?'),
+                    _DashedHint(text: AppLocalizations.of(context)!.missionHint1),
                     const SizedBox(height: AppSpacing.m),
-                    _DashedHint(text: 'Qu\'est-ce que vous voulez accomplir, et pour qui ?'),
+                    _DashedHint(text: AppLocalizations.of(context)!.missionHint2),
                     const SizedBox(height: AppSpacing.m),
-                    _DashedHint(text: 'Sur quels principes refusez-vous de transiger ?'),
+                    _DashedHint(text: AppLocalizations.of(context)!.missionHint3),
                     
                     const SizedBox(height: AppSpacing.xxxxl),
                     
@@ -209,7 +213,7 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
                                 });
                                 context.read<MissionCubit>().updateMission(_missionController.text.trim());
                                 
-                                AppToast.showSuccess(context, 'Mission mise à jour');
+                                AppToast.showSuccess(context, AppLocalizations.of(context)!.missionUpdated);
                               },
                               style: FilledButton.styleFrom(
                                 backgroundColor: context.cBrass,
@@ -247,7 +251,7 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
                                 ),
                               ),
                               child: Text(
-                                'Modifier',
+                                AppLocalizations.of(context)!.edit,
                                 style: AppTypography.inter(size: 14, weight: FontWeight.w600, color: context.cInk),
                               ),
                             ),
@@ -265,7 +269,7 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
                                 ),
                               ),
                               child: Text(
-                                'Planifier une révision',
+                                AppLocalizations.of(context)!.planReview,
                                 style: AppTypography.inter(size: 14, weight: FontWeight.w500, color: context.cTextSecondary),
                                 textAlign: TextAlign.center,
                               ),
@@ -413,7 +417,7 @@ class _ScheduleModal extends StatelessWidget {
                       Navigator.of(context).pop();
                       AppToast.show(
                         context,
-                        'Rappel de révision programmé',
+                        AppLocalizations.of(context)!.reminderScheduled,
                         icon: Icons.notifications_active_outlined,
                         iconColor: context.cBrass,
                       );

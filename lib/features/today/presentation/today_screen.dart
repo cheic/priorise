@@ -10,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/tokens/app_colors.dart';
 import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
+import 'package:priorise/l10n/app_localizations.dart';
 
 import 'today_cubit.dart';
 import 'widgets/today_header.dart';
@@ -156,7 +157,7 @@ class _ErrorView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Quelque chose s\'est mal passé.',
+              AppLocalizations.of(context)!.somethingWentWrong,
               style: AppTypography.displaySmall(
                   color: context.cTextPrimary),
               textAlign: TextAlign.center,

@@ -58,6 +58,23 @@
   "weekNotPlanned": "Semaine non planifiée",
   "planWeek": "Planifier",
 
+  "missionEyebrow": "CE QUI VOUS GUIDE",
+  "missionTitle": "Mission",
+  "missionDeclaration": "VOTRE DÉCLARATION",
+  "missionHint1": "Qui voulez-vous être, dans vos rôles les plus importants ?",
+  "missionHint2": "Qu'est-ce que vous voulez accomplir, et pour qui ?",
+  "missionHint3": "Sur quels principes refusez-vous de transiger ?",
+  "missionUpdated": "Mission mise à jour",
+  "edit": "Modifier",
+  "lastModified": "Modifiée le {day} {month} · prochaine révision programmée pour {nextMonth}",
+  "@lastModified": {
+    "placeholders": {
+      "day": { "type": "String" },
+      "month": { "type": "String" },
+      "nextMonth": { "type": "String" }
+    }
+  },
+
   "settingsEyebrow": "VOTRE ATELIER",
   "settingsTitle": "Paramètres",
   "sectionProfile": "Profil",
@@ -112,6 +129,16 @@
 
   "reminderScheduled": "Rappel de révision programmé",
   "schedule": "Programmer",
+  "dailyReminderTitle": "Priorité du jour",
+  "dailyReminderBody": "N'oubliez pas votre grosse pierre aujourd'hui.",
+  "somethingWentWrong": "Quelque chose s'est mal passé.",
+
+  "colorBrass": "Laiton",
+  "colorSage": "Sauge",
+  "colorClay": "Argile",
+  "colorSlate": "Ardoise",
+  "colorAmethyst": "Améthyste",
+  "colorMoss": "Mousse",
 
   "importantUrgent": "Important + Urgent",
   "importantNotUrgent": "Important + Non Urgent",
@@ -166,6 +193,14 @@
   "matrixInfoQ3Desc": "En bas à gauche. Les interruptions et fausses urgences. À confier si possible.",
   "matrixInfoQ4Title": "Laisser filer (Ni urgent ni important)",
   "matrixInfoQ4Desc": "En bas à droite. Les distractions et le coût caché de votre temps.",
+  "matrixLegendQ1Title": "Agir",
+  "matrixLegendQ1Desc": "Important & urgent — ce qui ne peut pas attendre",
+  "matrixLegendQ2Title": "Planifier",
+  "matrixLegendQ2Desc": "Important, non urgent — le vrai travail de fond",
+  "matrixLegendQ3Title": "Déléguer",
+  "matrixLegendQ3Desc": "Urgent, peu important — à confier si possible",
+  "matrixLegendQ4Title": "Laisser filer",
+  "matrixLegendQ4Desc": "Ni urgent ni important — le coût caché de votre temps",
   "understood": "Compris",
 
   "planReview": "Planifier une révision",

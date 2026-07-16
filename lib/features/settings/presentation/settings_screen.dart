@@ -59,7 +59,12 @@ class SettingsPageState extends State<SettingsPage> {
       }
       if (granted) {
         // Schedule daily at 9:00 AM as an example
-        await getIt<NotificationService>().scheduleDailyReminder(hour: 9, minute: 0);
+        await getIt<NotificationService>().scheduleDailyReminder(
+          hour: 9, 
+          minute: 0,
+          title: AppLocalizations.of(context)!.dailyReminderTitle,
+          body: AppLocalizations.of(context)!.dailyReminderBody,
+        );
       }
     } else {
       if (mounted) {

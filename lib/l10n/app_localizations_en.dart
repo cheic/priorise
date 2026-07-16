@@ -138,7 +138,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quadrantLabel => 'Quadrant II';
 
   @override
-  String get emptyFocus => 'No Big Rock defined.\nOpen planning to set one.';
+  String get emptyFocus => 'No Big Rock defined.\nOpen planning.';
 
   @override
   String get noTasksYet => 'No tasks for this week';
@@ -151,6 +151,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get planWeek => 'Plan';
+
+  @override
+  String get missionEyebrow => 'WHAT GUIDES YOU';
+
+  @override
+  String get missionTitle => 'Mission';
+
+  @override
+  String get missionDeclaration => 'YOUR DECLARATION';
+
+  @override
+  String get missionHint1 =>
+      'Who do you want to be in your most important roles?';
+
+  @override
+  String get missionHint2 => 'What do you want to accomplish, and for whom?';
+
+  @override
+  String get missionHint3 => 'On what principles do you refuse to compromise?';
+
+  @override
+  String get missionUpdated => 'Mission updated';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String lastModified(String day, String month, String nextMonth) {
+    return 'Last modified on $month $day · next review scheduled for $nextMonth';
+  }
 
   @override
   String get settingsEyebrow => 'YOUR WORKSHOP';
@@ -312,6 +342,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schedule => 'Schedule';
 
   @override
+  String get dailyReminderTitle => 'Today\'s priority';
+
+  @override
+  String get dailyReminderBody => 'Don\'t forget your big rock today.';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong.';
+
+  @override
   String get importantUrgent => 'Important + Urgent';
 
   @override
@@ -429,11 +468,37 @@ class AppLocalizationsEn extends AppLocalizations {
       'Bottom left. Interruptions and false emergencies. Delegate if possible.';
 
   @override
-  String get matrixInfoQ4Title => 'Drop (Not urgent, Not important)';
+  String get matrixInfoQ4Title => 'Eliminate (Not Urgent, Not Important)';
 
   @override
   String get matrixInfoQ4Desc =>
       'Bottom right. Distractions and the hidden cost of your time.';
+
+  @override
+  String get matrixLegendQ1Title => 'Act';
+
+  @override
+  String get matrixLegendQ1Desc => 'Important & urgent — what cannot wait';
+
+  @override
+  String get matrixLegendQ2Title => 'Plan';
+
+  @override
+  String get matrixLegendQ2Desc => 'Important, not urgent — the real deep work';
+
+  @override
+  String get matrixLegendQ3Title => 'Delegate';
+
+  @override
+  String get matrixLegendQ3Desc =>
+      'Urgent, not important — delegate if possible';
+
+  @override
+  String get matrixLegendQ4Title => 'Eliminate';
+
+  @override
+  String get matrixLegendQ4Desc =>
+      'Not urgent, not important — the hidden cost of your time';
 
   @override
   String get understood => 'Understood';

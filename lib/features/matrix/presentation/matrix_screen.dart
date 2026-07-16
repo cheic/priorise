@@ -221,18 +221,18 @@ class MatrixPage extends StatelessWidget {
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(child: _LegendItem(color: context.cClay, title: 'Agir', subtitle: 'Important & urgent — ce qui ne peut pas attendre')),
+                                Expanded(child: _LegendItem(color: context.cClay, title: AppLocalizations.of(context)!.matrixLegendQ1Title, subtitle: AppLocalizations.of(context)!.matrixLegendQ1Desc)),
                                 const SizedBox(width: 10),
-                                Expanded(child: _LegendItem(color: context.cBrass, title: AppLocalizations.of(context)!.planWeek, subtitle: 'Important, non urgent — le vrai travail, votre priorise')),
+                                Expanded(child: _LegendItem(color: context.cBrass, title: AppLocalizations.of(context)!.matrixLegendQ2Title, subtitle: AppLocalizations.of(context)!.matrixLegendQ2Desc)),
                               ],
                             ),
                             const SizedBox(height: 10),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(child: _LegendItem(color: context.cTextTertiary, title: 'Déléguer', subtitle: 'Urgent, peu important — à confier si possible')),
+                                Expanded(child: _LegendItem(color: context.cTextTertiary, title: AppLocalizations.of(context)!.matrixLegendQ3Title, subtitle: AppLocalizations.of(context)!.matrixLegendQ3Desc)),
                                 const SizedBox(width: 10),
-                                Expanded(child: _LegendItem(color: context.cSage, title: 'Laisser filer', subtitle: 'Ni urgent ni important — le vrai coût caché du temps')),
+                                Expanded(child: _LegendItem(color: context.cSage, title: AppLocalizations.of(context)!.matrixLegendQ4Title, subtitle: AppLocalizations.of(context)!.matrixLegendQ4Desc)),
                               ],
                             ),
                           ],

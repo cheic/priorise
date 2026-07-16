@@ -154,6 +154,37 @@ class AppLocalizationsFr extends AppLocalizations {
   String get planWeek => 'Planifier';
 
   @override
+  String get missionEyebrow => 'CE QUI VOUS GUIDE';
+
+  @override
+  String get missionTitle => 'Mission';
+
+  @override
+  String get missionDeclaration => 'VOTRE DÉCLARATION';
+
+  @override
+  String get missionHint1 =>
+      'Qui voulez-vous être, dans vos rôles les plus importants ?';
+
+  @override
+  String get missionHint2 =>
+      'Qu\'est-ce que vous voulez accomplir, et pour qui ?';
+
+  @override
+  String get missionHint3 => 'Sur quels principes refusez-vous de transiger ?';
+
+  @override
+  String get missionUpdated => 'Mission mise à jour';
+
+  @override
+  String get edit => 'Modifier';
+
+  @override
+  String lastModified(String day, String month, String nextMonth) {
+    return 'Modifiée le $day $month · prochaine révision programmée pour $nextMonth';
+  }
+
+  @override
   String get settingsEyebrow => 'VOTRE ATELIER';
 
   @override
@@ -315,6 +346,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get schedule => 'Programmer';
 
   @override
+  String get dailyReminderTitle => 'Priorité du jour';
+
+  @override
+  String get dailyReminderBody =>
+      'N\'oubliez pas votre grosse pierre aujourd\'hui.';
+
+  @override
+  String get somethingWentWrong => 'Quelque chose s\'est mal passé.';
+
+  @override
   String get importantUrgent => 'Important + Urgent';
 
   @override
@@ -437,6 +478,34 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get matrixInfoQ4Desc =>
       'En bas à droite. Les distractions et le coût caché de votre temps.';
+
+  @override
+  String get matrixLegendQ1Title => 'Agir';
+
+  @override
+  String get matrixLegendQ1Desc =>
+      'Important & urgent — ce qui ne peut pas attendre';
+
+  @override
+  String get matrixLegendQ2Title => 'Planifier';
+
+  @override
+  String get matrixLegendQ2Desc =>
+      'Important, non urgent — le vrai travail de fond';
+
+  @override
+  String get matrixLegendQ3Title => 'Déléguer';
+
+  @override
+  String get matrixLegendQ3Desc =>
+      'Urgent, peu important — à confier si possible';
+
+  @override
+  String get matrixLegendQ4Title => 'Laisser filer';
+
+  @override
+  String get matrixLegendQ4Desc =>
+      'Ni urgent ni important — le coût caché de votre temps';
 
   @override
   String get understood => 'Compris';

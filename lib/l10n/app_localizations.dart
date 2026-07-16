@@ -374,6 +374,60 @@ abstract class AppLocalizations {
   /// **'Planifier'**
   String get planWeek;
 
+  /// No description provided for @missionEyebrow.
+  ///
+  /// In fr, this message translates to:
+  /// **'CE QUI VOUS GUIDE'**
+  String get missionEyebrow;
+
+  /// No description provided for @missionTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mission'**
+  String get missionTitle;
+
+  /// No description provided for @missionDeclaration.
+  ///
+  /// In fr, this message translates to:
+  /// **'VOTRE DÉCLARATION'**
+  String get missionDeclaration;
+
+  /// No description provided for @missionHint1.
+  ///
+  /// In fr, this message translates to:
+  /// **'Qui voulez-vous être, dans vos rôles les plus importants ?'**
+  String get missionHint1;
+
+  /// No description provided for @missionHint2.
+  ///
+  /// In fr, this message translates to:
+  /// **'Qu\'est-ce que vous voulez accomplir, et pour qui ?'**
+  String get missionHint2;
+
+  /// No description provided for @missionHint3.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sur quels principes refusez-vous de transiger ?'**
+  String get missionHint3;
+
+  /// No description provided for @missionUpdated.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mission mise à jour'**
+  String get missionUpdated;
+
+  /// No description provided for @edit.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifier'**
+  String get edit;
+
+  /// No description provided for @lastModified.
+  ///
+  /// In fr, this message translates to:
+  /// **'Modifiée le {day} {month} · prochaine révision programmée pour {nextMonth}'**
+  String lastModified(String day, String month, String nextMonth);
+
   /// No description provided for @settingsEyebrow.
   ///
   /// In fr, this message translates to:
@@ -680,6 +734,24 @@ abstract class AppLocalizations {
   /// **'Programmer'**
   String get schedule;
 
+  /// No description provided for @dailyReminderTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Priorité du jour'**
+  String get dailyReminderTitle;
+
+  /// No description provided for @dailyReminderBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'N\'oubliez pas votre grosse pierre aujourd\'hui.'**
+  String get dailyReminderBody;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quelque chose s\'est mal passé.'**
+  String get somethingWentWrong;
+
   /// No description provided for @importantUrgent.
   ///
   /// In fr, this message translates to:
@@ -907,6 +979,54 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'En bas à droite. Les distractions et le coût caché de votre temps.'**
   String get matrixInfoQ4Desc;
+
+  /// No description provided for @matrixLegendQ1Title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Agir'**
+  String get matrixLegendQ1Title;
+
+  /// No description provided for @matrixLegendQ1Desc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Important & urgent — ce qui ne peut pas attendre'**
+  String get matrixLegendQ1Desc;
+
+  /// No description provided for @matrixLegendQ2Title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Planifier'**
+  String get matrixLegendQ2Title;
+
+  /// No description provided for @matrixLegendQ2Desc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Important, non urgent — le vrai travail de fond'**
+  String get matrixLegendQ2Desc;
+
+  /// No description provided for @matrixLegendQ3Title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Déléguer'**
+  String get matrixLegendQ3Title;
+
+  /// No description provided for @matrixLegendQ3Desc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Urgent, peu important — à confier si possible'**
+  String get matrixLegendQ3Desc;
+
+  /// No description provided for @matrixLegendQ4Title.
+  ///
+  /// In fr, this message translates to:
+  /// **'Laisser filer'**
+  String get matrixLegendQ4Title;
+
+  /// No description provided for @matrixLegendQ4Desc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ni urgent ni important — le coût caché de votre temps'**
+  String get matrixLegendQ4Desc;
 
   /// No description provided for @understood.
   ///

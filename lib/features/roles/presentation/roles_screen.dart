@@ -250,14 +250,19 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
     }
     _selectedAccent = widget.initialAccent ?? RoleAccent.brass;
     _selectedIconKey = widget.initialIconKey ?? 'star';
-    
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final loc = AppLocalizations.of(context)!;
     _colorOptions = [
-      (name: 'Laiton', accent: RoleAccent.brass, colorBuilder: (c) => c.cBrass),
-      (name: 'Sauge', accent: RoleAccent.sage, colorBuilder: (c) => c.cSage),
-      (name: 'Argile', accent: RoleAccent.clay, colorBuilder: (c) => c.cClay),
-      (name: 'Ardoise', accent: RoleAccent.slate, colorBuilder: (c) => c.cSlate),
-      (name: 'Améthyste', accent: RoleAccent.amethyst, colorBuilder: (c) => c.cAmethyst),
-      (name: 'Mousse', accent: RoleAccent.moss, colorBuilder: (c) => c.cMoss),
+      (name: loc.colorBrass, accent: RoleAccent.brass, colorBuilder: (c) => c.cBrass),
+      (name: loc.colorSage, accent: RoleAccent.sage, colorBuilder: (c) => c.cSage),
+      (name: loc.colorClay, accent: RoleAccent.clay, colorBuilder: (c) => c.cClay),
+      (name: loc.colorSlate, accent: RoleAccent.slate, colorBuilder: (c) => c.cSlate),
+      (name: loc.colorAmethyst, accent: RoleAccent.amethyst, colorBuilder: (c) => c.cAmethyst),
+      (name: loc.colorMoss, accent: RoleAccent.moss, colorBuilder: (c) => c.cMoss),
     ];
   }
 

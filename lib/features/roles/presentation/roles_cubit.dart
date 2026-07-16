@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/usecases/role_usecases.dart';
 import '../../../core/models/role_model.dart';
 import '../../../core/models/enums.dart';
+import '../../../core/services/widget_service.dart';
 
 class RolesState {
   final List<LifeRole> roles;
@@ -51,16 +52,19 @@ class RolesCubit extends Cubit<RolesState> {
 
   Future<void> addRole(String name, RoleAccent accent, String iconKey) async {
     await addRoleUseCase(name, accent, iconKey);
+    WidgetService.updateAllWidgets().catchError((_) {});
     loadRoles();
   }
 
   Future<void> updateRole(int id, String name, RoleAccent accent, String iconKey) async {
     await updateRoleUseCase(id, name, accent, iconKey);
+    WidgetService.updateAllWidgets().catchError((_) {});
     loadRoles();
   }
 
   Future<void> deleteRole(int id) async {
     await deleteRoleUseCase(id);
+    WidgetService.updateAllWidgets().catchError((_) {});
     loadRoles();
   }
 }

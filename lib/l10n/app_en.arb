@@ -46,11 +46,28 @@
   "todayPriority": "Your priority, today",
   "restOfWeek": "The rest of the week",
   "quadrantLabel": "Quadrant II",
-  "emptyFocus": "No Big Rock defined.\nOpen planning to set one.",
+  "emptyFocus": "No Big Rock defined.\nOpen planning.",
   "noTasksYet": "No tasks for this week",
   "addTaskHint": "Add a task…",
   "weekNotPlanned": "Week not planned",
   "planWeek": "Plan",
+
+  "missionEyebrow": "WHAT GUIDES YOU",
+  "missionTitle": "Mission",
+  "missionDeclaration": "YOUR DECLARATION",
+  "missionHint1": "Who do you want to be in your most important roles?",
+  "missionHint2": "What do you want to accomplish, and for whom?",
+  "missionHint3": "On what principles do you refuse to compromise?",
+  "missionUpdated": "Mission updated",
+  "edit": "Edit",
+  "lastModified": "Last modified on {month} {day} · next review scheduled for {nextMonth}",
+  "@lastModified": {
+    "placeholders": {
+      "day": { "type": "String" },
+      "month": { "type": "String" },
+      "nextMonth": { "type": "String" }
+    }
+  },
 
   "settingsEyebrow": "YOUR WORKSHOP",
   "settingsTitle": "Settings",
@@ -106,6 +123,16 @@
 
   "reminderScheduled": "Review reminder scheduled",
   "schedule": "Schedule",
+  "dailyReminderTitle": "Today's priority",
+  "dailyReminderBody": "Don't forget your big rock today.",
+  "somethingWentWrong": "Something went wrong.",
+
+  "colorBrass": "Brass",
+  "colorSage": "Sage",
+  "colorClay": "Clay",
+  "colorSlate": "Slate",
+  "colorAmethyst": "Amethyst",
+  "colorMoss": "Moss",
 
   "importantUrgent": "Important + Urgent",
   "importantNotUrgent": "Important + Not Urgent",
@@ -158,8 +185,16 @@
   "matrixInfoQ2Desc": "Top right. The real foundational work that advances your goals.",
   "matrixInfoQ3Title": "Delegate (Urgent, Not important)",
   "matrixInfoQ3Desc": "Bottom left. Interruptions and false emergencies. Delegate if possible.",
-  "matrixInfoQ4Title": "Drop (Not urgent, Not important)",
+  "matrixInfoQ4Title": "Eliminate (Not Urgent, Not Important)",
   "matrixInfoQ4Desc": "Bottom right. Distractions and the hidden cost of your time.",
+  "matrixLegendQ1Title": "Act",
+  "matrixLegendQ1Desc": "Important & urgent — what cannot wait",
+  "matrixLegendQ2Title": "Plan",
+  "matrixLegendQ2Desc": "Important, not urgent — the real deep work",
+  "matrixLegendQ3Title": "Delegate",
+  "matrixLegendQ3Desc": "Urgent, not important — delegate if possible",
+  "matrixLegendQ4Title": "Eliminate",
+  "matrixLegendQ4Desc": "Not urgent, not important — the hidden cost of your time",
   "understood": "Understood",
 
   "planReview": "Schedule a review",

@@ -26,7 +26,7 @@ class TodayHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    final dayLabel = _formatDate(now);
+    final dayLabel = _formatDate(context, now);
 
     return PageHeader(
       eyebrow: dayLabel,
@@ -45,13 +45,14 @@ class TodayHeader extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime d) {
-    const jours = [
-      'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'
+  String _formatDate(BuildContext context, DateTime d) {
+    final loc = AppLocalizations.of(context)!;
+    final jours = [
+      loc.monday, loc.tuesday, loc.wednesday, loc.thursday, loc.friday, loc.saturday, loc.sunday
     ];
-    const mois = [
-      'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-      'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
+    final mois = [
+      loc.january, loc.february, loc.march, loc.april, loc.may, loc.june,
+      loc.july, loc.august, loc.september, loc.october, loc.november, loc.december
     ];
     return '${jours[d.weekday - 1]} ${d.day} ${mois[d.month - 1]}';
   }
