@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:priorise/l10n/app_localizations.dart';
 import 'core/di/injection.dart';
 import 'core/router/app_router.dart';
@@ -16,17 +17,34 @@ import 'core/services/widget_service.dart';
 import 'core/services/database_service.dart';
 import 'core/models/task_model.dart';
 import 'core/models/role_model.dart';
+import 'package:home_widget/home_widget.dart';
+import 'shared/widgets/quick_capture_dialog.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+void _handleDeepLink(Uri uri) {
+  if (navigatorKey.currentState == null) return;
+  final context = navigatorKey.currentState!.context;
+  
+  if (uri.toString().contains('capture')) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const QuickCaptureDialog(),
+    );
+  } else {
+    navigatorKey.currentState!.pushNamed(uri.toString());
+  }
+}
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-  // Verrouille l'orientation portrait sur téléphone ;
-  // autorise toutes les orientations sur tablette (géré dans AppSpacing).
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
   ]);
 
   await setupDependencies();
@@ -35,6 +53,8 @@ Future<void> main() async {
 
   // Sync widgets after the app is fully running to avoid MissingPluginException
   WidgetsBinding.instance.addPostFrameCallback((_) {
+    FlutterNativeSplash.remove();
+    
     final isar = getIt<DatabaseService>().isar;
     
     // Initial update
@@ -46,6 +66,21 @@ Future<void> main() async {
     });
     isar.lifeRoles.watchLazy().listen((_) {
       WidgetService.updateAllWidgets().catchError((_) {});
+    });
+
+    // Setup HomeWidget link handling
+    HomeWidget.initiallyLaunchedFromHomeWidget().then((uri) {
+      if (uri != null) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          _handleDeepLink(uri);
+        });
+      }
+    });
+
+    HomeWidget.widgetClicked.listen((uri) {
+      if (uri != null) {
+        _handleDeepLink(uri);
+      }
     });
   });
 }
@@ -68,6 +103,7 @@ class PrioriseApp extends StatelessWidget {
         builder: (context, themeMode) {
           return MaterialApp(
             title: 'Priorise',
+            navigatorKey: navigatorKey,
             debugShowCheckedModeBanner: false,
             theme: AppTheme.light(),
             darkTheme: AppTheme.dark(),
@@ -75,6 +111,9 @@ class PrioriseApp extends StatelessWidget {
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             initialRoute: AppRoutes.splash,
+            onGenerateInitialRoutes: (route) {
+              return [generateRoute(const RouteSettings(name: AppRoutes.splash))];
+            },
             onGenerateRoute: generateRoute,
           );
         },

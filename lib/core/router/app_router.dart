@@ -1,5 +1,3 @@
-// Navigateur centralisé.
-// Routes nommées, remplace go_router pour garder zéro dépendance supplémentaire.
 import 'package:flutter/material.dart';
 import '../../features/splash/splash_screen.dart';
 import '../../features/onboarding/presentation/onboarding_screen.dart';
@@ -12,7 +10,9 @@ abstract final class AppRoutes {
 }
 
 Route<dynamic> generateRoute(RouteSettings settings) {
-  return switch (settings.name) {
+  final name = settings.name ?? '';
+  
+  return switch (name) {
     AppRoutes.splash => MaterialPageRoute(
         builder: (_) => const SplashScreen(),
         settings: settings,

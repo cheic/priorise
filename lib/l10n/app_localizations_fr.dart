@@ -237,6 +237,19 @@ class AppLocalizationsFr extends AppLocalizations {
   String get themeDarkShort => 'Sombre';
 
   @override
+  String get sectionAbout => 'À propos';
+
+  @override
+  String get privacyPolicy => 'Politique de confidentialité';
+
+  @override
+  String get privacyPolicyText =>
+      'Priorise est conçue autour du respect de votre temps et de vos données.\n\nToutes vos tâches, rôles et paramètres sont stockés localement sur votre appareil. Aucune donnée personnelle n\'est collectée, analysée ou revendue à des tiers.\n\nSi vous utilisez les suggestions IA, seules les requêtes anonymisées sont envoyées au fournisseur que vous avez configuré (avec votre propre clé API).\n\nEn résumé : vos données vous appartiennent, totalement et exclusivement.';
+
+  @override
+  String get appVersion => 'Version de l\'application';
+
+  @override
   String get yourRoles => 'VOS RÔLES DE VIE';
 
   @override

@@ -26,6 +26,7 @@ dependencies:
   home_widget: ^0.9.3
   flutter_gen: ^5.9.0
   path_provider: ^2.1.6
+  flutter_native_splash: ^2.4.8
 
 dev_dependencies:
   build_runner: ^2.4.6
@@ -33,7 +34,24 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-
+  flutter_launcher_icons: ^0.14.4
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/icons/
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/priorise-icon-512.png"
+  adaptive_icon_background: "assets/icons/priorise-icon-adaptive-background-512.png"
+  adaptive_icon_foreground: "assets/icons/priorise-icon-adaptive-foreground-512.png"
+
+flutter_native_splash:
+  color: "#F8F4E9"
+  color_dark: "#1B140B"
+
+  android_12:
+    color: "#F8F4E9"
+    color_dark: "#1B140B"

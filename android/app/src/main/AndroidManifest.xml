@@ -8,7 +8,7 @@
         android:label="Priorise"
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
         <receiver android:exported="false" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
@@ -72,18 +72,6 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_matrix_info" />
-        </receiver>
-
-        <!-- Widget: Capture rapide -->
-        <receiver android:name=".CaptureWidgetProvider"
-            android:exported="true"
-            android:label="@string/widget_capture_label">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_capture_info" />
         </receiver>
 
         <!-- Widget: Liste des tâches -->

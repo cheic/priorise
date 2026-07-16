@@ -370,6 +370,69 @@ class SettingsPageState extends State<SettingsPage> {
                           ],
                         ),
                       ),
+                      
+                      const SizedBox(height: AppSpacing.xxxxl),
+
+                      // ── À propos ──
+                      SectionTitle(AppLocalizations.of(context)!.sectionAbout),
+                      const SizedBox(height: AppSpacing.l),
+                      
+                      SettingClickableRow(
+                        label: AppLocalizations.of(context)!.privacyPolicy,
+                        sub: "",
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              backgroundColor: ctx.cSurfaceRaised,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+                                side: BorderSide(color: ctx.cBorderStrong),
+                              ),
+                              title: Text(
+                                AppLocalizations.of(ctx)!.privacyPolicy,
+                                style: AppTypography.fraunces(size: 20, weight: 600, color: ctx.cTextPrimary),
+                              ),
+                              content: SingleChildScrollView(
+                                child: Text(
+                                  AppLocalizations.of(ctx)!.privacyPolicyText,
+                                  style: AppTypography.bodyMedium(color: ctx.cTextSecondary),
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(ctx).pop(),
+                                  child: Text(AppLocalizations.of(ctx)!.understood, style: AppTypography.labelMedium(color: ctx.cBrassBright)),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      
+                      // Version
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.l, vertical: AppSpacing.m),
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.appVersion,
+                              style: AppTypography.labelLarge(color: context.cTextPrimary),
+                            ),
+                            Text(
+                              "0.1.0+1",
+                              style: AppTypography.mono(size: 13, weight: FontWeight.w500, color: context.cTextTertiary, letterSpacing: 0),
+                            ),
+                          ],
+                        ),
+                      ),
+                      
+                      const SizedBox(height: AppSpacing.xxxxl),
                     ],
                   ],
                 ),

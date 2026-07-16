@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/models/role_model.dart';
 import '../../../core/models/task_model.dart';
@@ -64,8 +65,10 @@ class TodayCubit extends Cubit<TodayState> {
     required this.addTaskUseCase,
     required this.updateTaskUseCase,
     required this.deleteTaskUseCase,
+    required this.watchTasksUseCase,
   }) : super(TodayLoading()) {
     _load();
+    _subscription = watchTasksUseCase().listen((_) => _load());
   }
 
   final GetTodayTasksUseCase getTodayTasks;
@@ -75,6 +78,15 @@ class TodayCubit extends Cubit<TodayState> {
   final AddTaskUseCase addTaskUseCase;
   final UpdateTaskUseCase updateTaskUseCase;
   final DeleteTaskUseCase deleteTaskUseCase;
+  final WatchTasksUseCase watchTasksUseCase;
+
+  StreamSubscription<void>? _subscription;
+
+  @override
+  Future<void> close() {
+    _subscription?.cancel();
+    return super.close();
+  }
 
   Future<void> _load() async {
     try {

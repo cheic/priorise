@@ -530,6 +530,30 @@ abstract class AppLocalizations {
   /// **'Sombre'**
   String get themeDarkShort;
 
+  /// No description provided for @sectionAbout.
+  ///
+  /// In fr, this message translates to:
+  /// **'À propos'**
+  String get sectionAbout;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Politique de confidentialité'**
+  String get privacyPolicy;
+
+  /// No description provided for @privacyPolicyText.
+  ///
+  /// In fr, this message translates to:
+  /// **'Priorise est conçue autour du respect de votre temps et de vos données.\n\nToutes vos tâches, rôles et paramètres sont stockés localement sur votre appareil. Aucune donnée personnelle n\'est collectée, analysée ou revendue à des tiers.\n\nSi vous utilisez les suggestions IA, seules les requêtes anonymisées sont envoyées au fournisseur que vous avez configuré (avec votre propre clé API).\n\nEn résumé : vos données vous appartiennent, totalement et exclusivement.'**
+  String get privacyPolicyText;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Version de l\'application'**
+  String get appVersion;
+
   /// No description provided for @yourRoles.
   ///
   /// In fr, this message translates to:

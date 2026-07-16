@@ -10,6 +10,7 @@ import 'package:priorise/core/tokens/app_typography.dart';
 
 import '../today_cubit.dart';
 import 'today_fab.dart';
+import 'today_task_list.dart';
 
 class TodayFocusCard extends StatelessWidget {
   const TodayFocusCard({super.key, required this.state});
@@ -133,22 +134,35 @@ class TodayFocusCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Tag: mono 9.5px uppercase, brassBright text on brassGlow bg
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: context.cBrassGlow,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(
-                      'Stratégique · ${role.name}'.toUpperCase(),
-                      style: AppTypography.mono(
-                        size: 9.5,
-                        weight: FontWeight.w500,
-                        color: context.cBrassBright,
+                  // Row for Tag and Checkbox
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Tag: mono 9.5px uppercase, brassBright text on brassGlow bg
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: context.cBrassGlow,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text(
+                          'Quadrant II · ${role.name}'.toUpperCase(),
+                          style: AppTypography.mono(
+                            size: 9.5,
+                            weight: FontWeight.w500,
+                            color: context.cBrassBright,
+                          ),
+                        ),
                       ),
-                    ),
+                      // Checkbox for completion
+                      GestureDetector(
+                        onTap: () => context.read<TodayCubit>().toggleTask(task.id),
+                        behavior: HitTestBehavior.opaque,
+                        child: TodayRoundCheckbox(isDone: task.done),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: AppSpacing.m),
                   // h3: Fraunces 500, 16.5px — focus task title

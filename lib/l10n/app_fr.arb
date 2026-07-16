@@ -84,6 +84,10 @@
   "themeAutoShort": "Auto",
   "themeLightShort": "Clair",
   "themeDarkShort": "Sombre",
+  "sectionAbout": "À propos",
+  "privacyPolicy": "Politique de confidentialité",
+  "privacyPolicyText": "Priorise est conçue autour du respect de votre temps et de vos données.\n\nToutes vos tâches, rôles et paramètres sont stockés localement sur votre appareil. Aucune donnée personnelle n'est collectée, analysée ou revendue à des tiers.\n\nSi vous utilisez les suggestions IA, seules les requêtes anonymisées sont envoyées au fournisseur que vous avez configuré (avec votre propre clé API).\n\nEn résumé : vos données vous appartiennent, totalement et exclusivement.",
+  "appVersion": "Version de l'application",
 
   "yourRoles": "VOS RÔLES DE VIE",
   "mainRole": "Rôle principal",

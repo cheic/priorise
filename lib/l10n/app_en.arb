@@ -78,6 +78,10 @@
   "themeAutoShort": "Auto",
   "themeLightShort": "Light",
   "themeDarkShort": "Dark",
+  "sectionAbout": "About",
+  "privacyPolicy": "Privacy Policy",
+  "privacyPolicyText": "Priorise is built around respecting your time and data.\n\nAll your tasks, roles, and settings are stored locally on your device. No personal data is collected, analyzed, or sold to third parties.\n\nIf you use AI suggestions, only anonymized queries are sent to the provider you configured (using your own API key).\n\nIn short: your data belongs to you, totally and exclusively.",
+  "appVersion": "App version",
 
   "yourRoles": "YOUR LIFE ROLES",
   "mainRole": "Primary role",

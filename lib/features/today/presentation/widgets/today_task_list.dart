@@ -165,7 +165,7 @@ class TodayTaskRow extends StatelessWidget {
                 onTap: () => context.read<TodayCubit>().toggleTask(task.id),
                 behavior: HitTestBehavior.opaque,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 2, right: 8, bottom: 8),
+                  padding: const EdgeInsets.only(right: 8, top: 2), // Top padding aligns it with text
                   child: TodayRoundCheckbox(isDone: task.done),
                 ),
               ),

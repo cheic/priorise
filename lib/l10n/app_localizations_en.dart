@@ -234,6 +234,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get themeDarkShort => 'Dark';
 
   @override
+  String get sectionAbout => 'About';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get privacyPolicyText =>
+      'Priorise is built around respecting your time and data.\n\nAll your tasks, roles, and settings are stored locally on your device. No personal data is collected, analyzed, or sold to third parties.\n\nIf you use AI suggestions, only anonymized queries are sent to the provider you configured (using your own API key).\n\nIn short: your data belongs to you, totally and exclusively.';
+
+  @override
+  String get appVersion => 'App version';
+
+  @override
   String get yourRoles => 'YOUR LIFE ROLES';
 
   @override

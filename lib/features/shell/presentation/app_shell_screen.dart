@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:priorise/l10n/app_localizations.dart';
-import 'package:home_widget/home_widget.dart';
 import '../../../core/tokens/app_colors.dart';
 import '../../../core/tokens/app_spacing.dart';
 import '../../../core/tokens/app_typography.dart';
 import '../../../shared/painters/compass_painter.dart';
-import '../../../core/services/widget_service.dart';
 
 import '../../today/presentation/today_screen.dart';
 import '../../today/presentation/today_cubit.dart';
@@ -19,7 +17,6 @@ import '../../review/presentation/review_screen.dart';
 import '../../review/presentation/review_cubit.dart';
 import '../../settings/presentation/settings_screen.dart';
 import '../../../core/di/injection.dart';
-import '../../../domain/usecases/task_usecases.dart';
 import '../../../shared/utils/fade_indexed_stack.dart';
 import '../../../shared/widgets/page_header.dart';
 import '../../../shared/utils/slide_up_route.dart';
@@ -35,22 +32,40 @@ class AppShellScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ShellCubit(initialIndex: initialIndex)),
-        BlocProvider(create: (_) => RolesCubit(
-          getAllRoles: getIt(),
-          addRoleUseCase: getIt(),
-          updateRoleUseCase: getIt(),
-          deleteRoleUseCase: getIt(),
-        )..loadRoles()),
-        BlocProvider(create: (_) => MatrixCubit(
-          getPendingTasks: getIt(),
-          watchTasksUseCase: getIt(),
-        )..loadTasks()),
-        BlocProvider(create: (_) => ReviewCubit(
-          getReviewByDate: getIt(),
-          saveReviewUseCase: getIt(),
-          getAllRoles: getIt(),
-          getTasks: getIt(), // Using GetAllTasksUseCase is better here! Let's just pass getIt() assuming it matches the type
-        )),
+        BlocProvider(
+          create: (_) => TodayCubit(
+            getTodayTasks: getIt(),
+            getAllRoles: getIt(),
+            getCurrentPlan: getIt(),
+            toggleTaskUseCase: getIt(),
+            addTaskUseCase: getIt(),
+            updateTaskUseCase: getIt(),
+            deleteTaskUseCase: getIt(),
+            watchTasksUseCase: getIt(),
+          )..refresh(),
+        ),
+        BlocProvider(
+          create: (_) => RolesCubit(
+            getAllRoles: getIt(),
+            addRoleUseCase: getIt(),
+            updateRoleUseCase: getIt(),
+            deleteRoleUseCase: getIt(),
+          )..loadRoles(),
+        ),
+        BlocProvider(
+          create: (_) =>
+              MatrixCubit(getPendingTasks: getIt(), watchTasksUseCase: getIt())
+                ..loadTasks(),
+        ),
+        BlocProvider(
+          create: (_) => ReviewCubit(
+            getReviewByDate: getIt(),
+            saveReviewUseCase: getIt(),
+            getAllRoles: getIt(),
+            getTasks:
+                getIt(), // Using GetAllTasksUseCase is better here! Let's just pass getIt() assuming it matches the type
+          ),
+        ),
       ],
       child: const _AppShellView(),
     );
@@ -68,124 +83,6 @@ class _AppShellViewState extends State<_AppShellView> {
   @override
   void initState() {
     super.initState();
-    _checkForWidgetLaunch();
-    _listenWidgetClicks();
-  }
-
-  /// Check if the app was cold-launched from the Capture widget.
-  Future<void> _checkForWidgetLaunch() async {
-    try {
-      final uri = await HomeWidget.initiallyLaunchedFromHomeWidget();
-      if (uri != null) _handleWidgetUri(uri);
-    } catch (_) {}
-  }
-
-  /// Listen for warm-launches (app already running) from the Capture widget.
-  void _listenWidgetClicks() {
-    HomeWidget.widgetClicked.listen((uri) {
-      if (uri != null) _handleWidgetUri(uri);
-    });
-  }
-
-  void _handleWidgetUri(Uri uri) {
-    if (uri.host == 'capture' && mounted) {
-      _showQuickAddDialog();
-    }
-  }
-
-  void _showQuickAddDialog() {
-    final controller = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (dialogContext) {
-        return AlertDialog(
-          backgroundColor: dialogContext.cSurfaceRaised,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSpacing.radiusM),
-            side: BorderSide(color: dialogContext.cBorder),
-          ),
-          title: Text(
-            AppLocalizations.of(context)!.quickCapture,
-            style: AppTypography.fraunces(
-              size: 18,
-              weight: 560,
-              color: dialogContext.cTextPrimary,
-            ),
-          ),
-          content: TextField(
-            controller: controller,
-            autofocus: true,
-            style: AppTypography.inter(size: 14, color: dialogContext.cTextPrimary),
-            decoration: InputDecoration(
-              hintText: AppLocalizations.of(context)!.quickCaptureHint,
-              hintStyle: AppTypography.inter(size: 14, color: dialogContext.cTextTertiary),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppSpacing.radiusS),
-                borderSide: BorderSide(color: dialogContext.cBorderStrong),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppSpacing.radiusS),
-                borderSide: BorderSide(color: dialogContext.cBorderStrong),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppSpacing.radiusS),
-                borderSide: BorderSide(color: dialogContext.cBrass),
-              ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-              filled: true,
-              fillColor: dialogContext.cSurface,
-            ),
-            onSubmitted: (text) {
-              _submitCapturedTask(text, controller, dialogContext);
-            },
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: Text(
-                AppLocalizations.of(context)!.cancel,
-                style: AppTypography.labelMedium(color: dialogContext.cTextSecondary),
-              ),
-            ),
-            FilledButton(
-              onPressed: () {
-                _submitCapturedTask(controller.text, controller, dialogContext);
-              },
-              style: FilledButton.styleFrom(
-                backgroundColor: dialogContext.cBrass,
-                foregroundColor: dialogContext.cInk,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSpacing.radiusS),
-                ),
-              ),
-              child: Text(
-                AppLocalizations.of(context)!.add,
-                style: AppTypography.labelMedium(color: dialogContext.cInk),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _submitCapturedTask(String text, TextEditingController controller, BuildContext dialogContext) {
-    final trimmed = text.trim();
-    if (trimmed.isEmpty) return;
-
-    final addTaskUseCase = getIt<AddTaskUseCase>();
-    addTaskUseCase(trimmed, 0).then((_) {
-      WidgetService.updateAllWidgets().catchError((_) {});
-      // Refresh today's list if we have a TodayCubit in context
-      if (mounted) {
-        try {
-          context.read<TodayCubit>().refresh();
-        } catch (_) {}
-      }
-    });
-
-    controller.clear();
-    Navigator.pop(dialogContext);
   }
 
   @override
@@ -199,61 +96,88 @@ class _AppShellViewState extends State<_AppShellView> {
     ];
 
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final overlayStyle = isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
+    final overlayStyle = isDark
+        ? SystemUiOverlayStyle.light
+        : SystemUiOverlayStyle.dark;
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: overlayStyle,
-      child: BlocConsumer<ShellCubit, int>(
-        listener: (context, currentIndex) {
-          if (currentIndex == 0) {
-            context.read<TodayCubit>().refresh();
-          } else if (currentIndex == 1) {
-            context.read<RolesCubit>().loadRoles();
-          } else if (currentIndex == 2) {
-            context.read<MatrixCubit>().loadTasks();
-          } else if (currentIndex == 3) {
-            context.read<ReviewCubit>().refresh();
-          }
-        },
-        builder: (context, currentIndex) {
-          if (screenClass == ScreenClass.expanded) {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, dynamic result) {
+        if (didPop) return;
+        SystemNavigator.pop();
+      },
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: overlayStyle,
+        child: BlocConsumer<ShellCubit, int>(
+          listener: (context, currentIndex) {
+            if (currentIndex == 0) {
+              context.read<TodayCubit>().refresh();
+            } else if (currentIndex == 1) {
+              context.read<RolesCubit>().loadRoles();
+            } else if (currentIndex == 2) {
+              context.read<MatrixCubit>().loadTasks();
+            } else if (currentIndex == 3) {
+              context.read<ReviewCubit>().refresh();
+            }
+          },
+          builder: (context, currentIndex) {
+            if (screenClass == ScreenClass.expanded) {
+              return Scaffold(
+                backgroundColor: context.cSurface,
+                body: SafeArea(
+                  child: Row(
+                    children: [
+                      _SideRail(
+                        selectedIndex: currentIndex,
+                        onSelect: (index) =>
+                            context.read<ShellCubit>().selectTab(index),
+                      ),
+                      Container(width: 1, color: context.cBorder),
+                      Expanded(
+                        child: FadeIndexedStack(
+                          index: currentIndex,
+                          children: [
+                            for (int i = 0; i < pages.length; i++)
+                              Column(
+                                children: [
+                                  _GlobalHeader(currentIndex: i),
+                                  Expanded(child: pages[i]),
+                                ],
+                              ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+
             return Scaffold(
               backgroundColor: context.cSurface,
               body: SafeArea(
-                child: Row(
+                bottom: false,
+                child: FadeIndexedStack(
+                  index: currentIndex,
                   children: [
-                    _SideRail(
-                      selectedIndex: currentIndex,
-                      onSelect: (index) =>
-                          context.read<ShellCubit>().selectTab(index),
-                    ),
-                    Container(width: 1, color: context.cBorder),
-                    Expanded(child: pages[currentIndex]),
+                    for (int i = 0; i < pages.length; i++)
+                      Column(
+                        children: [
+                          _GlobalHeader(currentIndex: i),
+                          Expanded(child: pages[i]),
+                        ],
+                      ),
                   ],
                 ),
               ),
-            );
-          }
-
-          return Scaffold(
-            backgroundColor: context.cSurface,
-            body: SafeArea(
-              bottom: false,
-              child: Column(
-                children: [
-                  _GlobalHeader(currentIndex: currentIndex),
-                  Expanded(
-                    child: FadeIndexedStack(index: currentIndex, children: pages),
-                  ),
-                ],
+              bottomNavigationBar: _BottomNav(
+                selectedIndex: currentIndex,
+                onSelect: (index) =>
+                    context.read<ShellCubit>().selectTab(index),
               ),
-            ),
-            bottomNavigationBar: _BottomNav(
-              selectedIndex: currentIndex,
-              onSelect: (index) => context.read<ShellCubit>().selectTab(index),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -332,12 +256,33 @@ class _GlobalHeader extends StatelessWidget {
     }
     String eyebrow = '';
     String title = '';
-    
+
     switch (currentIndex) {
       case 0:
         final now = DateTime.now();
-        final jours = [l.monday, l.tuesday, l.wednesday, l.thursday, l.friday, l.saturday, l.sunday];
-        final mois = [l.january, l.february, l.march, l.april, l.may, l.june, l.july, l.august, l.september, l.october, l.november, l.december];
+        final jours = [
+          l.monday,
+          l.tuesday,
+          l.wednesday,
+          l.thursday,
+          l.friday,
+          l.saturday,
+          l.sunday,
+        ];
+        final mois = [
+          l.january,
+          l.february,
+          l.march,
+          l.april,
+          l.may,
+          l.june,
+          l.july,
+          l.august,
+          l.september,
+          l.october,
+          l.november,
+          l.december,
+        ];
         eyebrow = '${jours[now.weekday - 1]} ${now.day} ${mois[now.month - 1]}';
         title = l.hello;
         break;
@@ -370,7 +315,11 @@ class _GlobalHeader extends StatelessWidget {
             context.read<ShellCubit>().selectTab(2);
           }
         },
-        child: Icon(Icons.settings_outlined, color: context.cTextSecondary, size: 24),
+        child: Icon(
+          Icons.settings_outlined,
+          color: context.cTextSecondary,
+          size: 24,
+        ),
       ),
     );
   }
@@ -478,7 +427,12 @@ class _SideRail extends StatelessWidget {
             const SizedBox(height: 28),
             Text(
               AppLocalizations.of(context)!.sideRailSection,
-              style: AppTypography.mono(size: 10.5, color: context.cTextTertiary, letterSpacing: 1.7, smallCaps: true),
+              style: AppTypography.mono(
+                size: 10.5,
+                color: context.cTextTertiary,
+                letterSpacing: 1.7,
+                smallCaps: true,
+              ),
             ),
             const SizedBox(height: 20),
             _RailButton(
@@ -516,7 +470,12 @@ class _SideRail extends StatelessWidget {
               ),
               child: Text(
                 AppLocalizations.of(context)!.sideRailQuote,
-                style: AppTypography.fraunces(size: 14.5, weight: 300, color: context.cTextSecondary, height: 1.55),
+                style: AppTypography.fraunces(
+                  size: 14.5,
+                  weight: 300,
+                  color: context.cTextSecondary,
+                  height: 1.55,
+                ),
               ),
             ),
           ],
@@ -555,17 +514,16 @@ class _RailButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppSpacing.radiusS),
-              side: BorderSide(color: active ? context.cBrass : context.cBorder),
+              side: BorderSide(
+                color: active ? context.cBrass : context.cBorder,
+              ),
             ),
           ),
           child: Row(
             children: [
               Icon(icon, size: 18, color: color),
               const SizedBox(width: 10),
-              Text(
-                label,
-                style: AppTypography.labelMedium(color: color),
-              ),
+              Text(label, style: AppTypography.labelMedium(color: color)),
             ],
           ),
         ),

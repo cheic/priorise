@@ -17,13 +17,15 @@ class WidgetService {
     try {
       final db = getIt<DatabaseService>();
       final now = DateTime.now();
-      final weekStart = now.subtract(Duration(days: now.weekday % 7));
-      final mondayStart = DateTime(weekStart.year, weekStart.month, weekStart.day);
+      final startOfDay = DateTime(now.year, now.month, now.day);
+      final endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
 
-      // Récupérer les tâches de la semaine
+      // Récupérer les tâches pertinentes (non terminées, ou terminées aujourd'hui)
       final tasks = await db.isar.tasks
         .filter()
-        .weekStartEqualTo(mondayStart)
+        .doneEqualTo(false)
+        .or()
+        .doneAtBetween(startOfDay, endOfDay)
         .findAll();
 
       final roles = await db.isar.lifeRoles.where().findAll();
@@ -79,18 +81,18 @@ class WidgetService {
 
       // Rafraîchir les 4 widgets Android
       await HomeWidget.updateWidget(
+        name: 'FocusWidgetProvider',
         androidName: 'FocusWidgetProvider',
         qualifiedAndroidName: 'sn.smapp.priorise.FocusWidgetProvider',
       );
       await HomeWidget.updateWidget(
+        name: 'MatrixWidgetProvider',
         androidName: 'MatrixWidgetProvider',
         qualifiedAndroidName: 'sn.smapp.priorise.MatrixWidgetProvider',
       );
+
       await HomeWidget.updateWidget(
-        androidName: 'CaptureWidgetProvider',
-        qualifiedAndroidName: 'sn.smapp.priorise.CaptureWidgetProvider',
-      );
-      await HomeWidget.updateWidget(
+        name: 'ListWidgetProvider',
         androidName: 'ListWidgetProvider',
         qualifiedAndroidName: 'sn.smapp.priorise.ListWidgetProvider',
       );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../tokens/app_colors.dart';
 import '../tokens/app_typography.dart';
+import '../tokens/app_spacing.dart';
 
 class AppToast {
   static void show(BuildContext context, String message, {IconData? icon, Color? iconColor}) {
@@ -27,7 +28,7 @@ class AppToast {
         ),
         backgroundColor: context.cSurfaceRaised,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(999),
+          borderRadius: BorderRadius.circular(AppSpacing.radiusM),
           side: BorderSide(color: context.cBorderStrong),
         ),
         behavior: SnackBarBehavior.floating,

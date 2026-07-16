@@ -40,12 +40,14 @@ class AddTaskUseCase {
   final TaskRepository repository;
   AddTaskUseCase(this.repository);
   Future<void> call(String title, int roleId, {bool important = false, bool urgent = false}) async {
+    final now = DateTime.now();
+    final mondayStart = DateTime(now.year, now.month, now.day).subtract(Duration(days: now.weekday - 1));
     final task = Task()
       ..title = title
       ..roleId = roleId
       ..important = important
       ..urgent = urgent
-      ..weekStart = DateTime.now();
+      ..weekStart = mondayStart;
     await repository.saveTask(task);
   }
 }
