@@ -240,7 +240,7 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
   late RoleAccent _selectedAccent;
   late String _selectedIconKey;
 
-  late final List<({String name, RoleAccent accent, Color Function(BuildContext) colorBuilder})> _colorOptions;
+  late List<({String name, RoleAccent accent, Color Function(BuildContext) colorBuilder})> _colorOptions;
 
   @override
   void initState() {
