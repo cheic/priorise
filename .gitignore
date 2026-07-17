@@ -71,3 +71,4 @@ app.*.map.json
 .fvm/flutter_sdk
 
 priorise-mockup.html
+agent_rules.md

@@ -95,7 +95,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sideRailQuote =>
-      '\"It\'s not your schedule that should dictate your priorities — it\'s your priorities that should dictate your schedule.\"';
+      '\"Focus your energy on what truly matters. The rest will follow naturally.\"';
 
   @override
   String get onb1Title => 'Not just another todo-list';
@@ -112,7 +112,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Parent, professional, friend — your tasks relate to who you are, not to anonymous lists.';
 
   @override
-  String get onb3Title => 'One big rock per week';
+  String get onb3Title => 'One major objective per week';
 
   @override
   String get onb3Desc =>
@@ -126,7 +126,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'No streaks, no grades. Just an honest mirror, week after week.';
 
   @override
-  String get weeklyStones => 'Your weekly big rocks';
+  String get weeklyStones => 'Your weekly objectives';
 
   @override
   String get todayPriority => 'Your priority, today';
@@ -135,10 +135,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get restOfWeek => 'The rest of the week';
 
   @override
-  String get quadrantLabel => 'Quadrant II';
+  String get quadrantLabel => 'Main Focus';
 
   @override
-  String get emptyFocus => 'No Big Rock defined.\nOpen planning.';
+  String get emptyFocus => 'No major objective defined.\nOpen planning.';
 
   @override
   String get noTasksYet => 'No tasks for this week';
@@ -242,6 +242,40 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your key is stored only on this device. Nothing is sent to a Priorise server — your requests go directly from your phone to your chosen provider.';
 
   @override
+  String get weekReviewedToast => 'Your review is saved. On to the next.';
+
+  @override
+  String get matrixImportanceLabel => 'IMPORTANCE ↑';
+
+  @override
+  String get matrixUrgenceLabel => 'URGENCY →';
+
+  @override
+  String get planWeeklyRitual => 'WEEKLY RITUAL';
+
+  @override
+  String get planDuration => 'SUNDAY, 20 MINUTES';
+
+  @override
+  String get planQuote =>
+      'Big rocks first — the rest will always find a place.';
+
+  @override
+  String get planRolesTitle => 'ONE ROCK, PER ROLE';
+
+  @override
+  String get planRoleHint => 'What is the one thing that matters?';
+
+  @override
+  String get titlePlan => 'Planning';
+
+  @override
+  String get seeMyMission => 'See my mission';
+
+  @override
+  String get aiSynthesisFailed => 'The AI could not synthesize this point.';
+
+  @override
   String get providerChangedMsg =>
       'Provider changed. Don\'t forget to enter your new API key.';
 
@@ -285,7 +319,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get userGuideText =>
-      'Welcome to the Priorise philosophy. Here are 4 steps to regain control of your time:\n\n1. Define your Life Roles\nYou are much more than just your profession. Parent, creator, friend, athlete... Declare your different Roles. Every task you accomplish will be tied to one of these facets, ensuring a healthy personal balance.\n\n2. Empty your mind\nAs soon as an obligation arises, use the \"+\" button to note it instantly. Don\'t categorize it right away. The goal is to reduce your mental load.\n\n3. The compass before the clock\nTake 10 minutes every Sunday to distribute your essential tasks for the week among your different roles. This ritual ensures that you are moving in the right direction, rather than racing against the clock.\n\n4. The Decision Matrix\nDaily, drag your tasks into the 4 zones of the Matrix:\n• Important and Urgent: Crises to handle immediately.\n• Important, Not Urgent: The progress zone (your true goals). This is the core of the app. Spend as much time here as possible.\n• Not Important, Urgent: Interruptions. Delegate or limit them.\n• Not Important, Not Urgent: Distractions. Eliminate them.';
+      'Welcome to the Priorise philosophy. Here are 4 steps to regain control of your time:\n\n1. Define your Life Roles\nYou are much more than just your profession. Parent, creator, friend, athlete... Declare your different Roles. Each task you accomplish will be connected to one of these facets, ensuring a healthy personal balance.\n\n2. Clear your mind\nAs soon as an obligation arises, use the \'+\' button to note it instantly. Don\'t classify it right away. The goal is to reduce your mental load.\n\n3. Direction before speed\nTake 10 minutes every Sunday to distribute your essential tasks for the week among your different roles. This ritual ensures you are moving in the right direction, rather than racing against the clock.\n\n4. The Decision Matrix\nDaily, drag your tasks into the 4 zones of the Matrix:\n• Important and Urgent: Crises to handle immediately.\n• Important, Not Urgent: The progression zone (your true goals). This is the heart of the app. Spend as much time here as possible.\n• Not Important, Urgent: Interruptions. Delegate or limit.\n• Not Important, Not Urgent: Distractions. Eliminate.';
 
   @override
   String get appVersion => 'App version';
@@ -345,7 +379,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dailyReminderTitle => 'Today\'s priority';
 
   @override
-  String get dailyReminderBody => 'Don\'t forget your big rock today.';
+  String get dailyReminderBody => 'Don\'t forget your main objective today.';
 
   @override
   String get somethingWentWrong => 'Something went wrong.';
@@ -440,14 +474,14 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get matrixInfoTitle => 'Eisenhower Matrix';
+  String get matrixInfoTitle => 'Priority Matrix';
 
   @override
   String get matrixInfoDesc =>
       'A simple method to visualize where your attention really goes.';
 
   @override
-  String get matrixInfoQ1Title => 'Do (Urgent & Important)';
+  String get matrixInfoQ1Title => 'Act (Urgent & Important)';
 
   @override
   String get matrixInfoQ1Desc =>
@@ -575,4 +609,82 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get december => 'December';
+
+  @override
+  String get noRoleDefinedYet => 'No roles defined yet.';
+
+  @override
+  String get yourPrioriseThisWeek => 'YOUR PRIORISE, THIS WEEK';
+
+  @override
+  String get allOtherTasksDone => 'All other tasks are accomplished!';
+
+  @override
+  String get noOtherTasks => 'No other tasks planned for now.';
+
+  @override
+  String get synthesizing => 'Synthesizing...';
+
+  @override
+  String get synthesizeWithAI => 'Synthesize with AI (optional)';
+
+  @override
+  String get attentionByRole => 'Attention by role';
+
+  @override
+  String get attentionByRoleDesc =>
+      'Calculated automatically from tasks and objectives checked this week — nothing to fill here.';
+
+  @override
+  String get reviewMirrorText =>
+      'No score. Just a mirror, to adjust next week.';
+
+  @override
+  String get reviewListenAdjust => 'Listen to yourself, then adjust';
+
+  @override
+  String get reviewQuestion =>
+      'How do you feel about this week? What worked well, what got stuck?';
+
+  @override
+  String get writeFreelyHint => 'Write freely...';
+
+  @override
+  String get reviewQuestion1 =>
+      'Which major objective actually found its place?';
+
+  @override
+  String get reviewHint1 =>
+      'Ex: Dinner without phones — two nights out of three.';
+
+  @override
+  String get reviewQuestion2 => 'What took the place of a priority this week?';
+
+  @override
+  String get reviewHint2 => 'Ex: Monday\'s emergencies ate up the schedule...';
+
+  @override
+  String get reviewSubtitle => 'A moment to pause and observe your actions.';
+
+  @override
+  String get enableAISuggestionsFirst => 'Enable AI suggestions first';
+
+  @override
+  String get configureValidApiKey => 'Please configure a valid API key';
+
+  @override
+  String get aiSynthesisComplete => 'AI synthesis complete!';
+
+  @override
+  String get connectionFailureCheckKey =>
+      'Connection failed. Check your API key.';
+
+  @override
+  String get enterAnApiKey => 'Please enter an API key.';
+
+  @override
+  String get connectionSuccessful => 'Connection successful!';
+
+  @override
+  String get validateMyWeek => 'Validate my week';
 }

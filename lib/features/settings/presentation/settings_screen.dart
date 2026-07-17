@@ -53,6 +53,7 @@ class SettingsPageState extends State<SettingsPage> {
 
   Future<void> _toggleNotifications(bool value) async {
     if (value) {
+      final l10n = AppLocalizations.of(context)!;
       final granted = await getIt<NotificationService>().requestPermissionWithExplanation(context);
       if (mounted) {
         context.read<SettingsCubit>().updateNotifications(granted);
@@ -62,8 +63,8 @@ class SettingsPageState extends State<SettingsPage> {
         await getIt<NotificationService>().scheduleDailyReminder(
           hour: 9, 
           minute: 0,
-          title: AppLocalizations.of(context)!.dailyReminderTitle,
-          body: AppLocalizations.of(context)!.dailyReminderBody,
+          title: l10n.dailyReminderTitle,
+          body: l10n.dailyReminderBody,
         );
       }
     } else {
@@ -319,7 +320,7 @@ class SettingsPageState extends State<SettingsPage> {
                                   if (!context.mounted) return;
 
                                   if (_apiKeyController.text.isEmpty) {
-                                    AppToast.showError(context, 'Veuillez entrer une clé API.');
+                                    AppToast.showError(context, AppLocalizations.of(context)!.enterAnApiKey);
                                     return;
                                   }
 
@@ -329,9 +330,9 @@ class SettingsPageState extends State<SettingsPage> {
                                   final success = await cubit.testAiConnection();
                                   if (context.mounted) {
                                     if (success) {
-                                      AppToast.showSuccess(context, 'Connexion réussie !');
+                                      AppToast.showSuccess(context, AppLocalizations.of(context)!.connectionSuccessful);
                                     } else {
-                                      AppToast.showError(context, 'Échec de la connexion. Vérifiez la clé API.');
+                                      AppToast.showError(context, AppLocalizations.of(context)!.connectionFailureCheckKey);
                                     }
                                   }
                                 },

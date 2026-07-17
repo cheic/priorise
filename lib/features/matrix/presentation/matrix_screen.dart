@@ -37,7 +37,7 @@ class MatrixPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'VOTRE PRIORISE, CETTE SEMAINE',
+                              AppLocalizations.of(context)!.yourPrioriseThisWeek,
                               style: AppTypography.mono(
                                 size: 11,
                                 color: context.cTextTertiary,
@@ -211,6 +211,8 @@ class MatrixPage extends StatelessWidget {
                                 showGlow: true, 
                                 strokeScaleFactor: 1.0,
                                 tasks: _buildCompassTasks(matrixState, rolesState, context),
+                                importanceLabel: AppLocalizations.of(context)!.matrixImportanceLabel,
+                                urgenceLabel: AppLocalizations.of(context)!.matrixUrgenceLabel,
                               ),
                             ),
                           ),

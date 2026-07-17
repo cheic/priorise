@@ -34,6 +34,8 @@ class CompassPainter extends CustomPainter {
     this.strokeScaleFactor = 1.0,
     this.tasks = const [],
     this.showLabels = true,
+    this.importanceLabel = 'IMPORTANCE ↑',
+    this.urgenceLabel = 'URGENCE →',
   });
 
   final bool isDark;
@@ -41,6 +43,8 @@ class CompassPainter extends CustomPainter {
   final double strokeScaleFactor;
   final List<CompassTask> tasks;
   final bool showLabels;
+  final String importanceLabel;
+  final String urgenceLabel;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -197,21 +201,23 @@ class CompassPainter extends CustomPainter {
         color: isDark ? AppColorsDark.textTertiary : AppColorsLight.textTertiary,
       );
       
-      final importText = TextPainter(
-        text: TextSpan(text: 'IMPORTANCE ↑', style: textStyle),
+      // IMPORTANCE
+      final importanceText = TextPainter(
+        text: TextSpan(text: importanceLabel, style: textStyle),
         textDirection: TextDirection.ltr,
       )..layout();
       
+      // URGENCE
       final urgenceText = TextPainter(
-        text: TextSpan(text: 'URGENCE →', style: textStyle),
+        text: TextSpan(text: urgenceLabel, style: textStyle),
         textDirection: TextDirection.ltr,
       )..layout();
 
       // IMPORTANCE centered at the top
       // Positioned horizontally centered above the compass
-      importText.paint(
+      importanceText.paint(
         canvas,
-        Offset(cx - importText.width / 2, cy - (98 * s) - importText.height - (4 * s)),
+        Offset(cx - importanceText.width / 2, cy - (98 * s) - importanceText.height - (4 * s)),
       );
 
       // URGENCE positioned on the right horizontal line

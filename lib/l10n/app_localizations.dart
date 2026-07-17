@@ -269,7 +269,7 @@ abstract class AppLocalizations {
   /// No description provided for @sideRailQuote.
   ///
   /// In fr, this message translates to:
-  /// **'« Ce n\'est pas votre agenda qui doit dicter vos priorités — ce sont vos priorités qui doivent dicter votre agenda. »'**
+  /// **'« Concentrez votre énergie sur ce qui compte vraiment. Le reste suivra naturellement. »'**
   String get sideRailQuote;
 
   /// No description provided for @onb1Title.
@@ -299,7 +299,7 @@ abstract class AppLocalizations {
   /// No description provided for @onb3Title.
   ///
   /// In fr, this message translates to:
-  /// **'Une grosse pierre par semaine'**
+  /// **'Un objectif majeur par semaine'**
   String get onb3Title;
 
   /// No description provided for @onb3Desc.
@@ -323,7 +323,7 @@ abstract class AppLocalizations {
   /// No description provided for @weeklyStones.
   ///
   /// In fr, this message translates to:
-  /// **'Vos pierres de la semaine'**
+  /// **'Vos objectifs de la semaine'**
   String get weeklyStones;
 
   /// No description provided for @todayPriority.
@@ -341,13 +341,13 @@ abstract class AppLocalizations {
   /// No description provided for @quadrantLabel.
   ///
   /// In fr, this message translates to:
-  /// **'Quadrant II'**
+  /// **'Focus Majeur'**
   String get quadrantLabel;
 
   /// No description provided for @emptyFocus.
   ///
   /// In fr, this message translates to:
-  /// **'Aucune Grosse Pierre définie.\nOuvrez la planification.'**
+  /// **'Aucun objectif majeur défini.\nOuvrez la planification.'**
   String get emptyFocus;
 
   /// No description provided for @noTasksYet.
@@ -542,6 +542,72 @@ abstract class AppLocalizations {
   /// **'Votre clé reste stockée uniquement sur cet appareil. Rien n\'est envoyé à un serveur Priorise — vos requêtes vont directement du téléphone vers le fournisseur choisi.'**
   String get securityNote;
 
+  /// No description provided for @weekReviewedToast.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre bilan est enregistré. En avant pour la suite.'**
+  String get weekReviewedToast;
+
+  /// No description provided for @matrixImportanceLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'IMPORTANCE ↑'**
+  String get matrixImportanceLabel;
+
+  /// No description provided for @matrixUrgenceLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'URGENCE →'**
+  String get matrixUrgenceLabel;
+
+  /// No description provided for @planWeeklyRitual.
+  ///
+  /// In fr, this message translates to:
+  /// **'RITUEL HEBDOMADAIRE'**
+  String get planWeeklyRitual;
+
+  /// No description provided for @planDuration.
+  ///
+  /// In fr, this message translates to:
+  /// **'DIMANCHE, 20 MINUTES'**
+  String get planDuration;
+
+  /// No description provided for @planQuote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Les grosses pierres d\'abord — le reste trouve toujours sa place.'**
+  String get planQuote;
+
+  /// No description provided for @planRolesTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'UNE PIERRE, PAR RÔLE'**
+  String get planRolesTitle;
+
+  /// No description provided for @planRoleHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quelle est la seule chose qui compte ?'**
+  String get planRoleHint;
+
+  /// No description provided for @titlePlan.
+  ///
+  /// In fr, this message translates to:
+  /// **'Planification'**
+  String get titlePlan;
+
+  /// No description provided for @seeMyMission.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voir ma mission'**
+  String get seeMyMission;
+
+  /// No description provided for @aiSynthesisFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'L\'IA n\'a pas pu synthétiser ce point.'**
+  String get aiSynthesisFailed;
+
   /// No description provided for @providerChangedMsg.
   ///
   /// In fr, this message translates to:
@@ -623,7 +689,7 @@ abstract class AppLocalizations {
   /// No description provided for @userGuideText.
   ///
   /// In fr, this message translates to:
-  /// **'Bienvenue dans la philosophie Priorise. Voici 4 étapes pour reprendre le contrôle de votre temps :\n\n1. Définissez vos Rôles de Vie\nVous êtes bien plus que votre simple profession. Parent, créateur, ami, sportif... Déclarez vos différents Rôles. Chaque tâche que vous accomplirez sera reliée à une de ces facettes, garantissant un équilibre personnel sain.\n\n2. Videz votre esprit\nDès qu\'une obligation surgit, utilisez le bouton « + » pour la noter instantanément. Ne la classez pas tout de suite. L\'objectif est de réduire votre charge mentale.\n\n3. La boussole avant la montre\nPrenez 10 minutes chaque dimanche pour répartir vos tâches essentielles de la semaine entre vos différents rôles. Ce rituel garantit que vous avancez dans la bonne direction, plutôt que de courir contre la montre.\n\n4. La Matrice de Décision\nAu quotidien, glissez vos tâches dans les 4 zones de la Matrice :\n• Important et Urgent : Les crises à gérer immédiatement.\n• Important, Pas Urgent : La zone de progression (vos vrais objectifs). C\'est le cœur de l\'application. Passez-y un maximum de temps.\n• Pas Important, Urgent : Les interruptions. À déléguer ou limiter.\n• Pas Important, Pas Urgent : Les distractions. À éliminer.'**
+  /// **'Bienvenue dans la philosophie Priorise. Voici 4 étapes pour reprendre le contrôle de votre temps :\n\n1. Définissez vos Rôles de Vie\nVous êtes bien plus que votre simple profession. Parent, créateur, ami, sportif... Déclarez vos différents Rôles. Chaque tâche que vous accomplirez sera reliée à une de ces facettes, garantissant un équilibre personnel sain.\n\n2. Videz votre esprit\nDès qu\'une obligation surgit, utilisez le bouton « + » pour la noter instantanément. Ne la classez pas tout de suite. L\'objectif est de réduire votre charge mentale.\n\n3. La direction avant la vitesse\nPrenez 10 minutes chaque dimanche pour répartir vos tâches essentielles de la semaine entre vos différents rôles. Ce rituel garantit que vous avancez dans la bonne direction, plutôt que de courir contre la montre.\n\n4. La Matrice de Décision\nAu quotidien, glissez vos tâches dans les 4 zones de la Matrice :\n• Important et Urgent : Les crises à gérer immédiatement.\n• Important, Pas Urgent : La zone de progression (vos vrais objectifs). C\'est le cœur de l\'application. Passez-y un maximum de temps.\n• Pas Important, Urgent : Les interruptions. À déléguer ou limiter.\n• Pas Important, Pas Urgent : Les distractions. À éliminer.'**
   String get userGuideText;
 
   /// No description provided for @appVersion.
@@ -743,7 +809,7 @@ abstract class AppLocalizations {
   /// No description provided for @dailyReminderBody.
   ///
   /// In fr, this message translates to:
-  /// **'N\'oubliez pas votre grosse pierre aujourd\'hui.'**
+  /// **'N\'oubliez pas votre objectif principal aujourd\'hui.'**
   String get dailyReminderBody;
 
   /// No description provided for @somethingWentWrong.
@@ -923,7 +989,7 @@ abstract class AppLocalizations {
   /// No description provided for @matrixInfoTitle.
   ///
   /// In fr, this message translates to:
-  /// **'Matrice d\'Eisenhower'**
+  /// **'Matrice des Priorités'**
   String get matrixInfoTitle;
 
   /// No description provided for @matrixInfoDesc.
@@ -1177,6 +1243,150 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'décembre'**
   String get december;
+
+  /// No description provided for @noRoleDefinedYet.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun rôle défini pour l\'instant.'**
+  String get noRoleDefinedYet;
+
+  /// No description provided for @yourPrioriseThisWeek.
+  ///
+  /// In fr, this message translates to:
+  /// **'VOTRE PRIORISE, CETTE SEMAINE'**
+  String get yourPrioriseThisWeek;
+
+  /// No description provided for @allOtherTasksDone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Toutes les autres tâches sont accomplies !'**
+  String get allOtherTasksDone;
+
+  /// No description provided for @noOtherTasks.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune autre tâche planifiée pour le moment.'**
+  String get noOtherTasks;
+
+  /// No description provided for @synthesizing.
+  ///
+  /// In fr, this message translates to:
+  /// **'Synthèse en cours...'**
+  String get synthesizing;
+
+  /// No description provided for @synthesizeWithAI.
+  ///
+  /// In fr, this message translates to:
+  /// **'Synthétiser avec l\'IA (optionnel)'**
+  String get synthesizeWithAI;
+
+  /// No description provided for @attentionByRole.
+  ///
+  /// In fr, this message translates to:
+  /// **'Attention portée, par rôle'**
+  String get attentionByRole;
+
+  /// No description provided for @attentionByRoleDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Calculé automatiquement à partir des tâches et objectifs cochés cette semaine — rien à remplir ici.'**
+  String get attentionByRoleDesc;
+
+  /// No description provided for @reviewMirrorText.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas de score. Juste un miroir, pour ajuster la semaine prochaine.'**
+  String get reviewMirrorText;
+
+  /// No description provided for @reviewListenAdjust.
+  ///
+  /// In fr, this message translates to:
+  /// **'S\'écouter, puis ajuster'**
+  String get reviewListenAdjust;
+
+  /// No description provided for @reviewQuestion.
+  ///
+  /// In fr, this message translates to:
+  /// **'Comment vous sentez-vous par rapport à cette semaine ? Qu\'est-ce qui a bien fonctionné, qu\'est-ce qui a coincé ?'**
+  String get reviewQuestion;
+
+  /// No description provided for @writeFreelyHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Écrivez librement...'**
+  String get writeFreelyHint;
+
+  /// No description provided for @reviewQuestion1.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quel objectif majeur a réellement trouvé sa place ?'**
+  String get reviewQuestion1;
+
+  /// No description provided for @reviewHint1.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex: Le dîner sans téléphone — deux soirs sur trois.'**
+  String get reviewHint1;
+
+  /// No description provided for @reviewQuestion2.
+  ///
+  /// In fr, this message translates to:
+  /// **'Qu\'est-ce qui a pris la place d\'une priorité, cette semaine ?'**
+  String get reviewQuestion2;
+
+  /// No description provided for @reviewHint2.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ex: Les urgences du lundi ont grignoté le créneau...'**
+  String get reviewHint2;
+
+  /// No description provided for @reviewSubtitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un temps d\'arrêt pour observer vos actions.'**
+  String get reviewSubtitle;
+
+  /// No description provided for @enableAISuggestionsFirst.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activez d\'abord les suggestions IA'**
+  String get enableAISuggestionsFirst;
+
+  /// No description provided for @configureValidApiKey.
+  ///
+  /// In fr, this message translates to:
+  /// **'Veuillez configurer une clé API valide'**
+  String get configureValidApiKey;
+
+  /// No description provided for @aiSynthesisComplete.
+  ///
+  /// In fr, this message translates to:
+  /// **'Synthèse IA terminée !'**
+  String get aiSynthesisComplete;
+
+  /// No description provided for @connectionFailureCheckKey.
+  ///
+  /// In fr, this message translates to:
+  /// **'Échec de la connexion. Vérifiez la clé API.'**
+  String get connectionFailureCheckKey;
+
+  /// No description provided for @enterAnApiKey.
+  ///
+  /// In fr, this message translates to:
+  /// **'Veuillez entrer une clé API.'**
+  String get enterAnApiKey;
+
+  /// No description provided for @connectionSuccessful.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion réussie !'**
+  String get connectionSuccessful;
+
+  /// No description provided for @validateMyWeek.
+  ///
+  /// In fr, this message translates to:
+  /// **'Valider ma semaine'**
+  String get validateMyWeek;
 }
 
 class _AppLocalizationsDelegate

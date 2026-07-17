@@ -1,3 +1,5 @@
+import 'package:priorise/l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/tokens/app_colors.dart';
@@ -20,8 +22,8 @@ class PlanScreen extends StatelessWidget {
         child: Column(
         children: [
           PageHeader(
-            eyebrow: 'RITUEL HEBDOMADAIRE',
-            title: 'Planification',
+            eyebrow: AppLocalizations.of(context)!.planWeeklyRitual,
+            title: AppLocalizations.of(context)!.titlePlan,
             horizontalPadding: hPad,
             showBackButton: true,
           ),
@@ -30,7 +32,7 @@ class PlanScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(hPad, AppSpacing.xxl, hPad, AppSpacing.xxxxl + MediaQuery.paddingOf(context).bottom),
               children: [
                 Text(
-                  'DIMANCHE, 20 MINUTES',
+                  AppLocalizations.of(context)!.planDuration,
                   style: AppTypography.mono(
                     size: 11,
                     color: context.cTextTertiary,
@@ -49,7 +51,7 @@ class PlanScreen extends StatelessWidget {
                 
                 const SizedBox(height: AppSpacing.l),
                 Text(
-                  'Les grosses pierres d\'abord — le reste trouve toujours sa place.',
+                  AppLocalizations.of(context)!.planQuote,
                   textAlign: TextAlign.center,
                   style: AppTypography.inter(
                     size: 12,
@@ -59,7 +61,7 @@ class PlanScreen extends StatelessWidget {
                 
                 const SizedBox(height: AppSpacing.xxxxl),
                 Text(
-                  'UNE PIERRE, PAR RÔLE',
+                  AppLocalizations.of(context)!.planRolesTitle,
                   style: AppTypography.mono(
                     size: 11,
                     color: context.cTextTertiary,
@@ -79,7 +81,7 @@ class PlanScreen extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: AppSpacing.l),
                         child: Text(
-                          'Aucun rôle défini pour le moment.',
+                          AppLocalizations.of(context)!.noRoleDefinedYet,
                           textAlign: TextAlign.center,
                           style: AppTypography.inter(color: context.cTextTertiary, size: 14),
                         ),
@@ -116,7 +118,7 @@ class PlanScreen extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      'Valider ma semaine',
+                      AppLocalizations.of(context)!.validateMyWeek,
                       style: AppTypography.inter(size: 14, weight: FontWeight.w600, color: context.cInk),
                     ),
                   ),
@@ -217,7 +219,7 @@ class _PlanRowState extends State<_PlanRow> {
                     focusedBorder: InputBorder.none,
                     filled: false,
                     contentPadding: const EdgeInsets.symmetric(vertical: 8),
-                    hintText: 'Quelle est la seule chose qui compte ?',
+                    hintText: AppLocalizations.of(context)!.planRoleHint,
                     hintStyle: AppTypography.inter(size: 14, color: context.cTextTertiary),
                   ),
                 ),

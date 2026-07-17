@@ -46,12 +46,28 @@ class PageHeader extends StatelessWidget {
                     child: Icon(Icons.arrow_back, color: context.cTextSecondary, size: 16),
                   ),
                 ),
-              Text(
-                eyebrow.toUpperCase(),
-                style: AppTypography.mono(
-                  size: 10,
-                  color: context.cBrass,
-                  letterSpacing: 10 * 0.14,
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+                layoutBuilder: (currentChild, previousChildren) {
+                  return Stack(
+                    alignment: Alignment.centerLeft,
+                    children: [
+                      ...previousChildren,
+                      ?currentChild,
+                    ],
+                  );
+                },
+                child: Text(
+                  eyebrow.toUpperCase(),
+                  key: ValueKey(eyebrow),
+                  style: AppTypography.mono(
+                    size: 10,
+                    color: context.cBrass,
+                    letterSpacing: 10 * 0.14,
+                  ),
                 ),
               ),
             ],
@@ -61,13 +77,29 @@ class PageHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                title,
-                style: AppTypography.fraunces(
-                  size: 23,
-                  weight: 560,
-                  color: context.cTextPrimary,
-                  height: 1.15,
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 250),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+                layoutBuilder: (currentChild, previousChildren) {
+                  return Stack(
+                    alignment: Alignment.centerLeft,
+                    children: [
+                      ...previousChildren,
+                      ?currentChild,
+                    ],
+                  );
+                },
+                child: Text(
+                  title,
+                  key: ValueKey(title),
+                  style: AppTypography.fraunces(
+                    size: 23,
+                    weight: 560,
+                    color: context.cTextPrimary,
+                    height: 1.15,
+                  ),
                 ),
               ),
               ?trailing,

@@ -52,7 +52,11 @@ flutter_launcher_icons:
 flutter_native_splash:
   color: "#F8F4E9"
   color_dark: "#1B140B"
+  image: "assets/icons/priorise_splash_icon.png"
+  image_dark: "assets/icons/priorise_splash_icon.png"
 
   android_12:
     color: "#F8F4E9"
     color_dark: "#1B140B"
+    image: "assets/icons/priorise_splash_icon.png"
+    image_dark: "assets/icons/priorise_splash_icon.png"

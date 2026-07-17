@@ -4,7 +4,6 @@ import '../../core/router/app_router.dart';
 import '../../core/services/secure_storage_service.dart';
 import '../../core/tokens/app_colors.dart';
 import '../../core/tokens/app_spacing.dart';
-import '../../shared/painters/compass_painter.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -72,12 +71,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               SizedBox(
                 width: compassSize,
                 height: compassSize,
-                child: CustomPaint(
-                  painter: CompassPainter(
-                    isDark: Theme.of(context).brightness == Brightness.dark,
-                    showGlow: false,
-                    showLabels: false,
-                  ),
+                child: Image.asset(
+                  'assets/icons/priorise-icon-adaptive-foreground-512.png',
+                  fit: BoxFit.contain,
                 ),
               ),
               const SizedBox(height: AppSpacing.xl),

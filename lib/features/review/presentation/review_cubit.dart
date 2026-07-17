@@ -95,20 +95,27 @@ class ReviewCubit extends Cubit<ReviewState> {
     }
   }
 
-  Future<void> updateAnswers(String whatWorked, String whatSlipped) async {
+  Timer? _saveTimer;
+
+  void updateAnswers({String? whatWorked, String? whatSlipped}) {
     final currentReview = state.review;
     if (currentReview == null) return;
 
-    currentReview.whatWorked = whatWorked;
-    currentReview.whatSlipped = whatSlipped;
+    if (whatWorked != null) currentReview.whatWorked = whatWorked;
+    if (whatSlipped != null) currentReview.whatSlipped = whatSlipped;
 
-    await saveReviewUseCase(currentReview);
     emit(state.copyWith(review: currentReview));
+
+    _saveTimer?.cancel();
+    _saveTimer = Timer(const Duration(milliseconds: 500), () {
+      saveReviewUseCase(currentReview);
+    });
   }
 
   Future<void> synthesizeWithAI({
     required String provider,
     required String apiKey,
+    required String fallbackErrorMsg,
     required Function(String) onError,
     required Function() onSuccess,
   }) async {
@@ -129,8 +136,8 @@ class ReviewCubit extends Cubit<ReviewState> {
 
       final currentReview = state.review;
       if (currentReview != null) {
-        currentReview.whatWorked = result['whatWorked'] ?? "L'IA n'a pas pu synthétiser ce point.";
-        currentReview.whatSlipped = result['whatSlipped'] ?? "L'IA n'a pas pu synthétiser ce point.";
+        currentReview.whatWorked = result['whatWorked'] ?? fallbackErrorMsg;
+        currentReview.whatSlipped = result['whatSlipped'] ?? fallbackErrorMsg;
         await saveReviewUseCase(currentReview);
         emit(state.copyWith(review: currentReview));
       }
@@ -141,5 +148,11 @@ class ReviewCubit extends Cubit<ReviewState> {
     } finally {
       emit(state.copyWith(isSynthesizing: false));
     }
+  }
+
+  @override
+  Future<void> close() {
+    _saveTimer?.cancel();
+    return super.close();
   }
 }

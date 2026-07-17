@@ -13,8 +13,8 @@ import '../../../core/tokens/app_typography.dart';
 import 'package:priorise/l10n/app_localizations.dart';
 
 import 'today_cubit.dart';
-import 'widgets/today_header.dart';
 import 'widgets/today_role_chips.dart';
+import 'widgets/today_header.dart';
 import 'widgets/today_focus_card.dart';
 import 'widgets/today_task_list.dart';
 import 'widgets/today_fab.dart';
@@ -67,58 +67,69 @@ class _TodayBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final hPad = AppSpacing.screenPaddingH(context);
 
-    return SingleChildScrollView(
-      padding: EdgeInsets.only(
-        top: AppSpacing.xxl,
-        bottom: AppSpacing.xxxxl + 64, // space for FAB
-      ),
+    final l10n = AppLocalizations.of(context)!;
+
+    return SafeArea(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Mission link
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: hPad),
-            child: const TodayMissionLink(),
-          ),
-          
-          // Ritual Banner (only if week is NOT planned)
-          if (!state.tasks.any((t) => t.important && !t.urgent))
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: hPad),
-              child: const TodayRitualBanner(),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(
+                top: AppSpacing.xxl,
+                bottom: AppSpacing.xxxxl + 64, // space for FAB
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Mission link
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: hPad),
+                    child: const TodayMissionLink(),
+                  ),
+                  
+                  // Ritual Banner (only if week is NOT planned)
+                  if (!state.tasks.any((t) => t.important && !t.urgent))
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: hPad),
+                      child: const TodayRitualBanner(),
+                    ),
+
+                  // Section title: "Vos objectifs de la semaine"
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(hPad, AppSpacing.xxl, hPad, AppSpacing.m),
+                    child: TodaySectionTitle(text: l10n.weeklyStones.toUpperCase()),
+                  ),
+
+                  // Role scroll
+                  TodayRoleChipsRow(state: state, hPad: hPad),
+
+                  // Section title: "Votre priorité, aujourd'hui"
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(hPad, AppSpacing.xxl, hPad, AppSpacing.m),
+                    child: TodaySectionTitle(text: l10n.todayPriority.toUpperCase()),
+                  ),
+
+                  // Focus card
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: hPad),
+                    child: TodayFocusCard(state: state),
+                  ),
+
+                  // Section title: "Le reste de la semaine"
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(hPad, AppSpacing.xxl, hPad, AppSpacing.m),
+                    child: TodaySectionTitle(text: l10n.restOfWeek.toUpperCase()),
+                  ),
+
+                  // Task list
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: hPad),
+                    child: TodayTaskCardContainer(state: state),
+                  ),
+                ],
+              ),
             ),
-
-          // Section title: "Vos pierres de la semaine"
-          Padding(
-            padding: EdgeInsets.fromLTRB(hPad, AppSpacing.xxl, hPad, AppSpacing.m),
-            child: const TodaySectionTitle(text: 'VOS PIERRES DE LA SEMAINE'),
-          ),
-
-          // Role scroll
-          TodayRoleChipsRow(state: state, hPad: hPad),
-
-          // Section title: "Votre priorité, aujourd'hui"
-          Padding(
-            padding: EdgeInsets.fromLTRB(hPad, AppSpacing.xxl, hPad, AppSpacing.m),
-            child: const TodaySectionTitle(text: 'VOTRE PRIORITÉ, AUJOURD\'HUI'),
-          ),
-
-          // Focus card
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: hPad),
-            child: TodayFocusCard(state: state),
-          ),
-
-          // Section title: "Le reste de la semaine"
-          Padding(
-            padding: EdgeInsets.fromLTRB(hPad, AppSpacing.xxl, hPad, AppSpacing.m),
-            child: const TodaySectionTitle(text: 'LE RESTE DE LA SEMAINE'),
-          ),
-
-          // Task list
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: hPad),
-            child: TodayTaskCardContainer(state: state),
           ),
         ],
       ),

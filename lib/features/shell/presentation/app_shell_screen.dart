@@ -134,16 +134,15 @@ class _AppShellViewState extends State<_AppShellView> {
                       ),
                       Container(width: 1, color: context.cBorder),
                       Expanded(
-                        child: FadeIndexedStack(
-                          index: currentIndex,
+                        child: Column(
                           children: [
-                            for (int i = 0; i < pages.length; i++)
-                              Column(
-                                children: [
-                                  _GlobalHeader(currentIndex: i),
-                                  Expanded(child: pages[i]),
-                                ],
+                            _GlobalHeader(currentIndex: currentIndex),
+                            Expanded(
+                              child: FadeIndexedStack(
+                                index: currentIndex,
+                                children: pages,
                               ),
+                            ),
                           ],
                         ),
                       ),
@@ -157,16 +156,15 @@ class _AppShellViewState extends State<_AppShellView> {
               backgroundColor: context.cSurface,
               body: SafeArea(
                 bottom: false,
-                child: FadeIndexedStack(
-                  index: currentIndex,
+                child: Column(
                   children: [
-                    for (int i = 0; i < pages.length; i++)
-                      Column(
-                        children: [
-                          _GlobalHeader(currentIndex: i),
-                          Expanded(child: pages[i]),
-                        ],
+                    _GlobalHeader(currentIndex: currentIndex),
+                    Expanded(
+                      child: FadeIndexedStack(
+                        index: currentIndex,
+                        children: pages,
                       ),
+                    ),
                   ],
                 ),
               ),
@@ -396,6 +394,7 @@ class _SideRail extends StatelessWidget {
                     painter: CompassPainter(
                       isDark: Theme.of(context).brightness == Brightness.dark,
                       showGlow: false,
+                      showLabels: false,
                     ),
                   ),
                 ),

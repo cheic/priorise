@@ -34,7 +34,7 @@ class ReviewPage extends StatelessWidget {
                         _SectionTitle(AppLocalizations.of(context)!.titleReview),
                         const SizedBox(height: 4),
                         Text(
-                          AppLocalizations.of(context)!.securityNote,
+                          AppLocalizations.of(context)!.reviewSubtitle,
                           style: AppTypography.inter(
                             size: 11,
                             color: context.cTextTertiary,
@@ -43,14 +43,20 @@ class ReviewPage extends StatelessWidget {
                         const SizedBox(height: 16),
                         
                         _ReviewPrompt(
-                          question: 'Quelle grosse pierre a réellement trouvé sa place ?',
+                          question: AppLocalizations.of(context)!.reviewQuestion1,
                           answer: state.review?.whatWorked ?? '',
-                          hintText: 'Ex: Le dîner sans téléphone — deux soirs sur trois.',
+                          hintText: AppLocalizations.of(context)!.reviewHint1,
+                          onChanged: (val) {
+                            context.read<ReviewCubit>().updateAnswers(whatWorked: val);
+                          },
                         ),
                         _ReviewPrompt(
-                          question: "Qu'est-ce qui a pris la place d'une priorité, cette semaine ?",
+                          question: AppLocalizations.of(context)!.reviewQuestion2,
                           answer: state.review?.whatSlipped ?? '',
-                          hintText: 'Ex: Les urgences du lundi ont grignoté le créneau...',
+                          hintText: AppLocalizations.of(context)!.reviewHint2,
+                          onChanged: (val) {
+                            context.read<ReviewCubit>().updateAnswers(whatSlipped: val);
+                          },
                         ),
                         
                         const SizedBox(height: 6),
@@ -61,20 +67,21 @@ class ReviewPage extends StatelessWidget {
                             if (settingsState == null) return;
 
                             if (!settingsState.aiSuggestionsEnabled) {
-                              AppToast.show(context, "Activez d'abord les suggestions IA");
+                              AppToast.show(context, AppLocalizations.of(context)!.enableAISuggestionsFirst);
                               Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
                             } else if (settingsState.aiApiKey.trim().length < 5) {
-                              AppToast.show(context, "Veuillez configurer une clé API valide");
+                              AppToast.show(context, AppLocalizations.of(context)!.configureValidApiKey);
                               Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
                             } else {
                               context.read<ReviewCubit>().synthesizeWithAI(
                                 provider: settingsState.aiProvider,
                                 apiKey: settingsState.aiApiKey,
+                                fallbackErrorMsg: AppLocalizations.of(context)!.aiSynthesisFailed,
                                 onError: (errorMsg) {
                                   AppToast.showError(context, errorMsg);
                                 },
                                 onSuccess: () {
-                                  AppToast.showSuccess(context, "Synthèse IA terminée !");
+                                  AppToast.showSuccess(context, AppLocalizations.of(context)!.aiSynthesisComplete);
                                 },
                               );
                             }
@@ -108,7 +115,7 @@ class ReviewPage extends StatelessWidget {
                                   ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  state.isSynthesizing ? "Synthèse en cours..." : "Synthétiser avec l'IA (optionnel)",
+                                  state.isSynthesizing ? AppLocalizations.of(context)!.synthesizing : AppLocalizations.of(context)!.synthesizeWithAI,
                                   style: AppTypography.inter(
                                     size: 13,
                                     weight: FontWeight.w500,
@@ -121,10 +128,10 @@ class ReviewPage extends StatelessWidget {
                         ),
                         
                         const SizedBox(height: AppSpacing.xxxl),
-                        const _SectionTitle('Attention portée, par rôle'),
+                        _SectionTitle(AppLocalizations.of(context)!.attentionByRole),
                         const SizedBox(height: 4),
                         Text(
-                          'Calculé automatiquement à partir des tâches et grosses pierres cochées cette semaine — rien à remplir ici.',
+                          AppLocalizations.of(context)!.attentionByRoleDesc,
                           style: AppTypography.inter(
                             size: 11,
                             color: context.cTextTertiary,
@@ -137,7 +144,7 @@ class ReviewPage extends StatelessWidget {
                         
                         const SizedBox(height: 14),
                         Text(
-                          'Pas de score. Juste un miroir, pour ajuster la semaine prochaine.',
+                          AppLocalizations.of(context)!.reviewMirrorText,
                           textAlign: TextAlign.center,
                           style: AppTypography.inter(
                             size: 11,
@@ -154,11 +161,17 @@ class ReviewPage extends StatelessWidget {
 }
 
 class _ReviewPrompt extends StatefulWidget {
-  const _ReviewPrompt({required this.question, required this.answer, required this.hintText});
+  const _ReviewPrompt({
+    required this.question, 
+    required this.answer, 
+    required this.hintText,
+    required this.onChanged,
+  });
 
   final String question;
   final String answer;
   final String hintText;
+  final ValueChanged<String> onChanged;
 
   @override
   State<_ReviewPrompt> createState() => _ReviewPromptState();
@@ -207,9 +220,7 @@ class _ReviewPromptState extends State<_ReviewPrompt> {
             controller: _controller,
             maxLines: null,
             style: AppTypography.inter(size: 13, color: context.cTextPrimary),
-            onChanged: (val) {
-              // Could dispatch update event to cubit here if needed
-            },
+            onChanged: widget.onChanged,
             decoration: InputDecoration(
               hintText: widget.hintText,
               hintStyle: AppTypography.inter(size: 13, color: context.cTextTertiary),
@@ -253,7 +264,7 @@ class _AttentionCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppSpacing.radiusM),
         ),
         child: Text(
-          "Aucun rôle défini pour l'instant.",
+          AppLocalizations.of(context)!.noRoleDefinedYet,
           style: AppTypography.inter(size: 13, color: context.cTextTertiary),
           textAlign: TextAlign.center,
         ),

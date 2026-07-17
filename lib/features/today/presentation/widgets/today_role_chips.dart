@@ -1,3 +1,5 @@
+import 'package:priorise/l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:priorise/core/tokens/app_colors.dart';
@@ -22,7 +24,7 @@ class TodayRoleChipsRow extends StatelessWidget {
         height: 100,
         alignment: Alignment.center,
         child: Text(
-          "Aucun rôle n'a encore été créé.",
+          AppLocalizations.of(context)!.noRoleDefinedYet,
           style: AppTypography.inter(
             size: 13,
             color: context.cTextTertiary,

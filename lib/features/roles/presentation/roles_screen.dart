@@ -48,7 +48,7 @@ class RolesPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: AppSpacing.xxl),
                             child: Text(
-                              "Aucun rôle n'a encore été défini. Ajoutez-en un pour commencer.",
+                              AppLocalizations.of(context)!.noRolesDefined,
                               style: AppTypography.inter(size: 14, color: context.cTextSecondary),
                               textAlign: TextAlign.center,
                             ),

@@ -40,9 +40,9 @@ class TodayTaskCardContainer extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            hasTasks 
-              ? 'Toutes les autres tâches sont accomplies !' 
-              : 'Aucune autre tâche planifiée pour le moment.',
+              hasTasks 
+                ? AppLocalizations.of(context)!.allOtherTasksDone 
+                : AppLocalizations.of(context)!.noOtherTasks,
             style: AppTypography.inter(
                 size: 13,
                 color: context.cTextTertiary),

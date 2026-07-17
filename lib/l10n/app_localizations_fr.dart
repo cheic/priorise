@@ -95,7 +95,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get sideRailQuote =>
-      '« Ce n\'est pas votre agenda qui doit dicter vos priorités — ce sont vos priorités qui doivent dicter votre agenda. »';
+      '« Concentrez votre énergie sur ce qui compte vraiment. Le reste suivra naturellement. »';
 
   @override
   String get onb1Title => 'Pas une todo-list de plus';
@@ -112,7 +112,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Parent, professionnel, ami — vos tâches se rattachent à qui vous êtes, pas à des listes anonymes.';
 
   @override
-  String get onb3Title => 'Une grosse pierre par semaine';
+  String get onb3Title => 'Un objectif majeur par semaine';
 
   @override
   String get onb3Desc =>
@@ -126,7 +126,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Pas de streaks, pas de notes chiffrées. Juste un miroir honnête, semaine après semaine.';
 
   @override
-  String get weeklyStones => 'Vos pierres de la semaine';
+  String get weeklyStones => 'Vos objectifs de la semaine';
 
   @override
   String get todayPriority => 'Votre priorité, aujourd\'hui';
@@ -135,11 +135,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get restOfWeek => 'Le reste de la semaine';
 
   @override
-  String get quadrantLabel => 'Quadrant II';
+  String get quadrantLabel => 'Focus Majeur';
 
   @override
   String get emptyFocus =>
-      'Aucune Grosse Pierre définie.\nOuvrez la planification.';
+      'Aucun objectif majeur défini.\nOuvrez la planification.';
 
   @override
   String get noTasksYet => 'Aucune tâche pour cette semaine';
@@ -246,6 +246,41 @@ class AppLocalizationsFr extends AppLocalizations {
       'Votre clé reste stockée uniquement sur cet appareil. Rien n\'est envoyé à un serveur Priorise — vos requêtes vont directement du téléphone vers le fournisseur choisi.';
 
   @override
+  String get weekReviewedToast =>
+      'Votre bilan est enregistré. En avant pour la suite.';
+
+  @override
+  String get matrixImportanceLabel => 'IMPORTANCE ↑';
+
+  @override
+  String get matrixUrgenceLabel => 'URGENCE →';
+
+  @override
+  String get planWeeklyRitual => 'RITUEL HEBDOMADAIRE';
+
+  @override
+  String get planDuration => 'DIMANCHE, 20 MINUTES';
+
+  @override
+  String get planQuote =>
+      'Les grosses pierres d\'abord — le reste trouve toujours sa place.';
+
+  @override
+  String get planRolesTitle => 'UNE PIERRE, PAR RÔLE';
+
+  @override
+  String get planRoleHint => 'Quelle est la seule chose qui compte ?';
+
+  @override
+  String get titlePlan => 'Planification';
+
+  @override
+  String get seeMyMission => 'Voir ma mission';
+
+  @override
+  String get aiSynthesisFailed => 'L\'IA n\'a pas pu synthétiser ce point.';
+
+  @override
   String get providerChangedMsg =>
       'Fournisseur modifié. N\'oubliez pas d\'entrer votre nouvelle clé API.';
 
@@ -289,7 +324,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get userGuideText =>
-      'Bienvenue dans la philosophie Priorise. Voici 4 étapes pour reprendre le contrôle de votre temps :\n\n1. Définissez vos Rôles de Vie\nVous êtes bien plus que votre simple profession. Parent, créateur, ami, sportif... Déclarez vos différents Rôles. Chaque tâche que vous accomplirez sera reliée à une de ces facettes, garantissant un équilibre personnel sain.\n\n2. Videz votre esprit\nDès qu\'une obligation surgit, utilisez le bouton « + » pour la noter instantanément. Ne la classez pas tout de suite. L\'objectif est de réduire votre charge mentale.\n\n3. La boussole avant la montre\nPrenez 10 minutes chaque dimanche pour répartir vos tâches essentielles de la semaine entre vos différents rôles. Ce rituel garantit que vous avancez dans la bonne direction, plutôt que de courir contre la montre.\n\n4. La Matrice de Décision\nAu quotidien, glissez vos tâches dans les 4 zones de la Matrice :\n• Important et Urgent : Les crises à gérer immédiatement.\n• Important, Pas Urgent : La zone de progression (vos vrais objectifs). C\'est le cœur de l\'application. Passez-y un maximum de temps.\n• Pas Important, Urgent : Les interruptions. À déléguer ou limiter.\n• Pas Important, Pas Urgent : Les distractions. À éliminer.';
+      'Bienvenue dans la philosophie Priorise. Voici 4 étapes pour reprendre le contrôle de votre temps :\n\n1. Définissez vos Rôles de Vie\nVous êtes bien plus que votre simple profession. Parent, créateur, ami, sportif... Déclarez vos différents Rôles. Chaque tâche que vous accomplirez sera reliée à une de ces facettes, garantissant un équilibre personnel sain.\n\n2. Videz votre esprit\nDès qu\'une obligation surgit, utilisez le bouton « + » pour la noter instantanément. Ne la classez pas tout de suite. L\'objectif est de réduire votre charge mentale.\n\n3. La direction avant la vitesse\nPrenez 10 minutes chaque dimanche pour répartir vos tâches essentielles de la semaine entre vos différents rôles. Ce rituel garantit que vous avancez dans la bonne direction, plutôt que de courir contre la montre.\n\n4. La Matrice de Décision\nAu quotidien, glissez vos tâches dans les 4 zones de la Matrice :\n• Important et Urgent : Les crises à gérer immédiatement.\n• Important, Pas Urgent : La zone de progression (vos vrais objectifs). C\'est le cœur de l\'application. Passez-y un maximum de temps.\n• Pas Important, Urgent : Les interruptions. À déléguer ou limiter.\n• Pas Important, Pas Urgent : Les distractions. À éliminer.';
 
   @override
   String get appVersion => 'Version de l\'application';
@@ -350,7 +385,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get dailyReminderBody =>
-      'N\'oubliez pas votre grosse pierre aujourd\'hui.';
+      'N\'oubliez pas votre objectif principal aujourd\'hui.';
 
   @override
   String get somethingWentWrong => 'Quelque chose s\'est mal passé.';
@@ -445,7 +480,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get matrixInfoTitle => 'Matrice d\'Eisenhower';
+  String get matrixInfoTitle => 'Matrice des Priorités';
 
   @override
   String get matrixInfoDesc =>
@@ -582,4 +617,84 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get december => 'décembre';
+
+  @override
+  String get noRoleDefinedYet => 'Aucun rôle défini pour l\'instant.';
+
+  @override
+  String get yourPrioriseThisWeek => 'VOTRE PRIORISE, CETTE SEMAINE';
+
+  @override
+  String get allOtherTasksDone => 'Toutes les autres tâches sont accomplies !';
+
+  @override
+  String get noOtherTasks => 'Aucune autre tâche planifiée pour le moment.';
+
+  @override
+  String get synthesizing => 'Synthèse en cours...';
+
+  @override
+  String get synthesizeWithAI => 'Synthétiser avec l\'IA (optionnel)';
+
+  @override
+  String get attentionByRole => 'Attention portée, par rôle';
+
+  @override
+  String get attentionByRoleDesc =>
+      'Calculé automatiquement à partir des tâches et objectifs cochés cette semaine — rien à remplir ici.';
+
+  @override
+  String get reviewMirrorText =>
+      'Pas de score. Juste un miroir, pour ajuster la semaine prochaine.';
+
+  @override
+  String get reviewListenAdjust => 'S\'écouter, puis ajuster';
+
+  @override
+  String get reviewQuestion =>
+      'Comment vous sentez-vous par rapport à cette semaine ? Qu\'est-ce qui a bien fonctionné, qu\'est-ce qui a coincé ?';
+
+  @override
+  String get writeFreelyHint => 'Écrivez librement...';
+
+  @override
+  String get reviewQuestion1 =>
+      'Quel objectif majeur a réellement trouvé sa place ?';
+
+  @override
+  String get reviewHint1 =>
+      'Ex: Le dîner sans téléphone — deux soirs sur trois.';
+
+  @override
+  String get reviewQuestion2 =>
+      'Qu\'est-ce qui a pris la place d\'une priorité, cette semaine ?';
+
+  @override
+  String get reviewHint2 =>
+      'Ex: Les urgences du lundi ont grignoté le créneau...';
+
+  @override
+  String get reviewSubtitle => 'Un temps d\'arrêt pour observer vos actions.';
+
+  @override
+  String get enableAISuggestionsFirst => 'Activez d\'abord les suggestions IA';
+
+  @override
+  String get configureValidApiKey => 'Veuillez configurer une clé API valide';
+
+  @override
+  String get aiSynthesisComplete => 'Synthèse IA terminée !';
+
+  @override
+  String get connectionFailureCheckKey =>
+      'Échec de la connexion. Vérifiez la clé API.';
+
+  @override
+  String get enterAnApiKey => 'Veuillez entrer une clé API.';
+
+  @override
+  String get connectionSuccessful => 'Connexion réussie !';
+
+  @override
+  String get validateMyWeek => 'Valider ma semaine';
 }

@@ -35,7 +35,7 @@ class TodayFocusCard extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            "Aucune priorité stratégique (Important & Non Urgent) définie pour aujourd'hui.",
+            AppLocalizations.of(context)!.emptyFocus,
             style: AppTypography.inter(
               size: 13,
               color: context.cTextTertiary,
@@ -148,7 +148,7 @@ class TodayFocusCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(
-                          'Quadrant II · ${role.name}'.toUpperCase(),
+                          '${AppLocalizations.of(context)!.quadrantLabel} · ${role.name}'.toUpperCase(),
                           style: AppTypography.mono(
                             size: 9.5,
                             weight: FontWeight.w500,

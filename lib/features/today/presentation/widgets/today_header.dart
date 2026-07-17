@@ -82,7 +82,7 @@ class TodayMissionLink extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              'Voir ma mission',
+              AppLocalizations.of(context)!.seeMyMission,
               style: AppTypography.inter(
                 size: 13.5,
                 color: context.cTextTertiary,
