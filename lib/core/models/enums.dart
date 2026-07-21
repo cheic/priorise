@@ -20,7 +20,7 @@ extension PriorityLevelX on PriorityLevel {
 
 /// Couleur d'accent d'un rôle de vie — reprend les tokens du design system
 /// (voir core/theme/tokens.dart), jamais de rouge saturé.
-enum RoleAccent { brass, sage, clay, slate, amethyst, moss }
+enum RoleAccent { brass, sage, clay, slate, amethyst, moss, ocean, sand, rose, pine }
 
 /// Fournisseurs IA supportés par l'écran Paramètres.
 enum AiProviderId { claude, gemini, openai, kimi, qwen, ollama }

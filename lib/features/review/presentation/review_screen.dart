@@ -60,71 +60,72 @@ class ReviewPage extends StatelessWidget {
                         ),
                         
                         const SizedBox(height: 6),
-                        // AI Synthesis Button
-                        InkWell(
-                          onTap: state.isSynthesizing ? null : () {
-                            final settingsState = context.read<SettingsCubit>().state.settings;
-                            if (settingsState == null) return;
-
-                            if (!settingsState.aiSuggestionsEnabled) {
-                              AppToast.show(context, AppLocalizations.of(context)!.enableAISuggestionsFirst);
-                              Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
-                            } else if (settingsState.aiApiKey.trim().length < 5) {
-                              AppToast.show(context, AppLocalizations.of(context)!.configureValidApiKey);
-                              Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
-                            } else {
-                              context.read<ReviewCubit>().synthesizeWithAI(
-                                provider: settingsState.aiProvider,
-                                apiKey: settingsState.aiApiKey,
-                                fallbackErrorMsg: AppLocalizations.of(context)!.aiSynthesisFailed,
-                                onError: (errorMsg) {
-                                  AppToast.showError(context, errorMsg);
-                                },
-                                onSuccess: () {
-                                  AppToast.showSuccess(context, AppLocalizations.of(context)!.aiSynthesisComplete);
-                                },
-                              );
+                        BlocBuilder<SettingsCubit, SettingsState>(
+                          builder: (context, settingsState) {
+                            final settings = settingsState.settings;
+                            if (settings == null || !settings.aiSuggestionsEnabled) {
+                              return const SizedBox.shrink();
                             }
-                          },
-                          borderRadius: BorderRadius.circular(AppSpacing.radiusM),
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: context.cBorderStrong),
+                            return InkWell(
+                              onTap: state.isSynthesizing ? null : () {
+                                if (settings.aiApiKey.trim().length < 5) {
+                                  AppToast.show(context, AppLocalizations.of(context)!.configureValidApiKey);
+                                  Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
+                                } else {
+                                  context.read<ReviewCubit>().synthesizeWithAI(
+                                    provider: settings.aiProvider,
+                                    apiKey: settings.aiApiKey,
+                                    fallbackErrorMsg: AppLocalizations.of(context)!.aiSynthesisFailed,
+                                    onError: (errorMsg) {
+                                      AppToast.showError(context, errorMsg);
+                                    },
+                                    onSuccess: () {
+                                      AppToast.showSuccess(context, AppLocalizations.of(context)!.aiSynthesisComplete);
+                                    },
+                                  );
+                                }
+                              },
                               borderRadius: BorderRadius.circular(AppSpacing.radiusM),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                if (state.isSynthesizing)
-                                  SizedBox(
-                                    width: 14,
-                                    height: 14,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: context.cTextPrimary,
-                                    ),
-                                  )
-                                else
-                                  Icon(
-                                    Icons.auto_awesome_rounded,
-                                    size: 14,
-                                    color: context.cTextPrimary,
-                                  ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  state.isSynthesizing ? AppLocalizations.of(context)!.synthesizing : AppLocalizations.of(context)!.synthesizeWithAI,
-                                  style: AppTypography.inter(
-                                    size: 13,
-                                    weight: FontWeight.w500,
-                                    color: context.cTextPrimary,
-                                  ),
+                              child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: context.cBorderStrong),
+                                  borderRadius: BorderRadius.circular(AppSpacing.radiusM),
                                 ),
-                              ],
-                            ),
-                          ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    if (state.isSynthesizing)
+                                      SizedBox(
+                                        width: 14,
+                                        height: 14,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: context.cTextPrimary,
+                                        ),
+                                      )
+                                    else
+                                      Icon(
+                                        Icons.auto_awesome_rounded,
+                                        size: 14,
+                                        color: context.cTextPrimary,
+                                      ),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      state.isSynthesizing ? AppLocalizations.of(context)!.synthesizing : AppLocalizations.of(context)!.synthesizeWithAI,
+                                      style: AppTypography.inter(
+                                        size: 13,
+                                        weight: FontWeight.w500,
+                                        color: context.cTextPrimary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         
                         const SizedBox(height: AppSpacing.xxxl),

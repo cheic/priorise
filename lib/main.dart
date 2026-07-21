@@ -20,6 +20,8 @@ import 'core/models/role_model.dart';
 import 'package:home_widget/home_widget.dart';
 import 'shared/widgets/quick_capture_dialog.dart';
 
+import 'package:priorise/core/services/secure_storage_service.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void _handleDeepLink(Uri uri) {
@@ -48,8 +50,10 @@ Future<void> main() async {
   ]);
 
   await setupDependencies();
+  
+  final isFirstLaunch = await getIt<SecureStorageService>().isFirstLaunch();
 
-  runApp(const PrioriseApp());
+  runApp(PrioriseApp(isFirstLaunch: isFirstLaunch));
 
   // Sync widgets after the app is fully running to avoid MissingPluginException
   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -86,7 +90,9 @@ Future<void> main() async {
 }
 
 class PrioriseApp extends StatelessWidget {
-  const PrioriseApp({super.key});
+  final bool isFirstLaunch;
+
+  const PrioriseApp({super.key, required this.isFirstLaunch});
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +107,8 @@ class PrioriseApp extends StatelessWidget {
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
+          final initialRoute = isFirstLaunch ? AppRoutes.onboarding : AppRoutes.today;
+
           return MaterialApp(
             title: 'Priorise',
             navigatorKey: navigatorKey,
@@ -110,9 +118,9 @@ class PrioriseApp extends StatelessWidget {
             themeMode: themeMode,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            initialRoute: AppRoutes.splash,
+            initialRoute: initialRoute,
             onGenerateInitialRoutes: (route) {
-              return [generateRoute(const RouteSettings(name: AppRoutes.splash))];
+              return [generateRoute(RouteSettings(name: initialRoute))];
             },
             onGenerateRoute: generateRoute,
           );

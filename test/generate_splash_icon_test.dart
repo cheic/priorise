@@ -1,9 +1,6 @@
-import 'dart:io';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:priorise/core/tokens/app_colors.dart';
-import 'package:priorise/core/tokens/app_spacing.dart';
 import 'package:priorise/shared/painters/compass_painter.dart';
 
 class SplashIconGenerator extends StatelessWidget {

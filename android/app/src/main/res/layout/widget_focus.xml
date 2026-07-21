@@ -4,29 +4,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center_vertical"
     android:background="@drawable/widget_bg">
 
-    <!-- Header -->
+    <!-- Header (Top left) -->
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="🎯 FOCUS"
-        android:textColor="#B8935B"
+        android:textColor="@color/widget_text_eyebrow"
         android:textSize="10sp"
         android:letterSpacing="0.14"
         android:textAllCaps="true"
         android:fontFamily="monospace"
-        android:gravity="center" />
+        android:gravity="start|center_vertical" />
 
     <!-- Content (when task exists) -->
     <LinearLayout
         android:id="@+id/focus_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
         android:visibility="visible">
 
         <TextView
@@ -34,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="STRATÉGIQUE"
-            android:textColor="#DBB682"
+            android:textColor="@color/widget_brass_bright"
             android:textSize="9sp"
             android:fontFamily="monospace"
             android:textAllCaps="true"
@@ -43,29 +41,32 @@
             android:paddingEnd="8dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_gravity="center_horizontal"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/focus_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="Votre priorité"
-            android:textColor="#ECE5D4"
+            android:textColor="@color/widget_text_primary"
             android:textSize="16sp"
             android:maxLines="2"
             android:ellipsize="end"
-            android:gravity="center" />
+            android:gravity="start|center_vertical" />
     </LinearLayout>
 
     <!-- Empty state -->
     <TextView
         android:id="@+id/focus_empty"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:text="Aucune Grosse Pierre définie.\nOuvrez Priorise pour planifier."
-        android:textColor="#77828F"
+        android:textColor="@color/widget_text_secondary"
         android:textSize="12sp"
         android:gravity="center"
         android:visibility="gone" />

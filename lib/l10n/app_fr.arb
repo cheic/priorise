@@ -137,6 +137,10 @@
   "colorSlate": "Ardoise",
   "colorAmethyst": "Améthyste",
   "colorMoss": "Mousse",
+  "colorOcean": "Océan",
+  "colorSand": "Sable",
+  "colorRose": "Rose",
+  "colorPine": "Pin",
 
   "reminderScheduled": "Rappel de révision programmé",
   "schedule": "Programmer",
@@ -150,6 +154,10 @@
   "colorSlate": "Ardoise",
   "colorAmethyst": "Améthyste",
   "colorMoss": "Mousse",
+  "colorOcean": "Océan",
+  "colorSand": "Sable",
+  "colorRose": "Rose",
+  "colorPine": "Pin",
 
   "importantUrgent": "Important + Urgent",
   "importantNotUrgent": "Important + Non Urgent",
@@ -170,6 +178,7 @@
   "taskHint": "Ex. Rappeler le plombier",
   "roleLabel": "Rôle",
   "noRolesDefined": "Aucun rôle n'a encore été défini.\nAllez dans l'onglet Rôles pour en créer un avant d'ajouter une tâche.",
+  "noRolesEmptyState": "Aucun rôle n'a encore été défini.",
   "priorityMatrixLabel": "Priorité (Matrice)",
   "selectPriority": "Sélectionner une priorité",
   "priorityStrategic": "Stratégique / À planifier",
@@ -263,5 +272,16 @@
   "connectionFailureCheckKey": "Échec de la connexion. Vérifiez la clé API.",
   "enterAnApiKey": "Veuillez entrer une clé API.",
   "connectionSuccessful": "Connexion réussie !",
-  "validateMyWeek": "Valider ma semaine"
+  "validateMyWeek": "Valider ma semaine",
+
+  "postponeTaskTitle": "Reporter la tâche ?",
+  "postponeTaskDesc": "Voulez-vous reporter \"{taskName}\" à la semaine prochaine ?",
+  "@postponeTaskDesc": {
+    "placeholders": {
+      "taskName": { "type": "String" }
+    }
+  },
+  "postpone": "Reporter",
+  "planPunctualTasksTitle": "TÂCHES PONCTUELLES (GRAVIER)",
+  "planAddPunctualTask": "Ajouter une tâche ponctuelle"
 }

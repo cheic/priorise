@@ -65,6 +65,7 @@ class TodayCubit extends Cubit<TodayState> {
     required this.addTaskUseCase,
     required this.updateTaskUseCase,
     required this.deleteTaskUseCase,
+    required this.postponeTaskUseCase,
     required this.watchTasksUseCase,
   }) : super(TodayLoading()) {
     _load();
@@ -78,6 +79,7 @@ class TodayCubit extends Cubit<TodayState> {
   final AddTaskUseCase addTaskUseCase;
   final UpdateTaskUseCase updateTaskUseCase;
   final DeleteTaskUseCase deleteTaskUseCase;
+  final PostponeTaskUseCase postponeTaskUseCase;
   final WatchTasksUseCase watchTasksUseCase;
 
   StreamSubscription<void>? _subscription;
@@ -135,6 +137,12 @@ class TodayCubit extends Cubit<TodayState> {
 
   Future<void> deleteTask(int taskId) async {
     await deleteTaskUseCase(taskId);
+    WidgetService.updateAllWidgets().catchError((_) {});
+    _load();
+  }
+
+  Future<void> postponeTask(int taskId) async {
+    await postponeTaskUseCase(taskId);
     WidgetService.updateAllWidgets().catchError((_) {});
     _load();
   }

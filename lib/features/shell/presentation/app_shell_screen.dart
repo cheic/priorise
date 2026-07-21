@@ -41,6 +41,7 @@ class AppShellScreen extends StatelessWidget {
             addTaskUseCase: getIt(),
             updateTaskUseCase: getIt(),
             deleteTaskUseCase: getIt(),
+            postponeTaskUseCase: getIt(),
             watchTasksUseCase: getIt(),
           )..refresh(),
         ),

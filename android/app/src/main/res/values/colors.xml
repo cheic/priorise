@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="splash_color">#F8F4E9</color>
+    
+    <!-- Widget Background -->
+    <color name="widget_bg_color">#F0E7E0CF</color>
+    <color name="widget_border_color">#1A202B34</color>
+    
+    <!-- Text Colors -->
+    <color name="widget_text_primary">#202B34</color>
+    <color name="widget_text_secondary">#4A545F</color>
+    <color name="widget_text_eyebrow">#9C7642</color>
+    
+    <!-- Role / Brass -->
+    <color name="widget_brass">#9C7642</color>
+    <color name="widget_brass_bright">#B8935B</color>
+    <color name="widget_brass_glow">#389C7642</color>
+    <color name="widget_brass_glow_strong">#409C7642</color>
+
+    <!-- Quadrant / Colors -->
+    <color name="widget_quadrant_bg">#0D202B34</color>
+    <color name="widget_quadrant_border">#1A202B34</color>
+    
+    <!-- Urgent (Clay) -->
+    <color name="widget_urgent">#9B5847</color>
+    
+    <!-- Illusions/Distractions (Tertiary/Secondary) -->
+    <color name="widget_dim">#697583</color>
 </resources>

@@ -131,6 +131,10 @@
   "colorSlate": "Slate",
   "colorAmethyst": "Amethyst",
   "colorMoss": "Moss",
+  "colorOcean": "Ocean",
+  "colorSand": "Sand",
+  "colorRose": "Rose",
+  "colorPine": "Pine",
 
   "reminderScheduled": "Review reminder scheduled",
   "schedule": "Schedule",
@@ -144,6 +148,10 @@
   "colorSlate": "Slate",
   "colorAmethyst": "Amethyst",
   "colorMoss": "Moss",
+  "colorOcean": "Ocean",
+  "colorSand": "Sand",
+  "colorRose": "Rose",
+  "colorPine": "Pine",
 
   "importantUrgent": "Important + Urgent",
   "importantNotUrgent": "Important + Not Urgent",
@@ -164,6 +172,7 @@
   "taskHint": "E.g. Call the plumber",
   "roleLabel": "Role",
   "noRolesDefined": "No roles defined yet.\nGo to the Roles tab to create one before adding a task.",
+  "noRolesEmptyState": "No roles defined yet.",
   "priorityMatrixLabel": "Priority (Matrix)",
   "selectPriority": "Select a priority",
   "priorityStrategic": "Strategic / To plan",
@@ -257,5 +266,15 @@
   "connectionFailureCheckKey": "Connection failed. Check your API key.",
   "enterAnApiKey": "Please enter an API key.",
   "connectionSuccessful": "Connection successful!",
-  "validateMyWeek": "Validate my week"
+  "validateMyWeek": "Validate my week",
+  "postponeTaskTitle": "Postpone task?",
+  "postponeTaskDesc": "Do you want to postpone \"{taskName}\" to next week?",
+  "@postponeTaskDesc": {
+    "placeholders": {
+      "taskName": { "type": "String" }
+    }
+  },
+  "postpone": "Postpone",
+  "planPunctualTasksTitle": "PUNCTUAL TASKS (GRAVEL)",
+  "planAddPunctualTask": "Add a punctual task"
 }

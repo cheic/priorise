@@ -99,6 +99,7 @@ class MatrixPage extends StatelessWidget {
                                     }
 
                                     return Dialog(
+                                      insetPadding: const EdgeInsets.symmetric(horizontal: 16.0),
                                       backgroundColor: context.cSurfaceRaised,
                                       surfaceTintColor: Colors.transparent,
                                       shape: RoundedRectangleBorder(

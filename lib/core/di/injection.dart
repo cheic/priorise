@@ -70,6 +70,7 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton(() => UpdateTaskUseCase(getIt()));
   getIt.registerLazySingleton(() => DeleteTaskUseCase(getIt()));
   getIt.registerLazySingleton(() => WatchTasksUseCase(getIt()));
+  getIt.registerLazySingleton(() => PostponeTaskUseCase(getIt()));
   
   // Role
   getIt.registerLazySingleton(() => GetAllRolesUseCase(getIt()));

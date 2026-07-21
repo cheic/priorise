@@ -9,22 +9,26 @@ import 'dart:async';
 class PlanState {
   final List<LifeRole> roles;
   final Map<int, Task> roleTasks;
+  final List<Task> punctualTasks;
   final bool isLoading;
 
   const PlanState({
     this.roles = const [],
     this.roleTasks = const {},
+    this.punctualTasks = const [],
     this.isLoading = true,
   });
 
   PlanState copyWith({
     List<LifeRole>? roles,
     Map<int, Task>? roleTasks,
+    List<Task>? punctualTasks,
     bool? isLoading,
   }) {
     return PlanState(
       roles: roles ?? this.roles,
       roleTasks: roleTasks ?? this.roleTasks,
+      punctualTasks: punctualTasks ?? this.punctualTasks,
       isLoading: isLoading ?? this.isLoading,
     );
   }
@@ -35,7 +39,7 @@ class PlanCubit extends Cubit<PlanState> {
   final GetAllTasksUseCase getTasks;
   final AddTaskUseCase addTask;
   final UpdateTaskUseCase updateTask;
-  final DeleteTaskUseCase deleteTask;
+  final DeleteTaskUseCase deleteTaskUseCase;
   Timer? _debounceTimer;
 
   PlanCubit({
@@ -43,26 +47,32 @@ class PlanCubit extends Cubit<PlanState> {
     required this.getTasks,
     required this.addTask,
     required this.updateTask,
-    required this.deleteTask,
-  }) : super(const PlanState());
+    required DeleteTaskUseCase deleteTask,
+  }) : deleteTaskUseCase = deleteTask, super(const PlanState());
 
   Future<void> loadPlan() async {
     emit(state.copyWith(isLoading: true));
 
     final roles = await getAllRoles();
     final tasks = await getTasks();
-    final strategicTasks = tasks.where((t) => t.important == true && t.urgent == false && t.done == false);
+    
+    final pendingTasks = tasks.where((t) => t.done == false).toList();
     
     final Map<int, Task> roleTasks = {};
-    for (final task in strategicTasks) {
-      if (!roleTasks.containsKey(task.roleId)) {
+    final List<Task> punctualTasks = [];
+
+    for (final task in pendingTasks) {
+      if (task.important == true && task.urgent == false && !roleTasks.containsKey(task.roleId)) {
         roleTasks[task.roleId] = task;
+      } else {
+        punctualTasks.add(task);
       }
     }
 
     emit(state.copyWith(
       roles: roles,
       roleTasks: roleTasks,
+      punctualTasks: punctualTasks,
       isLoading: false,
     ));
   }
@@ -80,7 +90,7 @@ class PlanCubit extends Cubit<PlanState> {
 
     if (textTrimmed.isEmpty) {
       if (existingTask != null) {
-        await deleteTask(existingTask.id);
+        await deleteTaskUseCase(existingTask.id);
       }
     } else {
       if (existingTask != null) {
@@ -90,6 +100,24 @@ class PlanCubit extends Cubit<PlanState> {
       }
     }
 
+    await loadPlan();
+    WidgetService.updateAllWidgets();
+  }
+
+  Future<void> addPunctualTask(String title, int roleId, {required bool important, required bool urgent}) async {
+    await addTask(title, roleId, important: important, urgent: urgent);
+    await loadPlan();
+    WidgetService.updateAllWidgets();
+  }
+
+  Future<void> updatePunctualTask(int taskId, String title, int roleId, {required bool important, required bool urgent}) async {
+    await updateTask(taskId, title, roleId, important: important, urgent: urgent);
+    await loadPlan();
+    WidgetService.updateAllWidgets();
+  }
+
+  Future<void> removeTask(int taskId) async {
+    await deleteTaskUseCase(taskId);
     await loadPlan();
     WidgetService.updateAllWidgets();
   }

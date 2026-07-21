@@ -370,6 +370,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get colorMoss => 'Moss';
 
   @override
+  String get colorOcean => 'Ocean';
+
+  @override
+  String get colorSand => 'Sand';
+
+  @override
+  String get colorRose => 'Rose';
+
+  @override
+  String get colorPine => 'Pine';
+
+  @override
   String get reminderScheduled => 'Review reminder scheduled';
 
   @override
@@ -432,6 +444,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get noRolesDefined =>
       'No roles defined yet.\nGo to the Roles tab to create one before adding a task.';
+
+  @override
+  String get noRolesEmptyState => 'No roles defined yet.';
 
   @override
   String get priorityMatrixLabel => 'Priority (Matrix)';
@@ -687,4 +702,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get validateMyWeek => 'Validate my week';
+
+  @override
+  String get postponeTaskTitle => 'Postpone task?';
+
+  @override
+  String postponeTaskDesc(String taskName) {
+    return 'Do you want to postpone \"$taskName\" to next week?';
+  }
+
+  @override
+  String get postpone => 'Postpone';
+
+  @override
+  String get planPunctualTasksTitle => 'PUNCTUAL TASKS (GRAVEL)';
+
+  @override
+  String get planAddPunctualTask => 'Add a punctual task';
 }

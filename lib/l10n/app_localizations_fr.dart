@@ -375,6 +375,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get colorMoss => 'Mousse';
 
   @override
+  String get colorOcean => 'Océan';
+
+  @override
+  String get colorSand => 'Sable';
+
+  @override
+  String get colorRose => 'Rose';
+
+  @override
+  String get colorPine => 'Pin';
+
+  @override
   String get reminderScheduled => 'Rappel de révision programmé';
 
   @override
@@ -438,6 +450,9 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get noRolesDefined =>
       'Aucun rôle n\'a encore été défini.\nAllez dans l\'onglet Rôles pour en créer un avant d\'ajouter une tâche.';
+
+  @override
+  String get noRolesEmptyState => 'Aucun rôle n\'a encore été défini.';
 
   @override
   String get priorityMatrixLabel => 'Priorité (Matrice)';
@@ -697,4 +712,21 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get validateMyWeek => 'Valider ma semaine';
+
+  @override
+  String get postponeTaskTitle => 'Reporter la tâche ?';
+
+  @override
+  String postponeTaskDesc(String taskName) {
+    return 'Voulez-vous reporter \"$taskName\" à la semaine prochaine ?';
+  }
+
+  @override
+  String get postpone => 'Reporter';
+
+  @override
+  String get planPunctualTasksTitle => 'TÂCHES PONCTUELLES (GRAVIER)';
+
+  @override
+  String get planAddPunctualTask => 'Ajouter une tâche ponctuelle';
 }

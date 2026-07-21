@@ -9,6 +9,7 @@ import '../../../shared/widgets/page_header.dart';
 import '../../../shared/painters/dashed_border_painter.dart';
 import '../../../core/widgets/app_toast.dart';
 import '../../../core/di/injection.dart';
+import '../../../core/services/secure_storage_service.dart';
 import 'resizable_text_field.dart';
 import 'mission_cubit.dart';
 
@@ -37,11 +38,23 @@ class _MissionScreenContent extends StatefulWidget {
 class _MissionScreenContentState extends State<_MissionScreenContent> {
   bool _isEditing = false;
   late final TextEditingController _missionController;
+  int _selectedRevisionInterval = 3;
 
   @override
   void initState() {
     super.initState();
     _missionController = TextEditingController();
+    _loadInterval();
+  }
+
+  Future<void> _loadInterval() async {
+    final storage = getIt<SecureStorageService>();
+    final val = await storage.readMissionRevisionInterval();
+    if (val != null && mounted) {
+      setState(() {
+        _selectedRevisionInterval = int.tryParse(val) ?? 3;
+      });
+    }
   }
 
   @override
@@ -50,13 +63,28 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
     super.dispose();
   }
 
-  void _showScheduleModal() {
-    showModalBottomSheet(
+  void _showScheduleModal() async {
+    final result = await showModalBottomSheet<int>(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (ctx) => const _ScheduleModal(),
+      builder: (ctx) => _ScheduleModal(initialValue: _selectedRevisionInterval),
     );
+    if (result != null && mounted) {
+      setState(() {
+        _selectedRevisionInterval = result;
+      });
+      final storage = getIt<SecureStorageService>();
+      await storage.saveMissionRevisionInterval(result.toString());
+      if (mounted) {
+        AppToast.show(
+          context,
+          AppLocalizations.of(context)!.reminderScheduled,
+          icon: Icons.notifications_active_outlined,
+          iconColor: context.cBrass,
+        );
+      }
+    }
   }
 
   String _formatDate(BuildContext context, DateTime d) {
@@ -151,11 +179,13 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
                               ),
                             )
                           : Text(
-                              '« ${loadedState.statement} »',
+                              loadedState.statement.trim().isEmpty 
+                                  ? AppLocalizations.of(context)!.writeFreelyHint 
+                                  : '« ${loadedState.statement} »',
                               style: AppTypography.fraunces(
                                 size: 18,
                                 weight: 600,
-                                color: context.cTextPrimary,
+                                color: loadedState.statement.trim().isEmpty ? context.cTextTertiary : context.cTextPrimary,
                               ).copyWith(
                                 height: 1.5,
                                 fontStyle: FontStyle.italic,
@@ -319,8 +349,22 @@ class _DashedHint extends StatelessWidget {
   }
 }
 
-class _ScheduleModal extends StatelessWidget {
-  const _ScheduleModal();
+class _ScheduleModal extends StatefulWidget {
+  const _ScheduleModal({required this.initialValue});
+  final int initialValue;
+
+  @override
+  State<_ScheduleModal> createState() => _ScheduleModalState();
+}
+
+class _ScheduleModalState extends State<_ScheduleModal> {
+  late int _selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedValue = widget.initialValue;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -379,7 +423,7 @@ class _ScheduleModal extends StatelessWidget {
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<int>(
                   isExpanded: true,
-                  value: 3,
+                  value: _selectedValue,
                   dropdownColor: context.cSurfaceRaised,
                   icon: Icon(Icons.expand_more, color: context.cTextSecondary),
                   style: AppTypography.inter(size: 15, color: context.cTextPrimary),
@@ -389,7 +433,11 @@ class _ScheduleModal extends StatelessWidget {
                     DropdownMenuItem(value: 6, child: Text(AppLocalizations.of(context)!.months6)),
                     DropdownMenuItem(value: 12, child: Text(AppLocalizations.of(context)!.year1)),
                   ],
-                  onChanged: (val) {},
+                  onChanged: (val) {
+                    if (val != null) {
+                      setState(() => _selectedValue = val);
+                    }
+                  },
                 ),
               ),
             ),
@@ -414,13 +462,7 @@ class _ScheduleModal extends StatelessWidget {
                 Expanded(
                   child: FilledButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
-                      AppToast.show(
-                        context,
-                        AppLocalizations.of(context)!.reminderScheduled,
-                        icon: Icons.notifications_active_outlined,
-                        iconColor: context.cBrass,
-                      );
+                      Navigator.of(context).pop(_selectedValue);
                     },
                     style: FilledButton.styleFrom(
                       backgroundColor: context.cBrass,
@@ -441,3 +483,4 @@ class _ScheduleModal extends StatelessWidget {
     );
   }
 }
+

@@ -97,23 +97,23 @@ N'inclus que le JSON, pas de markdown, pas de texte autour.
       }
 
       // 3. Parse JSON
-      // Clean markdown if the AI wrapped it (e.g. ```json ... ```)
-      resultJson = resultJson.trim();
-      if (resultJson.startsWith('```json')) {
-        resultJson = resultJson.substring(7);
-      } else if (resultJson.startsWith('```')) {
-        resultJson = resultJson.substring(3);
-      }
-      if (resultJson.endsWith('```')) {
-        resultJson = resultJson.substring(0, resultJson.length - 3);
+      // Extract the JSON object from the response using regex in case the AI added conversational text
+      final jsonMatch = RegExp(r'\{[\s\S]*\}').firstMatch(resultJson);
+      if (jsonMatch != null) {
+        resultJson = jsonMatch.group(0)!;
+      } else {
+        throw Exception('Le format de réponse de $provider n\'est pas valide (JSON introuvable).');
       }
 
-      final data = jsonDecode(resultJson.trim());
+      final data = jsonDecode(resultJson);
       return {
         'whatWorked': data['whatWorked'] ?? 'Pas de retour généré.',
         'whatSlipped': data['whatSlipped'] ?? 'Pas de retour généré.',
       };
     } catch (e) {
+      if (e is FormatException) {
+        throw Exception('Erreur de format du retour de $provider.');
+      }
       throw Exception('Erreur de communication avec $provider. Vérifiez votre clé API et votre connexion.');
     }
   }

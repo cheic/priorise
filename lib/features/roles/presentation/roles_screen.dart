@@ -48,8 +48,8 @@ class RolesPage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: AppSpacing.xxl),
                             child: Text(
-                              AppLocalizations.of(context)!.noRolesDefined,
-                              style: AppTypography.inter(size: 14, color: context.cTextSecondary),
+                              AppLocalizations.of(context)!.noRolesEmptyState,
+                              style: AppTypography.inter(size: 14, color: context.cTextSecondary, height: 1.5),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -263,6 +263,10 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
       (name: loc.colorSlate, accent: RoleAccent.slate, colorBuilder: (c) => c.cSlate),
       (name: loc.colorAmethyst, accent: RoleAccent.amethyst, colorBuilder: (c) => c.cAmethyst),
       (name: loc.colorMoss, accent: RoleAccent.moss, colorBuilder: (c) => c.cMoss),
+      (name: loc.colorOcean, accent: RoleAccent.ocean, colorBuilder: (c) => c.cOcean),
+      (name: loc.colorSand, accent: RoleAccent.sand, colorBuilder: (c) => c.cSand),
+      (name: loc.colorRose, accent: RoleAccent.rose, colorBuilder: (c) => c.cRose),
+      (name: loc.colorPine, accent: RoleAccent.pine, colorBuilder: (c) => c.cPine),
     ];
   }
 

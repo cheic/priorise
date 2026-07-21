@@ -77,3 +77,14 @@ class WatchTasksUseCase {
   WatchTasksUseCase(this.repository);
   Stream<void> call() => repository.watchTasks();
 }
+
+class PostponeTaskUseCase {
+  final TaskRepository repository;
+  PostponeTaskUseCase(this.repository);
+  Future<void> call(int taskId) async {
+    final task = await repository.getTaskById(taskId);
+    if (task == null) return;
+    task.weekStart = task.weekStart.add(const Duration(days: 7));
+    await repository.saveTask(task);
+  }
+}

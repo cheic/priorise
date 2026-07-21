@@ -1,11 +1,8 @@
-import 'dart:io';
-import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:priorise/core/tokens/app_colors.dart';
 import 'package:priorise/core/tokens/app_spacing.dart';
-import 'package:priorise/core/tokens/app_typography.dart';
 import 'package:priorise/shared/painters/compass_painter.dart';
 
 class DummySplashScreen extends StatelessWidget {

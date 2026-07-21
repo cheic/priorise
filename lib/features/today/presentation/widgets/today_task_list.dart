@@ -104,38 +104,76 @@ class TodayTaskRow extends StatelessWidget {
 
     return Dismissible(
       key: ValueKey(task.id),
-      direction: DismissDirection.endToStart,
+      direction: DismissDirection.horizontal,
       confirmDismiss: (direction) async {
-        return await showDialog<bool>(
-          context: context,
-          builder: (context) => AlertDialog(
-            backgroundColor: context.cSurfaceRaised,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
-            title: Text(
-              AppLocalizations.of(context)!.deleteTaskTitle,
-              style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
-            ),
-            content: Text(
-              AppLocalizations.of(context)!.deleteTaskDesc(task.title),
-              style: AppTypography.inter(size: 14, color: context.cTextSecondary),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text(AppLocalizations.of(context)!.cancel, style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
+        if (direction == DismissDirection.startToEnd) {
+          return await showDialog<bool>(
+            context: context,
+            builder: (context) => AlertDialog(
+              backgroundColor: context.cSurfaceRaised,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
+              title: Text(
+                AppLocalizations.of(context)!.postponeTaskTitle ?? 'Reporter la tâche',
+                style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
               ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text(AppLocalizations.of(context)!.delete, style: AppTypography.inter(color: context.cError, weight: FontWeight.w600)),
+              content: Text(
+                AppLocalizations.of(context)!.postponeTaskDesc?.call(task.title) ?? 'Voulez-vous reporter "${task.title}" à la semaine prochaine ?',
+                style: AppTypography.inter(size: 14, color: context.cTextSecondary),
               ),
-            ],
-          ),
-        );
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text(AppLocalizations.of(context)!.cancel, style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: Text(AppLocalizations.of(context)!.postpone ?? 'Reporter', style: AppTypography.inter(color: context.cBrass, weight: FontWeight.w600)),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return await showDialog<bool>(
+            context: context,
+            builder: (context) => AlertDialog(
+              backgroundColor: context.cSurfaceRaised,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
+              title: Text(
+                AppLocalizations.of(context)!.deleteTaskTitle,
+                style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
+              ),
+              content: Text(
+                AppLocalizations.of(context)!.deleteTaskDesc(task.title),
+                style: AppTypography.inter(size: 14, color: context.cTextSecondary),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text(AppLocalizations.of(context)!.cancel, style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: Text(AppLocalizations.of(context)!.delete, style: AppTypography.inter(color: context.cError, weight: FontWeight.w600)),
+                ),
+              ],
+            ),
+          );
+        }
       },
-      onDismissed: (_) {
-        context.read<TodayCubit>().deleteTask(task.id);
+      onDismissed: (direction) {
+        if (direction == DismissDirection.startToEnd) {
+          context.read<TodayCubit>().postponeTask(task.id);
+        } else {
+          context.read<TodayCubit>().deleteTask(task.id);
+        }
       },
       background: Container(
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.only(left: AppSpacing.l),
+        color: context.cBrass.withAlpha(50),
+        child: Icon(Icons.next_week_outlined, color: context.cBrass),
+      ),
+      secondaryBackground: Container(
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: AppSpacing.l),
         color: context.cError.withAlpha(50),
@@ -158,14 +196,14 @@ class TodayTaskRow extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.l, vertical: AppSpacing.m),
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Checkbox ROUND: 19px, border-radius 50%, 1.5px
               GestureDetector(
                 onTap: () => context.read<TodayCubit>().toggleTask(task.id),
                 behavior: HitTestBehavior.opaque,
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 8, top: 2), // Top padding aligns it with text
+                  padding: const EdgeInsets.only(right: 8),
                   child: TodayRoundCheckbox(isDone: task.done),
                 ),
               ),

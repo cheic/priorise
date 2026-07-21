@@ -154,6 +154,10 @@ const _LifeRoleaccentEnumValueMap = {
   r'slate': r'slate',
   r'amethyst': r'amethyst',
   r'moss': r'moss',
+  r'ocean': r'ocean',
+  r'sand': r'sand',
+  r'rose': r'rose',
+  r'pine': r'pine',
 };
 const _LifeRoleaccentValueEnumMap = {
   r'brass': RoleAccent.brass,
@@ -162,6 +166,10 @@ const _LifeRoleaccentValueEnumMap = {
   r'slate': RoleAccent.slate,
   r'amethyst': RoleAccent.amethyst,
   r'moss': RoleAccent.moss,
+  r'ocean': RoleAccent.ocean,
+  r'sand': RoleAccent.sand,
+  r'rose': RoleAccent.rose,
+  r'pine': RoleAccent.pine,
 };
 
 Id _lifeRoleGetId(LifeRole object) {

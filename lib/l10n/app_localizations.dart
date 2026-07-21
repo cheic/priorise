@@ -788,6 +788,30 @@ abstract class AppLocalizations {
   /// **'Mousse'**
   String get colorMoss;
 
+  /// No description provided for @colorOcean.
+  ///
+  /// In fr, this message translates to:
+  /// **'Océan'**
+  String get colorOcean;
+
+  /// No description provided for @colorSand.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sable'**
+  String get colorSand;
+
+  /// No description provided for @colorRose.
+  ///
+  /// In fr, this message translates to:
+  /// **'Rose'**
+  String get colorRose;
+
+  /// No description provided for @colorPine.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pin'**
+  String get colorPine;
+
   /// No description provided for @reminderScheduled.
   ///
   /// In fr, this message translates to:
@@ -913,6 +937,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Aucun rôle n\'a encore été défini.\nAllez dans l\'onglet Rôles pour en créer un avant d\'ajouter une tâche.'**
   String get noRolesDefined;
+
+  /// No description provided for @noRolesEmptyState.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun rôle n\'a encore été défini.'**
+  String get noRolesEmptyState;
 
   /// No description provided for @priorityMatrixLabel.
   ///
@@ -1387,6 +1417,36 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Valider ma semaine'**
   String get validateMyWeek;
+
+  /// No description provided for @postponeTaskTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Reporter la tâche ?'**
+  String get postponeTaskTitle;
+
+  /// No description provided for @postponeTaskDesc.
+  ///
+  /// In fr, this message translates to:
+  /// **'Voulez-vous reporter \"{taskName}\" à la semaine prochaine ?'**
+  String postponeTaskDesc(String taskName);
+
+  /// No description provided for @postpone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Reporter'**
+  String get postpone;
+
+  /// No description provided for @planPunctualTasksTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'TÂCHES PONCTUELLES (GRAVIER)'**
+  String get planPunctualTasksTitle;
+
+  /// No description provided for @planAddPunctualTask.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajouter une tâche ponctuelle'**
+  String get planAddPunctualTask;
 }
 
 class _AppLocalizationsDelegate

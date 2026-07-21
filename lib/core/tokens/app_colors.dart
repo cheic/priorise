@@ -43,6 +43,18 @@ abstract final class AppColorsDark {
 
   static const moss = Color(0xFF6B7F5B);
   static const mossDim = Color(0x2E6B7F5B);
+
+  static const ocean = Color(0xFF5C8899);
+  static const oceanDim = Color(0x2E5C8899);
+
+  static const sand = Color(0xFFC4AB87);
+  static const sandDim = Color(0x2EC4AB87);
+
+  static const rose = Color(0xFFB57D8A);
+  static const roseDim = Color(0x2EB57D8A);
+
+  static const pine = Color(0xFF5A7A6B);
+  static const pineDim = Color(0x2E5A7A6B);
 }
 
 /// Thème clair.
@@ -74,6 +86,18 @@ abstract final class AppColorsLight {
 
   static const moss = Color(0xFF506342);
   static const mossDim = Color(0x24506342);
+
+  static const ocean = Color(0xFF466B7A);
+  static const oceanDim = Color(0x24466B7A);
+
+  static const sand = Color(0xFF9E8665);
+  static const sandDim = Color(0x249E8665);
+
+  static const rose = Color(0xFF945F6D);
+  static const roseDim = Color(0x24945F6D);
+
+  static const pine = Color(0xFF445E51);
+  static const pineDim = Color(0x24445E51);
 
   static const border = Color(0x1A202B34);
   static const borderStrong = Color(0x2D202B34);
@@ -117,6 +141,14 @@ extension AppColorsX on BuildContext {
   Color get cAmethystDim => _isDark ? AppColorsDark.amethystDim : AppColorsLight.amethystDim;
   Color get cMoss => _isDark ? AppColorsDark.moss : AppColorsLight.moss;
   Color get cMossDim => _isDark ? AppColorsDark.mossDim : AppColorsLight.mossDim;
+  Color get cOcean => _isDark ? AppColorsDark.ocean : AppColorsLight.ocean;
+  Color get cOceanDim => _isDark ? AppColorsDark.oceanDim : AppColorsLight.oceanDim;
+  Color get cSand => _isDark ? AppColorsDark.sand : AppColorsLight.sand;
+  Color get cSandDim => _isDark ? AppColorsDark.sandDim : AppColorsLight.sandDim;
+  Color get cRose => _isDark ? AppColorsDark.rose : AppColorsLight.rose;
+  Color get cRoseDim => _isDark ? AppColorsDark.roseDim : AppColorsLight.roseDim;
+  Color get cPine => _isDark ? AppColorsDark.pine : AppColorsLight.pine;
+  Color get cPineDim => _isDark ? AppColorsDark.pineDim : AppColorsLight.pineDim;
   Color get cError => cClay;
   Color get cBorder =>
       _isDark ? AppColorsDark.border : AppColorsLight.border;
@@ -133,6 +165,10 @@ extension RoleAccentColor on RoleAccent {
       case RoleAccent.slate: return context.cSlate;
       case RoleAccent.amethyst: return context.cAmethyst;
       case RoleAccent.moss: return context.cMoss;
+      case RoleAccent.ocean: return context.cOcean;
+      case RoleAccent.sand: return context.cSand;
+      case RoleAccent.rose: return context.cRose;
+      case RoleAccent.pine: return context.cPine;
     }
   }
 }

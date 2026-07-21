@@ -42,7 +42,7 @@ class MissionCubit extends Cubit<MissionState> {
         ));
       } else {
         // default mission?
-        await updateMission("Je veux être présent avant d'être efficace, curieux avant d'être certain, et bâtir des choses qui rendent la vie des autres plus simple — sans jamais leur voler leur attention.");
+        await updateMission("");
       }
     } catch (e) {
       emit(MissionError(e.toString()));

@@ -9,6 +9,7 @@ abstract final class StorageKeys {
   // Clés API — ne jamais lire en clair dans les logs
   static const aiApiKey = 'ai_api_key';
   static const themeMode = 'theme_mode';
+  static const missionRevisionInterval = 'mission_revision_interval';
 }
 
 class SecureStorageService {
@@ -65,6 +66,21 @@ class SecureStorageService {
     await _storage.write(
       key: StorageKeys.themeMode,
       value: mode,
+      aOptions: _androidOptions,
+    );
+  }
+
+  Future<String?> readMissionRevisionInterval() async {
+    return _storage.read(
+      key: StorageKeys.missionRevisionInterval,
+      aOptions: _androidOptions,
+    );
+  }
+
+  Future<void> saveMissionRevisionInterval(String interval) async {
+    await _storage.write(
+      key: StorageKeys.missionRevisionInterval,
+      value: interval,
       aOptions: _androidOptions,
     );
   }

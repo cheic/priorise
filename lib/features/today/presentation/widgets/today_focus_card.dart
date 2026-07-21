@@ -75,38 +75,76 @@ class TodayFocusCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSpacing.radiusM),
         child: Dismissible(
           key: ValueKey('focus_${task.id}'),
-          direction: DismissDirection.endToStart,
+          direction: DismissDirection.horizontal,
           confirmDismiss: (direction) async {
-            return await showDialog<bool>(
-              context: context,
-              builder: (context) => AlertDialog(
-                backgroundColor: context.cSurfaceRaised,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
-                title: Text(
-                  AppLocalizations.of(context)!.deleteTaskTitle,
-                  style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
-                ),
-                content: Text(
-                  AppLocalizations.of(context)!.deleteTaskDesc(task.title),
-                  style: AppTypography.inter(size: 14, color: context.cTextSecondary),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: Text(AppLocalizations.of(context)!.cancel, style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
+            if (direction == DismissDirection.startToEnd) {
+              return await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  backgroundColor: context.cSurfaceRaised,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
+                  title: Text(
+                    AppLocalizations.of(context)!.postponeTaskTitle,
+                    style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
                   ),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(true),
-                    child: Text(AppLocalizations.of(context)!.delete, style: AppTypography.inter(color: context.cError, weight: FontWeight.w600)),
+                  content: Text(
+                    AppLocalizations.of(context)!.postponeTaskDesc(task.title),
+                    style: AppTypography.inter(size: 14, color: context.cTextSecondary),
                   ),
-                ],
-              ),
-            );
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: Text(AppLocalizations.of(context)!.cancel, style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: Text(AppLocalizations.of(context)!.postpone, style: AppTypography.inter(color: context.cBrass, weight: FontWeight.w600)),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  backgroundColor: context.cSurfaceRaised,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
+                  title: Text(
+                    AppLocalizations.of(context)!.deleteTaskTitle,
+                    style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
+                  ),
+                  content: Text(
+                    AppLocalizations.of(context)!.deleteTaskDesc(task.title),
+                    style: AppTypography.inter(size: 14, color: context.cTextSecondary),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: Text(AppLocalizations.of(context)!.cancel, style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: Text(AppLocalizations.of(context)!.delete, style: AppTypography.inter(color: context.cError, weight: FontWeight.w600)),
+                    ),
+                  ],
+                ),
+              );
+            }
           },
-          onDismissed: (_) {
-            context.read<TodayCubit>().deleteTask(task.id);
+          onDismissed: (direction) {
+            if (direction == DismissDirection.startToEnd) {
+              context.read<TodayCubit>().postponeTask(task.id);
+            } else {
+              context.read<TodayCubit>().deleteTask(task.id);
+            }
           },
           background: Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.only(left: AppSpacing.l),
+            color: context.cBrass.withAlpha(50),
+            child: Icon(Icons.next_week_outlined, color: context.cBrass),
+          ),
+          secondaryBackground: Container(
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.only(right: AppSpacing.l),
             color: context.cError.withAlpha(50),
@@ -131,31 +169,37 @@ class TodayFocusCard extends StatelessWidget {
               padding: const EdgeInsets.all(AppSpacing.l),
               // Background is now transparent so the card background shows through
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Row for Tag and Checkbox
+                  // Row for Tag/Role and Checkbox
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       // Tag: mono 9.5px uppercase, brassBright text on brassGlow bg
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: context.cBrassGlow,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Text(
-                          '${AppLocalizations.of(context)!.quadrantLabel} · ${role.name}'.toUpperCase(),
-                          style: AppTypography.mono(
-                            size: 9.5,
-                            weight: FontWeight.w500,
-                            color: context.cBrassBright,
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: context.cBrassGlow,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Text(
+                              '${AppLocalizations.of(context)!.quadrantLabel} · ${role.name}'.toUpperCase(),
+                              style: AppTypography.mono(
+                                size: 9.5,
+                                weight: FontWeight.w500,
+                                color: context.cBrassBright,
+                              ),
+                            ),
                           ),
                         ),
                       ),
+                      const SizedBox(width: 16),
                       // Checkbox for completion
                       GestureDetector(
                         onTap: () => context.read<TodayCubit>().toggleTask(task.id),
@@ -168,6 +212,7 @@ class TodayFocusCard extends StatelessWidget {
                   // h3: Fraunces 500, 16.5px — focus task title
                   Text(
                     task.title,
+                    textAlign: TextAlign.left,
                     style: AppTypography.fraunces(
                       size: 16.5,
                       weight: 500,
