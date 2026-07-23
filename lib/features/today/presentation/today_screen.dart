@@ -38,7 +38,10 @@ class _TodayView extends StatelessWidget {
       floatingActionButton: BlocBuilder<TodayCubit, TodayState>(
         builder: (context, state) {
           if (state is TodayLoaded) {
-            return const TodayFab();
+            return const Padding(
+              padding: EdgeInsets.only(bottom: 72.0), // Évite la BottomNavigationBar en verre
+              child: TodayFab(),
+            );
           }
           return const SizedBox.shrink();
         },
