@@ -39,7 +39,7 @@ class _TodayView extends StatelessWidget {
         builder: (context, state) {
           if (state is TodayLoaded) {
             return const Padding(
-              padding: EdgeInsets.only(bottom: 72.0), // Évite la BottomNavigationBar en verre
+              padding: EdgeInsets.only(bottom: 110.0), // ~72px Navbar + ~34px SafeArea d'iPhone
               child: TodayFab(),
             );
           }
