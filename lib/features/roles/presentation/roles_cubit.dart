@@ -40,7 +40,9 @@ class RolesCubit extends Cubit<RolesState> {
   }
 
   Future<void> loadRoles() async {
-    emit(state.copyWith(isLoading: true));
+    if (state.roles.isEmpty) {
+      emit(state.copyWith(isLoading: true));
+    }
     try {
       final roles = await getAllRoles();
       emit(state.copyWith(roles: roles, isLoading: false));

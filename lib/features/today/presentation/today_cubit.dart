@@ -96,10 +96,15 @@ class TodayCubit extends Cubit<TodayState> {
       final tasks = await getTodayTasks();
       final currentPlan = await getCurrentPlan();
 
+      int? currentSelectedRoleId;
+      if (state is TodayLoaded) {
+        currentSelectedRoleId = (state as TodayLoaded).selectedRoleId;
+      }
+
       emit(TodayLoaded(
         roles: roles,
         tasks: tasks,
-        selectedRoleId: null,
+        selectedRoleId: currentSelectedRoleId,
         currentPlan: currentPlan,
       ));
     } catch (e) {

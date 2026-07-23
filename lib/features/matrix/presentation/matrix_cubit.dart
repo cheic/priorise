@@ -62,33 +62,37 @@ class MatrixCubit extends Cubit<MatrixState> {
   }
 
   Future<void> loadTasks() async {
-    emit(state.copyWith(isLoading: true));
+    // We ignore isLoading here to avoid flashes, just like other screens
     
-    final tasks = await getPendingTasks();
+    try {
+      final tasks = await getPendingTasks();
 
-    final urgentImportant = <Task>[];
-    final strategic = <Task>[];
-    final distraction = <Task>[];
-    final useless = <Task>[];
+      final urgentImportant = <Task>[];
+      final strategic = <Task>[];
+      final distraction = <Task>[];
+      final useless = <Task>[];
 
-    for (final t in tasks) {
-      if (t.important && t.urgent) {
-        urgentImportant.add(t);
-      } else if (t.important && !t.urgent) {
-        strategic.add(t);
-      } else if (!t.important && t.urgent) {
-        distraction.add(t);
-      } else {
-        useless.add(t);
+      for (final t in tasks) {
+        if (t.important && t.urgent) {
+          urgentImportant.add(t);
+        } else if (t.important && !t.urgent) {
+          strategic.add(t);
+        } else if (!t.important && t.urgent) {
+          distraction.add(t);
+        } else {
+          useless.add(t);
+        }
       }
-    }
 
-    emit(state.copyWith(
-      urgentImportantTasks: urgentImportant,
-      strategicTasks: strategic,
-      distractionTasks: distraction,
-      uselessTasks: useless,
-      isLoading: false,
-    ));
+      emit(state.copyWith(
+        urgentImportantTasks: urgentImportant,
+        strategicTasks: strategic,
+        distractionTasks: distraction,
+        uselessTasks: useless,
+        isLoading: false,
+      ));
+    } catch (e) {
+      emit(state.copyWith(isLoading: false));
+    }
   }
 }
