@@ -1,3 +1,4 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -155,6 +156,8 @@ class _AppShellViewState extends State<_AppShellView> {
 
             return Scaffold(
               backgroundColor: context.cSurface,
+              // We set extendBody to true so that the ListView scrolls under the BottomNav glass!
+              extendBody: true,
               body: SafeArea(
                 bottom: false,
                 child: Column(
@@ -190,46 +193,51 @@ class _BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: Container(
-        decoration: BoxDecoration(
-          color: context.cSurface,
-          border: Border(top: BorderSide(color: context.cBorder)),
-        ),
-        padding: const EdgeInsets.fromLTRB(4, 10, 4, 14),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _NavButton(
-              label: AppLocalizations.of(context)!.navToday,
-              icon: Icons.today_outlined,
-              activeIcon: Icons.today,
-              active: selectedIndex == 0,
-              onTap: () => onSelect(0),
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ui.ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
+        child: SafeArea(
+          top: false,
+          child: Container(
+            decoration: BoxDecoration(
+              color: context.cSurface.withAlpha(200),
+              border: Border(top: BorderSide(color: context.cBorder.withAlpha(100))),
             ),
-            _NavButton(
-              label: AppLocalizations.of(context)!.navRoles,
-              icon: Icons.people_outline,
-              activeIcon: Icons.people,
-              active: selectedIndex == 1,
-              onTap: () => onSelect(1),
+            padding: const EdgeInsets.fromLTRB(4, 10, 4, 14),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _NavButton(
+                  label: AppLocalizations.of(context)!.navToday,
+                  icon: Icons.today_outlined,
+                  activeIcon: Icons.today,
+                  active: selectedIndex == 0,
+                  onTap: () => onSelect(0),
+                ),
+                _NavButton(
+                  label: AppLocalizations.of(context)!.navRoles,
+                  icon: Icons.people_outline,
+                  activeIcon: Icons.people,
+                  active: selectedIndex == 1,
+                  onTap: () => onSelect(1),
+                ),
+                _NavButton(
+                  label: AppLocalizations.of(context)!.navPriorise,
+                  icon: Icons.explore_outlined,
+                  activeIcon: Icons.explore,
+                  active: selectedIndex == 2,
+                  onTap: () => onSelect(2),
+                ),
+                _NavButton(
+                  label: AppLocalizations.of(context)!.navReview,
+                  icon: Icons.schedule_outlined,
+                  activeIcon: Icons.schedule,
+                  active: selectedIndex == 3,
+                  onTap: () => onSelect(3),
+                ),
+              ],
             ),
-            _NavButton(
-              label: AppLocalizations.of(context)!.navPriorise,
-              icon: Icons.explore_outlined,
-              activeIcon: Icons.explore,
-              active: selectedIndex == 2,
-              onTap: () => onSelect(2),
-            ),
-            _NavButton(
-              label: AppLocalizations.of(context)!.navReview,
-              icon: Icons.schedule_outlined,
-              activeIcon: Icons.schedule,
-              active: selectedIndex == 3,
-              onTap: () => onSelect(3),
-            ),
-          ],
+          ),
         ),
       ),
     );

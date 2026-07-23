@@ -147,9 +147,15 @@ class CompassPainter extends CustomPainter {
       )
       ..close();
 
+    final glowColor = isDark ? AppColorsDark.brassGlow : AppColorsLight.brassGlow;
+
     canvas.drawPath(
       wedgePath,
-      Paint()..color = isDark ? AppColorsDark.brassGlow : AppColorsLight.brassGlow,
+      Paint()
+        ..shader = RadialGradient(
+          colors: [glowColor, glowColor.withAlpha(0)],
+          stops: const [0.0, 1.0],
+        ).createShader(Rect.fromCircle(center: Offset(cx, cy), radius: 98 * s)),
     );
 
     // Axes

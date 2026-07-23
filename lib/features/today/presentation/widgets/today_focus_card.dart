@@ -1,6 +1,7 @@
 import 'package:priorise/l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:priorise/core/models/role_model.dart';
 import 'package:priorise/core/models/weekly_plan_model.dart';
@@ -58,6 +59,14 @@ class TodayFocusCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: context.cBrass.withAlpha(25), // Ultra soft diffuse shadow
+            blurRadius: 30,
+            offset: const Offset(0, 10),
+            spreadRadius: 2,
+          ),
+        ],
         border: Border.all(
           color: context.cBrass.withAlpha(102), // 0.4 * 255 ≈ 102
         ),
@@ -202,7 +211,10 @@ class TodayFocusCard extends StatelessWidget {
                       const SizedBox(width: 16),
                       // Checkbox for completion
                       GestureDetector(
-                        onTap: () => context.read<TodayCubit>().toggleTask(task.id),
+                        onTap: () {
+                          HapticFeedback.lightImpact();
+                          context.read<TodayCubit>().toggleTask(task.id);
+                        },
                         behavior: HitTestBehavior.opaque,
                         child: TodayRoundCheckbox(isDone: task.done),
                       ),

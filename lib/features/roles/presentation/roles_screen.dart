@@ -46,11 +46,21 @@ class RolesPage extends StatelessWidget {
                         
                         if (state.roles.isEmpty)
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: AppSpacing.xxl),
-                            child: Text(
-                              AppLocalizations.of(context)!.noRolesEmptyState,
-                              style: AppTypography.inter(size: 14, color: context.cTextSecondary, height: 1.5),
-                              textAlign: TextAlign.center,
+                            padding: const EdgeInsets.symmetric(vertical: AppSpacing.xxxl),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.people_alt_outlined,
+                                  size: 48,
+                                  color: context.cTextTertiary.withAlpha(128),
+                                ),
+                                const SizedBox(height: AppSpacing.l),
+                                Text(
+                                  AppLocalizations.of(context)!.noRolesEmptyState,
+                                  style: AppTypography.inter(size: 14, color: context.cTextSecondary, height: 1.5),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                             ),
                           ),
 

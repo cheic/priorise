@@ -11,13 +11,41 @@ import 'package:priorise/core/models/task_model.dart';
 
 import '../today_cubit.dart';
 
-class TodayFab extends StatelessWidget {
+import 'package:flutter/services.dart';
+
+class TodayFab extends StatefulWidget {
   const TodayFab({super.key});
+
+  @override
+  State<TodayFab> createState() => _TodayFabState();
+}
+
+class _TodayFabState extends State<TodayFab> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 100));
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.92).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTapDown: (_) => _controller.forward(),
+      onTapUp: (_) {
+        _controller.reverse();
+        HapticFeedback.lightImpact();
         final todayCubit = context.read<TodayCubit>();
         showModalBottomSheet(
           context: context,
@@ -29,24 +57,28 @@ class TodayFab extends StatelessWidget {
           ),
         );
       },
-      child: Container(
-        width: 52,
-        height: 52,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: context.cBrass,
-          boxShadow: [
-            BoxShadow(
-              color: context.cBrassGlow,
-              blurRadius: 20,
-              spreadRadius: 4,
-            ),
-          ],
-        ),
-        child: const Icon(
-          Icons.edit_rounded,
-          color: Color(0xFF1B140B), // ink-like dark
-          size: 22,
+      onTapCancel: () => _controller.reverse(),
+      child: ScaleTransition(
+        scale: _scaleAnimation,
+        child: Container(
+          width: 52,
+          height: 52,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: context.cBrass,
+            boxShadow: [
+              BoxShadow(
+                color: context.cBrassGlow,
+                blurRadius: 20,
+                spreadRadius: 4,
+              ),
+            ],
+          ),
+          child: const Icon(
+            Icons.edit_rounded,
+            color: Color(0xFF1B140B), // ink-like dark
+            size: 22,
+          ),
         ),
       ),
     );

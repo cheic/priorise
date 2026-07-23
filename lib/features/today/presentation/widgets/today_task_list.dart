@@ -1,6 +1,7 @@
 import 'package:priorise/l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:priorise/core/models/role_model.dart';
 import 'package:priorise/core/models/task_model.dart';
@@ -39,14 +40,25 @@ class TodayTaskCardContainer extends StatelessWidget {
           border: Border.all(color: context.cBorder),
         ),
         child: Center(
-          child: Text(
-              hasTasks 
-                ? AppLocalizations.of(context)!.allOtherTasksDone 
-                : AppLocalizations.of(context)!.noOtherTasks,
-            style: AppTypography.inter(
-                size: 13,
-                color: context.cTextTertiary),
-            textAlign: TextAlign.center,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                hasTasks ? Icons.done_all_rounded : Icons.inbox_outlined,
+                size: 32,
+                color: context.cTextTertiary.withAlpha(128),
+              ),
+              const SizedBox(height: AppSpacing.m),
+              Text(
+                hasTasks 
+                  ? AppLocalizations.of(context)!.allOtherTasksDone 
+                  : AppLocalizations.of(context)!.noOtherTasks,
+                style: AppTypography.inter(
+                    size: 13,
+                    color: context.cTextTertiary),
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         ),
       );
@@ -200,7 +212,10 @@ class TodayTaskRow extends StatelessWidget {
             children: [
               // Checkbox ROUND: 19px, border-radius 50%, 1.5px
               GestureDetector(
-                onTap: () => context.read<TodayCubit>().toggleTask(task.id),
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  context.read<TodayCubit>().toggleTask(task.id);
+                },
                 behavior: HitTestBehavior.opaque,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8),
