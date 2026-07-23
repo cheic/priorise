@@ -113,11 +113,11 @@ class TodayTaskRow extends StatelessWidget {
               backgroundColor: context.cSurfaceRaised,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSpacing.radiusM)),
               title: Text(
-                AppLocalizations.of(context)!.postponeTaskTitle ?? 'Reporter la tâche',
+                AppLocalizations.of(context)!.postponeTaskTitle,
                 style: AppTypography.fraunces(size: 20, color: context.cTextPrimary),
               ),
               content: Text(
-                AppLocalizations.of(context)!.postponeTaskDesc?.call(task.title) ?? 'Voulez-vous reporter "${task.title}" à la semaine prochaine ?',
+                AppLocalizations.of(context)!.postponeTaskDesc(task.title),
                 style: AppTypography.inter(size: 14, color: context.cTextSecondary),
               ),
               actions: [
@@ -127,7 +127,7 @@ class TodayTaskRow extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(true),
-                  child: Text(AppLocalizations.of(context)!.postpone ?? 'Reporter', style: AppTypography.inter(color: context.cBrass, weight: FontWeight.w600)),
+                  child: Text(AppLocalizations.of(context)!.postpone, style: AppTypography.inter(color: context.cBrass, weight: FontWeight.w600)),
                 ),
               ],
             ),

@@ -64,7 +64,12 @@ class ReviewCubit extends Cubit<ReviewState> {
     
     final start = DateTime(weekStart.year, weekStart.month, weekStart.day);
     
-    final review = await getReviewByDate(start);
+    var review = await getReviewByDate(start);
+    if (review == null) {
+      review = WeeklyReview()..weekStart = start;
+      await saveReviewUseCase(review);
+    }
+    
     final roles = await getAllRoles();
     
     // We should probably get tasks for the specific week, but let's just get all for now,
