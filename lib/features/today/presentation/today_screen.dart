@@ -34,7 +34,7 @@ class _TodayView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.cSurface,
+      backgroundColor: Colors.transparent, // Permet au contenu de défiler sous la navbar
       floatingActionButton: BlocBuilder<TodayCubit, TodayState>(
         builder: (context, state) {
           if (state is TodayLoaded) {
@@ -73,6 +73,7 @@ class _TodayBody extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return SafeArea(
+      bottom: false, // Permet de glisser sous la barre de navigation
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -80,7 +81,7 @@ class _TodayBody extends StatelessWidget {
             child: SingleChildScrollView(
               padding: EdgeInsets.only(
                 top: AppSpacing.xxl,
-                bottom: AppSpacing.xxxxl + 64, // space for FAB
+                bottom: 180.0, // space for FAB and BottomNavBar
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

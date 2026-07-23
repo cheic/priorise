@@ -30,7 +30,7 @@ class MatrixPage extends StatelessWidget {
                         hPad,
                         AppSpacing.xxl,
                         hPad,
-                        AppSpacing.xxxxl,
+                        110.0, // account for bottom nav bar
                       ),
                       children: [
                         Row(
