@@ -30,7 +30,6 @@ class TodayTaskCardContainer extends StatelessWidget {
         allTasks.where((t) => t.id != focusTaskId).toList();
 
     if (remainingTasks.isEmpty) {
-      final hasTasks = state.tasks.isNotEmpty;
       return Container(
         width: double.infinity,
         padding: const EdgeInsets.all(AppSpacing.xxl),
@@ -44,15 +43,13 @@ class TodayTaskCardContainer extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
-                hasTasks ? Icons.done_all_rounded : Icons.inbox_outlined,
+                Icons.inbox_outlined,
                 size: 32,
                 color: context.cTextTertiary.withAlpha(128),
               ),
               const SizedBox(height: AppSpacing.m),
               Text(
-                hasTasks 
-                  ? AppLocalizations.of(context)!.allOtherTasksDone 
-                  : AppLocalizations.of(context)!.noOtherTasks,
+                AppLocalizations.of(context)!.noOtherTasks,
                 style: AppTypography.inter(
                     size: 13,
                     color: context.cTextTertiary),
