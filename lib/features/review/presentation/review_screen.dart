@@ -31,8 +31,6 @@ class ReviewPage extends StatelessWidget {
                         AppSpacing.xxxxl,
                       ),
                       children: [
-                        _SectionTitle(AppLocalizations.of(context)!.titleReview),
-                        const SizedBox(height: 4),
                         Text(
                           AppLocalizations.of(context)!.reviewSubtitle,
                           style: AppTypography.inter(

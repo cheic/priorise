@@ -7,6 +7,7 @@ import '../../../core/tokens/app_typography.dart';
 import '../../../shared/widgets/card_border_painter.dart';
 import '../../../shared/widgets/page_header.dart';
 import '../../../core/models/task_model.dart';
+import '../../../core/widgets/app_toast.dart';
 import 'plan_cubit.dart';
 
 class PlanScreen extends StatelessWidget {
@@ -126,7 +127,11 @@ class PlanScreen extends StatelessWidget {
                           }),
                         const SizedBox(height: AppSpacing.m),
                         OutlinedButton.icon(
-                          onPressed: state.roles.isEmpty ? null : () {
+                          onPressed: () {
+                            if (state.roles.isEmpty) {
+                              AppToast.show(context, AppLocalizations.of(context)!.noRoleDefinedYet);
+                              return;
+                            }
                             showModalBottomSheet(
                               context: context,
                               isScrollControlled: true,

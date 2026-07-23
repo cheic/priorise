@@ -11,9 +11,10 @@ class SaveMissionUseCase {
   final MissionRepository repository;
   SaveMissionUseCase(this.repository);
   Future<void> call(String statement, int revisionIntervalMonths) async {
-    final mission = Mission()
-      ..statement = statement
-      ..lastEditedAt = DateTime.now();
+    final existingMission = await repository.getMission();
+    final mission = existingMission ?? Mission();
+    mission.statement = statement;
+    mission.lastEditedAt = DateTime.now();
     await repository.saveMission(mission);
   }
 }

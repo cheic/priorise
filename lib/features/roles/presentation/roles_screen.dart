@@ -453,8 +453,8 @@ class _AddRoleSheetState extends State<AddRoleSheet> {
                           _selectedIconKey,
                         );
                       }
+                      Navigator.pop(context);
                     }
-                    Navigator.pop(context);
                   },
                   borderRadius: BorderRadius.circular(AppSpacing.radiusS),
                   child: Container(

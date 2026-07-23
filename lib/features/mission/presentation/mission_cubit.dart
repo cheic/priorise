@@ -50,12 +50,13 @@ class MissionCubit extends Cubit<MissionState> {
   }
 
   Future<void> updateMission(String newStatement) async {
-    final currentState = state;
-    if (currentState is MissionLoaded) {
-      await saveMissionUseCase(newStatement, 6);
-    } else {
-      await saveMissionUseCase(newStatement, 6);
+    await saveMissionUseCase(newStatement, 6);
+    final mission = await getMissionUseCase();
+    if (mission != null) {
+      emit(MissionLoaded(
+        statement: mission.statement,
+        lastEditedAt: mission.lastEditedAt,
+      ));
     }
-    loadMission();
   }
 }

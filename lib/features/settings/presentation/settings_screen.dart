@@ -71,6 +71,7 @@ class SettingsPageState extends State<SettingsPage> {
       if (mounted) {
         context.read<SettingsCubit>().updateNotifications(false);
       }
+      await getIt<NotificationService>().cancelAllNotifications();
     }
   }
 

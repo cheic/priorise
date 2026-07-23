@@ -54,17 +54,11 @@ class FadeIndexedStackState extends State<FadeIndexedStack> with SingleTickerPro
   Widget build(BuildContext context) {
     final fadeOut = CurvedAnimation(
       parent: _controller,
-      curve: const Interval(0.0, 0.35, curve: Curves.easeOut),
+      curve: Curves.easeOut,
     );
     final fadeIn = CurvedAnimation(
       parent: _controller,
-      curve: const Interval(0.35, 1.0, curve: Curves.easeOut),
-    );
-    final slideIn = Tween<Offset>(begin: const Offset(0.0, 0.02), end: Offset.zero).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: const Interval(0.35, 1.0, curve: Curves.easeOutCubic),
-      ),
+      curve: Curves.easeIn,
     );
 
     final children = <Widget>[];
@@ -84,10 +78,7 @@ class FadeIndexedStackState extends State<FadeIndexedStack> with SingleTickerPro
           ignoring: _controller.isAnimating,
           child: FadeTransition(
             opacity: fadeIn,
-            child: SlideTransition(
-              position: slideIn,
-              child: child,
-            ),
+            child: child,
           ),
         );
       } else if (isPrevious && _controller.isAnimating) {

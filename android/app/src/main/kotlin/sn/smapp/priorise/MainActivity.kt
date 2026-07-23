@@ -26,12 +26,14 @@ class MainActivity : FlutterActivity() {
 
     private fun setNativeTheme(theme: String?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val uiManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
-            when (theme) {
-                "light" -> uiManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_NO)
-                "dark" -> uiManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_YES)
-                else -> uiManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_AUTO)
-            }
+            // Commented out to prevent the Android System Window from flashing violently
+            // when the Flutter theme changes. Flutter handles all the UI coloring natively.
+            // val uiManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+            // when (theme) {
+            //     "light" -> uiManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_NO)
+            //     "dark" -> uiManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_YES)
+            //     else -> uiManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_AUTO)
+            // }
         }
     }
 }

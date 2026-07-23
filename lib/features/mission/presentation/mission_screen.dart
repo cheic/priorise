@@ -93,7 +93,11 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
       loc.january, loc.february, loc.march, loc.april, loc.may, loc.june,
       loc.july, loc.august, loc.september, loc.october, loc.november, loc.december
     ];
-    return loc.lastModified(d.day.toString(), mois[d.month - 1], loc.october);
+    
+    final nextDate = DateTime(d.year, d.month + _selectedRevisionInterval, d.day);
+    final nextMonthString = mois[nextDate.month - 1];
+    
+    return loc.lastModified(d.day.toString(), mois[d.month - 1], nextMonthString);
   }
 
   @override
