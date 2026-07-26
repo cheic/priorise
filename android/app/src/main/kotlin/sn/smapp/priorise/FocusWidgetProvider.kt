@@ -23,9 +23,11 @@ class FocusWidgetProvider : AppWidgetProvider() {
             if (hasTask && title.isNotEmpty()) {
                 views.setTextViewText(R.id.focus_title, title)
                 views.setTextViewText(R.id.focus_role, "STRATÉGIQUE · $role")
+                views.setViewVisibility(R.id.focus_role, android.view.View.VISIBLE)
                 views.setViewVisibility(R.id.focus_content, android.view.View.VISIBLE)
                 views.setViewVisibility(R.id.focus_empty, android.view.View.GONE)
             } else {
+                views.setViewVisibility(R.id.focus_role, android.view.View.GONE)
                 views.setViewVisibility(R.id.focus_content, android.view.View.GONE)
                 views.setViewVisibility(R.id.focus_empty, android.view.View.VISIBLE)
             }

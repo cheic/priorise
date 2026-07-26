@@ -6,26 +6,24 @@
     android:padding="16dp"
     android:background="@drawable/widget_bg">
 
-    <!-- Header (Top left) -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="🎯 FOCUS"
-        android:textColor="@color/widget_text_eyebrow"
-        android:textSize="10sp"
-        android:letterSpacing="0.14"
-        android:textAllCaps="true"
-        android:fontFamily="monospace"
-        android:gravity="start|center_vertical" />
-
-    <!-- Content (when task exists) -->
+    <!-- Header (Top) -->
     <LinearLayout
-        android:id="@+id/focus_content"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:visibility="visible">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🎯 FOCUS"
+            android:textColor="@color/widget_text_eyebrow"
+            android:textSize="10sp"
+            android:letterSpacing="0.14"
+            android:textAllCaps="true"
+            android:fontFamily="monospace"
+            android:gravity="start|center_vertical" />
 
         <TextView
             android:id="@+id/focus_role"
@@ -41,10 +39,17 @@
             android:paddingEnd="8dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="4dp"
-            android:layout_gravity="center_horizontal"
             android:gravity="center" />
+    </LinearLayout>
+
+    <!-- Content (when task exists) -->
+    <LinearLayout
+        android:id="@+id/focus_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/focus_title"
