@@ -162,24 +162,37 @@ class PlanScreen extends StatelessWidget {
 
                 const SizedBox(height: AppSpacing.xxxxl),
                 
-                Center(
-                  child: FilledButton(
-                    onPressed: () {
-                      Navigator.pop(context, 'goto_matrix');
-                    },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: context.cBrass,
-                      foregroundColor: context.cInk,
-                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.m),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+                BlocBuilder<PlanCubit, PlanState>(
+                  builder: (context, state) {
+                    final hasTasks = state.roleTasks.isNotEmpty || state.punctualTasks.isNotEmpty;
+                    return Center(
+                      child: FilledButton(
+                        onPressed: hasTasks
+                            ? () {
+                                Navigator.pop(context, 'goto_matrix');
+                              }
+                            : null,
+                        style: FilledButton.styleFrom(
+                          backgroundColor: context.cBrass,
+                          foregroundColor: context.cInk,
+                          disabledBackgroundColor: context.cSurfaceRaised,
+                          disabledForegroundColor: context.cTextTertiary,
+                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl, vertical: AppSpacing.m),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(AppSpacing.radiusM),
+                          ),
+                        ),
+                        child: Text(
+                          AppLocalizations.of(context)!.validateMyWeek,
+                          style: AppTypography.inter(
+                            size: 14,
+                            weight: FontWeight.w600,
+                            color: hasTasks ? context.cInk : context.cTextTertiary,
+                          ),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.validateMyWeek,
-                      style: AppTypography.inter(size: 14, weight: FontWeight.w600, color: context.cInk),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ],
             ),

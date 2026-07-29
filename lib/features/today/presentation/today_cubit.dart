@@ -141,12 +141,20 @@ class TodayCubit extends Cubit<TodayState> {
   }
 
   Future<void> deleteTask(int taskId) async {
+    final current = state;
+    if (current is TodayLoaded) {
+      emit(current.copyWith(tasks: current.tasks.where((t) => t.id != taskId).toList()));
+    }
     await deleteTaskUseCase(taskId);
     WidgetService.updateAllWidgets().catchError((_) {});
     _load();
   }
 
   Future<void> postponeTask(int taskId) async {
+    final current = state;
+    if (current is TodayLoaded) {
+      emit(current.copyWith(tasks: current.tasks.where((t) => t.id != taskId).toList()));
+    }
     await postponeTaskUseCase(taskId);
     WidgetService.updateAllWidgets().catchError((_) {});
     _load();

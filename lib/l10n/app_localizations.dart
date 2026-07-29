@@ -203,7 +203,7 @@ abstract class AppLocalizations {
   /// No description provided for @navPriorise.
   ///
   /// In fr, this message translates to:
-  /// **'Priorise'**
+  /// **'Matrice'**
   String get navPriorise;
 
   /// No description provided for @navReview.

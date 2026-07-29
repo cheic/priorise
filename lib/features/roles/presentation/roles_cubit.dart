@@ -65,6 +65,7 @@ class RolesCubit extends Cubit<RolesState> {
   }
 
   Future<void> deleteRole(int id) async {
+    emit(state.copyWith(roles: state.roles.where((r) => r.id != id).toList()));
     await deleteRoleUseCase(id);
     WidgetService.updateAllWidgets().catchError((_) {});
     loadRoles();

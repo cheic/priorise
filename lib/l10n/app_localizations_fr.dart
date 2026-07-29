@@ -61,7 +61,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get navRoles => 'Rôles';
 
   @override
-  String get navPriorise => 'Priorise';
+  String get navPriorise => 'Matrice';
 
   @override
   String get navReview => 'Bilan';

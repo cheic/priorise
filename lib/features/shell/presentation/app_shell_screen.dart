@@ -257,7 +257,7 @@ class _GlobalHeader extends StatelessWidget {
     if (l == null) {
       return PageHeader(
         eyebrow: '',
-        title: AppLocalizations.of(context)!.navPriorise,
+        title: 'Priorise',
         horizontalPadding: hPad,
       );
     }
@@ -412,7 +412,7 @@ class _SideRail extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.navPriorise,
+                      AppLocalizations.of(context)!.appName,
                       style: AppTypography.fraunces(
                         size: 20,
                         weight: 560,

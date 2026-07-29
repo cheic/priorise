@@ -39,8 +39,21 @@ class ListWidgetProvider : AppWidgetProvider() {
                     val title = widgetData.getString("list_title_$i", "") ?: ""
                     val done = widgetData.getBoolean("list_done_$i", false)
 
+                    val titleText: CharSequence = if (done) {
+                        android.text.SpannableString(title).apply {
+                            setSpan(
+                                android.text.style.StrikethroughSpan(),
+                                0,
+                                title.length,
+                                android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                    } else {
+                        title
+                    }
+
                     views.setViewVisibility(rowIds[i], android.view.View.VISIBLE)
-                    views.setTextViewText(titleIds[i], title)
+                    views.setTextViewText(titleIds[i], titleText)
                     views.setImageViewResource(
                         checkIds[i],
                         if (done) R.drawable.ic_check_filled else R.drawable.ic_check_empty

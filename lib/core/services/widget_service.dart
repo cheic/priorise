@@ -19,14 +19,17 @@ class WidgetService {
       final now = DateTime.now();
       final startOfDay = DateTime(now.year, now.month, now.day);
       final endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
+      final monday = DateTime(now.year, now.month, now.day).subtract(Duration(days: now.weekday - 1));
+      final endOfWeek = monday.add(const Duration(days: 6, hours: 23, minutes: 59, seconds: 59));
 
       // Récupérer les tâches pertinentes (non terminées, ou terminées aujourd'hui)
-      final tasks = await db.isar.tasks
+      final allTasks = await db.isar.tasks
         .filter()
         .doneEqualTo(false)
         .or()
         .doneAtBetween(startOfDay, endOfDay)
         .findAll();
+      final tasks = allTasks.where((t) => t.weekStart.isBefore(endOfWeek) || t.weekStart.isAtSameMomentAs(endOfWeek)).toList();
 
       final roles = await db.isar.lifeRoles.where().findAll();
 

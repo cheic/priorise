@@ -78,8 +78,15 @@ class ReviewCubit extends Cubit<ReviewState> {
     // but a proper UseCase 'GetTasksForWeekUseCase' would be better.
     // Let's assume GetPendingTasks gets all undone tasks. But weekly review needs ALL tasks for the week.
     // Let's modify the use case to provide GetTasksForWeekUseCase.
-    final allTasks = await getTasks(); 
-    final tasksForWeek = allTasks.where((t) => t.weekStart.year == start.year && t.weekStart.month == start.month && t.weekStart.day == start.day).toList();
+    final allTasks = await getTasks();
+    final endOfWeek = start.add(const Duration(days: 6, hours: 23, minutes: 59, seconds: 59));
+    final tasksForWeek = allTasks.where((t) {
+      if (t.weekStart.isAfter(endOfWeek)) return false;
+      if (!t.done) return true;
+      if (t.weekStart.year == start.year && t.weekStart.month == start.month && t.weekStart.day == start.day) return true;
+      if (t.doneAt != null && !t.doneAt!.isBefore(start) && !t.doneAt!.isAfter(endOfWeek)) return true;
+      return false;
+    }).toList();
     
     emit(state.copyWith(
       review: review,

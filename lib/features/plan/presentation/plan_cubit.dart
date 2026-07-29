@@ -56,7 +56,11 @@ class PlanCubit extends Cubit<PlanState> {
     final roles = await getAllRoles();
     final tasks = await getTasks();
     
-    final pendingTasks = tasks.where((t) => t.done == false).toList();
+    final now = DateTime.now();
+    final monday = DateTime(now.year, now.month, now.day).subtract(Duration(days: now.weekday - 1));
+    final endOfWeek = monday.add(const Duration(days: 6, hours: 23, minutes: 59, seconds: 59));
+
+    final pendingTasks = tasks.where((t) => t.done == false && !t.weekStart.isAfter(endOfWeek)).toList();
     
     final Map<int, Task> roleTasks = {};
     final List<Task> punctualTasks = [];
