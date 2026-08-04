@@ -69,11 +69,15 @@ abstract final class AppSpacing {
     };
   }
 
-  /// Classe d'écran dérivée de la largeur logique du widget le plus proche.
+  /// Classe d'écran dérivée de la taille logique de la fenêtre actuelle.
   static ScreenClass screenClass(BuildContext context) {
-    final w = MediaQuery.sizeOf(context).width;
-    if (w < 600) return ScreenClass.compact;
-    if (w < 840) return ScreenClass.medium;
+    final size = MediaQuery.sizeOf(context);
+    final w = size.width;
+    final h = size.height;
+    // Si l'écran a une hauteur restreinte (< 500dp, ex: smartphone en mode paysage),
+    // on force le mode compact pour ne pas comprimer l'espace vertical disponible.
+    if (h < 500 || w < 600) return ScreenClass.compact;
+    if (w < 840 || h < 600) return ScreenClass.medium;
     return ScreenClass.expanded;
   }
 

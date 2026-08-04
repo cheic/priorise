@@ -258,7 +258,7 @@ class _QuickCaptureDialogState extends State<QuickCaptureDialog> {
                           style: AppTypography.inter(
                             size: 13.5,
                             weight: FontWeight.w600,
-                            color: _roles.isEmpty ? context.cTextTertiary : const Color(0xFF1B140B),
+                            color: _roles.isEmpty ? context.cTextTertiary : context.cOnBrass,
                           ),
                         ),
                       ),

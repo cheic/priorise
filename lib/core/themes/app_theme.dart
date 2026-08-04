@@ -10,7 +10,7 @@ import '../tokens/app_typography.dart';
 // de l'analyseur Dart avec les abstract final class.
 // Flutter 3.44+ : CupertinoPageTransitionsBuilder supprimé — on utilise
 // ZoomPageTransitionsBuilder (Material 3 default) sur toutes les plateformes.
-final _pageTransitions = PageTransitionsTheme(
+final _pageTransitions = const PageTransitionsTheme(
   builders: {
     TargetPlatform.android: ZoomPageTransitionsBuilder(),
     TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
@@ -74,6 +74,7 @@ abstract final class AppTheme {
       ),
       pageTransitionsTheme: _pageTransitions,
       useMaterial3: true,
+      extensions: [AppColorsTheme.dark()],
     );
   }
 
@@ -133,6 +134,7 @@ abstract final class AppTheme {
       ),
       pageTransitionsTheme: _pageTransitions,
       useMaterial3: true,
+      extensions: [AppColorsTheme.light()],
     );
   }
 

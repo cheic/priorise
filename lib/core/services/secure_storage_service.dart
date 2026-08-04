@@ -22,66 +22,95 @@ class SecureStorageService {
   );
 
   Future<bool> isFirstLaunch() async {
-    final raw = await _storage.read(
-      key: StorageKeys.firstLaunch,
-      aOptions: _androidOptions,
-    );
-    // Null → jamais écrit → premier lancement
-    return raw == null || raw == 'true';
+    try {
+      final raw = await _storage.read(
+        key: StorageKeys.firstLaunch,
+        aOptions: _androidOptions,
+      );
+      // Null → jamais écrit → premier lancement
+      return raw == null || raw == 'true';
+    } catch (e) {
+      // En cas de corruption KeyStore ou exception Android/iOS, réinitialisation de secours
+      // pour empêcher un crash fatal au démarrage (boucle de crash).
+      try {
+        await _storage.deleteAll(aOptions: _androidOptions);
+      } catch (_) {}
+      return true;
+    }
   }
 
   Future<void> setFirstLaunchDone() async {
-    await _storage.write(
-      key: StorageKeys.firstLaunch,
-      value: 'false',
-      aOptions: _androidOptions,
-    );
+    try {
+      await _storage.write(
+        key: StorageKeys.firstLaunch,
+        value: 'false',
+        aOptions: _androidOptions,
+      );
+    } catch (_) {}
   }
 
   /// Stockage d'une clé API — ne retourne jamais la valeur dans un log.
   Future<void> saveApiKey(String key) async {
-    await _storage.write(
-      key: StorageKeys.aiApiKey,
-      value: key,
-      aOptions: _androidOptions,
-    );
+    try {
+      await _storage.write(
+        key: StorageKeys.aiApiKey,
+        value: key,
+        aOptions: _androidOptions,
+      );
+    } catch (_) {}
   }
 
   /// Lecture sécurisée d'une clé API — à n'utiliser que dans le provider IA.
   Future<String?> readApiKey() async {
-    return _storage.read(
-      key: StorageKeys.aiApiKey,
-      aOptions: _androidOptions,
-    );
+    try {
+      return await _storage.read(
+        key: StorageKeys.aiApiKey,
+        aOptions: _androidOptions,
+      );
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<String?> readThemeMode() async {
-    return _storage.read(
-      key: StorageKeys.themeMode,
-      aOptions: _androidOptions,
-    );
+    try {
+      return await _storage.read(
+        key: StorageKeys.themeMode,
+        aOptions: _androidOptions,
+      );
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<void> saveThemeMode(String mode) async {
-    await _storage.write(
-      key: StorageKeys.themeMode,
-      value: mode,
-      aOptions: _androidOptions,
-    );
+    try {
+      await _storage.write(
+        key: StorageKeys.themeMode,
+        value: mode,
+        aOptions: _androidOptions,
+      );
+    } catch (_) {}
   }
 
   Future<String?> readMissionRevisionInterval() async {
-    return _storage.read(
-      key: StorageKeys.missionRevisionInterval,
-      aOptions: _androidOptions,
-    );
+    try {
+      return await _storage.read(
+        key: StorageKeys.missionRevisionInterval,
+        aOptions: _androidOptions,
+      );
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<void> saveMissionRevisionInterval(String interval) async {
-    await _storage.write(
-      key: StorageKeys.missionRevisionInterval,
-      value: interval,
-      aOptions: _androidOptions,
-    );
+    try {
+      await _storage.write(
+        key: StorageKeys.missionRevisionInterval,
+        value: interval,
+        aOptions: _androidOptions,
+      );
+    } catch (_) {}
   }
 }

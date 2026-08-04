@@ -113,7 +113,7 @@ class JarPainter extends CustomPainter {
           center: Offset(bigCx - bigRx * 0.20, bigCy - bigRy * 0.25),
           width: bigRx * 0.5,
           height: bigRy * 0.35),
-      Paint()..color = Colors.white.withAlpha(30),
+      Paint()..color = AppColorsDark.textPrimary.withAlpha(35),
     );
 
     canvas.restore();

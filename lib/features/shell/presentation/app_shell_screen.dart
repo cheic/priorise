@@ -154,10 +154,13 @@ class _AppShellViewState extends State<_AppShellView> {
               );
             }
 
+            final isIOSOrMac = Theme.of(context).platform == TargetPlatform.iOS ||
+                Theme.of(context).platform == TargetPlatform.macOS;
             return Scaffold(
               backgroundColor: context.cSurface,
-              // We set extendBody to true so that the ListView scrolls under the BottomNav glass!
-              extendBody: true,
+              // extendBody activé uniquement sous iOS/macOS pour le flou haute performance.
+              // Désactivé sous Android/Web pour éliminer l'overdraw GPU lors du scroll !
+              extendBody: isIOSOrMac,
               body: SafeArea(
                 bottom: false,
                 child: Column(
@@ -193,54 +196,62 @@ class _BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRect(
-      child: BackdropFilter(
-        filter: ui.ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
-        child: SafeArea(
-          top: false,
-          child: Container(
-            decoration: BoxDecoration(
-              color: context.cSurface.withAlpha(200),
-              border: Border(top: BorderSide(color: context.cBorder.withAlpha(100))),
+    final isIOSOrMac = Theme.of(context).platform == TargetPlatform.iOS ||
+        Theme.of(context).platform == TargetPlatform.macOS;
+
+    final navContent = SafeArea(
+      top: false,
+      child: Container(
+        decoration: BoxDecoration(
+          color: isIOSOrMac ? context.cSurface.withAlpha(200) : context.cSurface,
+          border: Border(top: BorderSide(color: context.cBorder.withAlpha(100))),
+        ),
+        padding: const EdgeInsets.fromLTRB(4, 10, 4, 14),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _NavButton(
+              label: AppLocalizations.of(context)!.navToday,
+              icon: Icons.today_outlined,
+              activeIcon: Icons.today,
+              active: selectedIndex == 0,
+              onTap: () => onSelect(0),
             ),
-            padding: const EdgeInsets.fromLTRB(4, 10, 4, 14),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _NavButton(
-                  label: AppLocalizations.of(context)!.navToday,
-                  icon: Icons.today_outlined,
-                  activeIcon: Icons.today,
-                  active: selectedIndex == 0,
-                  onTap: () => onSelect(0),
-                ),
-                _NavButton(
-                  label: AppLocalizations.of(context)!.navRoles,
-                  icon: Icons.people_outline,
-                  activeIcon: Icons.people,
-                  active: selectedIndex == 1,
-                  onTap: () => onSelect(1),
-                ),
-                _NavButton(
-                  label: AppLocalizations.of(context)!.navPriorise,
-                  icon: Icons.explore_outlined,
-                  activeIcon: Icons.explore,
-                  active: selectedIndex == 2,
-                  onTap: () => onSelect(2),
-                ),
-                _NavButton(
-                  label: AppLocalizations.of(context)!.navReview,
-                  icon: Icons.schedule_outlined,
-                  activeIcon: Icons.schedule,
-                  active: selectedIndex == 3,
-                  onTap: () => onSelect(3),
-                ),
-              ],
+            _NavButton(
+              label: AppLocalizations.of(context)!.navRoles,
+              icon: Icons.people_outline,
+              activeIcon: Icons.people,
+              active: selectedIndex == 1,
+              onTap: () => onSelect(1),
             ),
-          ),
+            _NavButton(
+              label: AppLocalizations.of(context)!.navPriorise,
+              icon: Icons.explore_outlined,
+              activeIcon: Icons.explore,
+              active: selectedIndex == 2,
+              onTap: () => onSelect(2),
+            ),
+            _NavButton(
+              label: AppLocalizations.of(context)!.navReview,
+              icon: Icons.schedule_outlined,
+              activeIcon: Icons.schedule,
+              active: selectedIndex == 3,
+              onTap: () => onSelect(3),
+            ),
+          ],
         ),
       ),
     );
+
+    if (isIOSOrMac) {
+      return ClipRect(
+        child: BackdropFilter(
+          filter: ui.ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
+          child: navContent,
+        ),
+      );
+    }
+    return navContent;
   }
 }
 

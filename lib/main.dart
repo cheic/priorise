@@ -36,7 +36,13 @@ void _handleDeepLink(Uri uri) {
       builder: (context) => const QuickCaptureDialog(),
     );
   } else {
-    navigatorKey.currentState!.pushNamed(uri.toString());
+    final raw = uri.path.isNotEmpty && uri.path != '/' ? uri.path : uri.toString();
+    final target = raw.startsWith('/') ? raw : '/$raw';
+    // Remplace la pile pour éviter la duplication en mémoire d'instances de AppShellScreen
+    navigatorKey.currentState!.pushNamedAndRemoveUntil(
+      target,
+      (route) => false,
+    );
   }
 }
 
@@ -116,7 +122,7 @@ class PrioriseApp extends StatelessWidget {
             theme: AppTheme.light(),
             darkTheme: AppTheme.dark(),
             themeMode: themeMode,
-            themeAnimationDuration: Duration.zero,
+            themeAnimationDuration: const Duration(milliseconds: 250),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             initialRoute: initialRoute,

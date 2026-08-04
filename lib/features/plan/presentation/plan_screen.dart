@@ -495,7 +495,7 @@ class PlanCaptureTaskSheetState extends State<PlanCaptureTaskSheet> {
                         alignment: Alignment.center,
                         child: Text(
                           AppLocalizations.of(context)!.saveRole,
-                          style: AppTypography.inter(size: 13.5, weight: FontWeight.w600, color: const Color(0xFF1B140B)),
+                          style: AppTypography.inter(size: 13.5, weight: FontWeight.w600, color: context.cOnBrass),
                         ),
                       ),
                     ),

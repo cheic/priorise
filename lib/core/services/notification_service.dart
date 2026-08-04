@@ -62,7 +62,11 @@ class NotificationService {
       final bool? granted = await androidImplementation?.areNotificationsEnabled();
       return granted ?? false;
     } else if (Platform.isIOS) {
-      return false; // Typically we just request it
+      final IOSFlutterLocalNotificationsPlugin? iosImplementation =
+          _flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin>();
+      final permissions = await iosImplementation?.checkPermissions();
+      return permissions?.isAlertEnabled ?? false;
     }
     return false;
   }
@@ -149,6 +153,14 @@ class NotificationService {
     required String title,
     required String body,
   }) async {
+    final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
+        _flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>();
+    final bool canScheduleExact = (await androidImplementation?.canScheduleExactNotifications()) ?? true;
+    final scheduleMode = canScheduleExact
+        ? AndroidScheduleMode.exactAllowWhileIdle
+        : AndroidScheduleMode.inexactAllowWhileIdle;
+
     await _flutterLocalNotificationsPlugin.zonedSchedule(
         0,
         title,
@@ -164,7 +176,7 @@ class NotificationService {
           ),
           iOS: DarwinNotificationDetails(),
         ),
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        androidScheduleMode: scheduleMode,
         uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time,
     );

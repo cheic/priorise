@@ -89,10 +89,10 @@ class _ResizableTextFieldState extends State<ResizableTextField> {
                   decoration: const BoxDecoration(
                     color: Colors.transparent,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.drag_indicator,
                     size: 16,
-                    color: Colors.grey,
+                    color: context.cTextTertiary,
                   ),
                 ),
               ),

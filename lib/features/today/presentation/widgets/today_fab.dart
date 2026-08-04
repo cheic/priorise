@@ -74,9 +74,9 @@ class _TodayFabState extends State<TodayFab> with SingleTickerProviderStateMixin
               ),
             ],
           ),
-          child: const Icon(
+          child: Icon(
             Icons.edit_rounded,
-            color: Color(0xFF1B140B), // ink-like dark
+            color: context.cOnBrass,
             size: 22,
           ),
         ),
@@ -328,7 +328,7 @@ class TodayCaptureTaskSheetState extends State<TodayCaptureTaskSheet> {
                       style: AppTypography.inter(
                         size: 13.5,
                         weight: FontWeight.w600,
-                        color: roles.isEmpty ? context.cTextTertiary : const Color(0xFF1B140B),
+                        color: roles.isEmpty ? context.cTextTertiary : context.cOnBrass,
                       ),
                     ),
                   ),

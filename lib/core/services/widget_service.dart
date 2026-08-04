@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:home_widget/home_widget.dart';
 import 'package:isar/isar.dart';
 import 'package:flutter/services.dart';
@@ -10,10 +11,25 @@ import '../models/role_model.dart';
 /// Service qui synchronise les données Isar vers les widgets Android
 /// via home_widget (SharedPreferences bridge).
 class WidgetService {
+  static Timer? _debounceTimer;
+  static bool _isUpdating = false;
 
-  /// Met à jour TOUS les widgets d'un coup.
+  /// Met à jour TOUS les widgets d'un coup (avec debounce pour préserver l'énergie et l'IPC natif).
   /// Appelé après chaque modification de tâche/rôle.
-  static Future<void> updateAllWidgets() async {
+  static Future<void> updateAllWidgets({Duration debounce = const Duration(milliseconds: 500)}) async {
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(debounce, () async {
+      if (_isUpdating) return;
+      _isUpdating = true;
+      try {
+        await _performUpdate();
+      } finally {
+        _isUpdating = false;
+      }
+    });
+  }
+
+  static Future<void> _performUpdate() async {
     try {
       final db = getIt<DatabaseService>();
       final now = DateTime.now();
