@@ -64,7 +64,7 @@ class TodayMissionLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.only(bottom: 24),
       child: GestureDetector(
         onTap: () {
           Navigator.push(
@@ -72,23 +72,38 @@ class TodayMissionLink extends StatelessWidget {
             SlideUpRoute(page: const MissionScreen()),
           );
         },
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.flag_rounded, // Assuming similar to the flag icon
-              size: 16,
-              color: context.cTextTertiary,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              AppLocalizations.of(context)!.seeMyMission,
-              style: AppTypography.inter(
-                size: 13.5,
-                color: context.cTextTertiary,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: context.cSurfaceRaised.withValues(alpha: 0.6),
+            borderRadius: BorderRadius.circular(AppSpacing.radiusS),
+            border: Border.all(color: context.cBorder),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.flag_outlined,
+                size: 15,
+                color: context.cBrass,
               ),
-            ),
-          ],
+              const SizedBox(width: 8),
+              Text(
+                AppLocalizations.of(context)!.seeMyMission,
+                style: AppTypography.inter(
+                  size: 13,
+                  weight: FontWeight.w500,
+                  color: context.cTextPrimary,
+                ),
+              ),
+              const SizedBox(width: 6),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 11,
+                color: context.cTextSecondary,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -84,7 +84,14 @@ class PostponeTaskUseCase {
   Future<void> call(int taskId) async {
     final task = await repository.getTaskById(taskId);
     if (task == null) return;
-    task.weekStart = task.weekStart.add(const Duration(days: 7));
+    final now = DateTime.now();
+    final currentMonday = DateTime(now.year, now.month, now.day).subtract(Duration(days: now.weekday - 1));
+    final nextMonday = currentMonday.add(const Duration(days: 7));
+    if (task.weekStart.isBefore(nextMonday)) {
+      task.weekStart = nextMonday;
+    } else {
+      task.weekStart = task.weekStart.add(const Duration(days: 7));
+    }
     await repository.saveTask(task);
   }
 }

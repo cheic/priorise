@@ -10,6 +10,7 @@ import '../../../shared/painters/compass_painter.dart';
 
 import '../../today/presentation/today_screen.dart';
 import '../../today/presentation/today_cubit.dart';
+import '../../today/presentation/widgets/today_fab.dart';
 import '../../roles/presentation/roles_screen.dart';
 import '../../roles/presentation/roles_cubit.dart';
 import '../../matrix/presentation/matrix_screen.dart';
@@ -123,9 +124,21 @@ class _AppShellViewState extends State<_AppShellView> {
             }
           },
           builder: (context, currentIndex) {
+            final fab = (currentIndex == 0)
+                ? BlocBuilder<TodayCubit, TodayState>(
+                    builder: (context, state) {
+                      if (state is TodayLoaded) {
+                        return const TodayFab();
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  )
+                : null;
+
             if (screenClass == ScreenClass.expanded) {
               return Scaffold(
                 backgroundColor: context.cSurface,
+                floatingActionButton: fab,
                 body: SafeArea(
                   child: Row(
                     children: [
@@ -154,13 +167,11 @@ class _AppShellViewState extends State<_AppShellView> {
               );
             }
 
-            final isIOSOrMac = Theme.of(context).platform == TargetPlatform.iOS ||
-                Theme.of(context).platform == TargetPlatform.macOS;
             return Scaffold(
               backgroundColor: context.cSurface,
-              // extendBody activé uniquement sous iOS/macOS pour le flou haute performance.
-              // Désactivé sous Android/Web pour éliminer l'overdraw GPU lors du scroll !
-              extendBody: isIOSOrMac,
+              // extendBody synchronisé sur tous les OS pour assurer une hauteur de FAB constante au-dessus de la navbar
+              extendBody: true,
+              floatingActionButton: fab,
               body: SafeArea(
                 bottom: false,
                 child: Column(

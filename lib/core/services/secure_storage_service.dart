@@ -17,9 +17,7 @@ class SecureStorageService {
 
   final FlutterSecureStorage _storage;
 
-  static const _androidOptions = AndroidOptions(
-    encryptedSharedPreferences: true,
-  );
+  static const _androidOptions = AndroidOptions();
 
   Future<bool> isFirstLaunch() async {
     try {

@@ -17,7 +17,6 @@ import 'widgets/today_role_chips.dart';
 import 'widgets/today_header.dart';
 import 'widgets/today_focus_card.dart';
 import 'widgets/today_task_list.dart';
-import 'widgets/today_fab.dart';
 
 class TodayScreen extends StatelessWidget {
   const TodayScreen({super.key});
@@ -33,28 +32,14 @@ class _TodayView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent, // Permet au contenu de défiler sous la navbar
-      floatingActionButton: BlocBuilder<TodayCubit, TodayState>(
-        builder: (context, state) {
-          if (state is TodayLoaded) {
-            return const Padding(
-              padding: EdgeInsets.only(bottom: 110.0), // ~72px Navbar + ~34px SafeArea d'iPhone
-              child: TodayFab(),
-            );
-          }
-          return const SizedBox.shrink();
-        },
-      ),
-      body: BlocBuilder<TodayCubit, TodayState>(
-        builder: (context, state) {
-          return switch (state) {
-            TodayLoading() => const _LoadingView(),
-            TodayError(:final message) => _ErrorView(message: message),
-            TodayLoaded() => _TodayBody(state: state),
-          };
-        },
-      ),
+    return BlocBuilder<TodayCubit, TodayState>(
+      builder: (context, state) {
+        return switch (state) {
+          TodayLoading() => const _LoadingView(),
+          TodayError(:final message) => _ErrorView(message: message),
+          TodayLoaded() => _TodayBody(state: state),
+        };
+      },
     );
   }
 }
@@ -81,7 +66,7 @@ class _TodayBody extends StatelessWidget {
             child: SingleChildScrollView(
               padding: EdgeInsets.only(
                 top: AppSpacing.xxl,
-                bottom: 180.0, // space for FAB and BottomNavBar
+                bottom: 140.0 + MediaQuery.paddingOf(context).bottom, // Espace ajusté pour scroll sous FAB et Navbar
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

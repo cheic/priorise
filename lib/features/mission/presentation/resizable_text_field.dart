@@ -52,7 +52,7 @@ class _ResizableTextFieldState extends State<ResizableTextField> {
     return Container(
       height: _height,
       decoration: BoxDecoration(
-        color: context.cSurface,
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Stack(
