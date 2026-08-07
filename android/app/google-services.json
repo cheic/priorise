@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "929037440755",
+    "project_id": "priorise-app",
+    "storage_bucket": "priorise-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929037440755:android:0b2de383b6ebae19bf0986",
+        "android_client_info": {
+          "package_name": "sn.smapp.priorise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe6ezj23-AZeZC1ryTZeueF7h52CxXudQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

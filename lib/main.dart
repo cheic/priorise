@@ -6,6 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:priorise/l10n/app_localizations.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'firebase_options.dart';
 import 'core/di/injection.dart';
 import 'core/router/app_router.dart';
 import 'core/themes/app_theme.dart';
@@ -54,6 +57,14 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    // Silently ignore if Firebase is already initialized or fails (e.g. tests)
+  }
 
   await setupDependencies();
   
@@ -125,6 +136,9 @@ class PrioriseApp extends StatelessWidget {
             themeAnimationDuration: const Duration(milliseconds: 250),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
+            navigatorObservers: [
+              FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+            ],
             initialRoute: initialRoute,
             onGenerateInitialRoutes: (route) {
               return [generateRoute(RouteSettings(name: initialRoute))];

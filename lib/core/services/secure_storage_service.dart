@@ -10,6 +10,7 @@ abstract final class StorageKeys {
   static const aiApiKey = 'ai_api_key';
   static const themeMode = 'theme_mode';
   static const missionRevisionInterval = 'mission_revision_interval';
+  static const lastGreetingTime = 'last_greeting_time';
 }
 
 class SecureStorageService {
@@ -107,6 +108,27 @@ class SecureStorageService {
       await _storage.write(
         key: StorageKeys.missionRevisionInterval,
         value: interval,
+        aOptions: _androidOptions,
+      );
+    } catch (_) {}
+  }
+
+  Future<String?> readLastGreetingTime() async {
+    try {
+      return await _storage.read(
+        key: StorageKeys.lastGreetingTime,
+        aOptions: _androidOptions,
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> saveLastGreetingTime(String time) async {
+    try {
+      await _storage.write(
+        key: StorageKeys.lastGreetingTime,
+        value: time,
         aOptions: _androidOptions,
       );
     } catch (_) {}

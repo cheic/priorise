@@ -283,38 +283,65 @@ class _GlobalHeader extends StatelessWidget {
         horizontalPadding: hPad,
       );
     }
-    String eyebrow = '';
+
+    Widget buildTrailing() {
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () async {
+          final result = await Navigator.push<String>(
+            context,
+            SlideUpRoute<String>(page: const SettingsPage()),
+          );
+          if (result == 'goto_matrix' && context.mounted) {
+            context.read<ShellCubit>().selectTab(2);
+          }
+        },
+        child: Icon(
+          Icons.settings_outlined,
+          color: context.cTextSecondary,
+          size: 24,
+        ),
+      );
+    }
+
+    if (currentIndex == 0) {
+      return BlocBuilder<TodayCubit, TodayState>(
+        builder: (context, state) {
+          final now = DateTime.now();
+          final jours = [l.monday, l.tuesday, l.wednesday, l.thursday, l.friday, l.saturday, l.sunday];
+          final mois = [l.january, l.february, l.march, l.april, l.may, l.june, l.july, l.august, l.september, l.october, l.november, l.december];
+          final dayLabel = '${jours[now.weekday - 1]} ${now.day} ${mois[now.month - 1]}';
+          
+          String? eyebrowText;
+          String titleText;
+          
+          if (state is TodayLoaded) {
+            if (state.shouldGreet) {
+              eyebrowText = dayLabel;
+              titleText = state.isEvening ? l.goodEvening : l.hello;
+            } else {
+              eyebrowText = null;
+              titleText = dayLabel;
+            }
+          } else {
+            eyebrowText = dayLabel;
+            titleText = l.hello;
+          }
+
+          return PageHeader(
+            eyebrow: eyebrowText,
+            title: titleText,
+            horizontalPadding: hPad,
+            trailing: buildTrailing(),
+          );
+        },
+      );
+    }
+
+    String? eyebrow = '';
     String title = '';
 
     switch (currentIndex) {
-      case 0:
-        final now = DateTime.now();
-        final jours = [
-          l.monday,
-          l.tuesday,
-          l.wednesday,
-          l.thursday,
-          l.friday,
-          l.saturday,
-          l.sunday,
-        ];
-        final mois = [
-          l.january,
-          l.february,
-          l.march,
-          l.april,
-          l.may,
-          l.june,
-          l.july,
-          l.august,
-          l.september,
-          l.october,
-          l.november,
-          l.december,
-        ];
-        eyebrow = '${jours[now.weekday - 1]} ${now.day} ${mois[now.month - 1]}';
-        title = l.hello;
-        break;
       case 1:
         eyebrow = l.eyebrowRoles;
         title = l.titleRoles;
@@ -333,23 +360,7 @@ class _GlobalHeader extends StatelessWidget {
       eyebrow: eyebrow,
       title: title,
       horizontalPadding: hPad,
-      trailing: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () async {
-          final result = await Navigator.push<String>(
-            context,
-            SlideUpRoute<String>(page: const SettingsPage()),
-          );
-          if (result == 'goto_matrix' && context.mounted) {
-            context.read<ShellCubit>().selectTab(2);
-          }
-        },
-        child: Icon(
-          Icons.settings_outlined,
-          color: context.cTextSecondary,
-          size: 24,
-        ),
-      ),
+      trailing: buildTrailing(),
     );
   }
 }

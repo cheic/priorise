@@ -28,9 +28,22 @@ class TodayHeader extends StatelessWidget {
     final now = DateTime.now();
     final dayLabel = _formatDate(context, now);
 
+    String? eyebrowText;
+    String titleText;
+
+    if (state.shouldGreet) {
+      eyebrowText = dayLabel;
+      titleText = state.isEvening 
+          ? AppLocalizations.of(context)!.goodEvening 
+          : AppLocalizations.of(context)!.hello;
+    } else {
+      eyebrowText = null;
+      titleText = dayLabel;
+    }
+
     return PageHeader(
-      eyebrow: dayLabel,
-      title: AppLocalizations.of(context)!.hello,
+      eyebrow: eyebrowText,
+      title: titleText,
       horizontalPadding: hPad,
       trailing: GestureDetector(
         behavior: HitTestBehavior.opaque,

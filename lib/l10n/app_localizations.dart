@@ -218,6 +218,12 @@ abstract class AppLocalizations {
   /// **'Bonjour'**
   String get hello;
 
+  /// No description provided for @goodEvening.
+  ///
+  /// In fr, this message translates to:
+  /// **'Bonsoir'**
+  String get goodEvening;
+
   /// No description provided for @eyebrowRoles.
   ///
   /// In fr, this message translates to:
@@ -665,7 +671,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyPolicyText.
   ///
   /// In fr, this message translates to:
-  /// **'1. Local-First et Données Personnelles\nPriorise est conçue sur une architecture \"Local-First\". Cela signifie que TOUTES vos données (rôles, tâches, missions) sont stockées exclusivement et localement sur votre appareil. Nous ne possédons aucun serveur de base de données, n\'effectuons aucune télémétrie, et ne revendons aucune information personnelle.\n\n2. Fonctionnalités d\'Intelligence Artificielle (IA)\nPriorise propose des fonctionnalités d\'assistance basées sur l\'IA. Pour fonctionner, l\'application communique directement depuis votre appareil vers l\'API du fournisseur d\'IA sélectionné (par exemple, OpenAI ou Anthropic) en utilisant votre propre clé API.\n- Aucune donnée ne transite par nos serveurs.\n- Les requêtes envoyées à l\'IA ne contiennent que le contexte strictement nécessaire à l\'assistance demandée.\n- Veuillez vous référer à la politique de confidentialité du fournisseur d\'IA choisi concernant la rétention et l\'utilisation de vos requêtes.\n\n3. Clés API\nVotre clé API est stockée de manière sécurisée et chiffrée uniquement sur votre appareil. Nous n\'y avons aucun accès.\n\n4. Vos droits (RGPD)\nPuisque nous ne collectons aucune donnée personnelle sur des serveurs distants, le contrôle de vos données vous appartient entièrement. Vous pouvez exercer votre droit à l\'effacement total (droit à l\'oubli) simplement en désinstallant l\'application ou en effaçant les données de l\'application depuis les paramètres de votre appareil.'**
+  /// **'1. Local-First et Données Personnelles\nPriorise stocke TOUTES vos données principales (rôles, tâches, missions) exclusivement et localement sur votre appareil. Nous ne possédons aucun serveur de base de données pour votre contenu personnel.\n\n2. Télémétrie et Analytique\nAfin de mieux comprendre l\'utilisation de l\'application et de l\'améliorer, nous utilisons des services de télémétrie (tels que Firebase Analytics). Ces outils collectent des données d\'utilisation basiques et anonymisées (écrans visités, type d\'appareil, intéractions). Ces données statistiques ne sont jamais liées à vos tâches ou données personnelles.\n\n3. Fonctionnalités d\'Intelligence Artificielle (IA)\nPriorise propose des fonctionnalités d\'assistance basées sur l\'IA. Pour fonctionner, l\'application communique directement depuis votre appareil vers l\'API du fournisseur d\'IA sélectionné (par exemple, OpenAI ou Anthropic) en utilisant votre propre clé API.\n- Aucune donnée ne transite par nos serveurs.\n- Les requêtes envoyées à l\'IA ne contiennent que le contexte strictement nécessaire à l\'assistance demandée.\n- Veuillez vous référer à la politique de confidentialité du fournisseur d\'IA choisi concernant la rétention et l\'utilisation de vos requêtes.\n\n4. Clés API\nVotre clé API est stockée de manière sécurisée et chiffrée uniquement sur votre appareil. Nous n\'y avons aucun accès.\n\n5. Vos droits (RGPD)\nLe contrôle de vos données vous appartient entièrement. Vous pouvez exercer votre droit à l\'effacement total (droit à l\'oubli) de vos données personnelles simplement en désinstallant l\'application ou en effaçant les données de l\'application depuis les paramètres de votre appareil.'**
   String get privacyPolicyText;
 
   /// No description provided for @termsOfService.

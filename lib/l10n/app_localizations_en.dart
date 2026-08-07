@@ -70,6 +70,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hello => 'Hello';
 
   @override
+  String get goodEvening => 'Good evening';
+
+  @override
   String get eyebrowRoles => 'WHAT YOU EMBODY';
 
   @override
@@ -305,7 +308,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyPolicyText =>
-      '1. Local-First and Personal Data\nPriorise is built on a \"Local-First\" architecture. This means ALL your data (roles, tasks, missions) is stored exclusively and locally on your device. We do not own any database servers, we do not perform telemetry, and we do not sell any personal information.\n\n2. Artificial Intelligence (AI) Features\nPriorise offers AI-based assistance features. To function, the application communicates directly from your device to the API of the selected AI provider (e.g., OpenAI or Anthropic) using your own API key.\n- No data passes through our servers.\n- Requests sent to the AI contain only the context strictly necessary for the requested assistance.\n- Please refer to the privacy policy of the chosen AI provider regarding the retention and use of your requests.\n\n3. API Keys\nYour API key is securely stored and encrypted only on your device. We have no access to it.\n\n4. Your Rights (GDPR)\nSince we do not collect any personal data on remote servers, you have full control over your data. You can exercise your right to complete erasure (right to be forgotten) simply by uninstalling the application or clearing the application data from your device settings.';
+      '1. Local-First and Personal Data\nPriorise stores ALL your primary data (roles, tasks, missions) exclusively and locally on your device. We do not own any database servers for your personal content.\n\n2. Telemetry and Analytics\nTo better understand how the application is used and to improve it, we use telemetry services (such as Firebase Analytics). These tools collect basic and anonymized usage data (screens visited, device type, interactions). This statistical data is never linked to your tasks or personal data.\n\n3. Artificial Intelligence (AI) Features\nPriorise offers AI-based assistance features. To function, the application communicates directly from your device to the API of the selected AI provider (e.g., OpenAI or Anthropic) using your own API key.\n- No data passes through our servers.\n- Requests sent to the AI contain only the context strictly necessary for the requested assistance.\n- Please refer to the privacy policy of the chosen AI provider regarding the retention and use of your requests.\n\n4. API Keys\nYour API key is securely stored and encrypted only on your device. We have no access to it.\n\n5. Your Rights (GDPR)\nYou have full control over your data. You can exercise your right to complete erasure (right to be forgotten) of your personal data simply by uninstalling the application or clearing the application data from your device settings.';
 
   @override
   String get termsOfService => 'Terms of Service';

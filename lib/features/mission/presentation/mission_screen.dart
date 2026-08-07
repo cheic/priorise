@@ -197,11 +197,13 @@ class _MissionScreenContentState extends State<_MissionScreenContent> {
                             ),
                     ),
                     
-                    const SizedBox(height: AppSpacing.s),
-                    Text(
-                      _formatDate(context, loadedState.lastEditedAt),
-                      style: AppTypography.inter(size: 10.5, color: context.cTextTertiary),
-                    ),
+                    if (loadedState.statement.trim().isNotEmpty) ...[
+                      const SizedBox(height: AppSpacing.s),
+                      Text(
+                        _formatDate(context, loadedState.lastEditedAt),
+                        style: AppTypography.inter(size: 10.5, color: context.cTextTertiary),
+                      ),
+                    ],
                     const SizedBox(height: AppSpacing.xxl),
                     
                     // Dashed Hint Cards

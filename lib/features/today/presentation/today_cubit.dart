@@ -7,6 +7,8 @@ import '../../../domain/usecases/task_usecases.dart';
 import '../../../core/services/widget_service.dart';
 import '../../../domain/usecases/role_usecases.dart';
 import '../../../domain/usecases/plan_usecases.dart';
+import '../../../core/di/injection.dart';
+import '../../../core/services/secure_storage_service.dart';
 
 // ── State ──────────────────────────────────────────────────────────────────
 
@@ -20,12 +22,16 @@ class TodayLoaded extends TodayState {
     required this.tasks,
     required this.selectedRoleId,
     required this.currentPlan,
+    this.shouldGreet = false,
+    this.isEvening = false,
   });
 
   final List<LifeRole> roles;
   final List<Task> tasks;
   final int? selectedRoleId;
   final WeeklyPlan? currentPlan;
+  final bool shouldGreet;
+  final bool isEvening;
 
   List<Task> get visibleTasks => selectedRoleId == null
       ? tasks
@@ -39,6 +45,8 @@ class TodayLoaded extends TodayState {
     List<Task>? tasks,
     int? selectedRoleId,
     WeeklyPlan? currentPlan,
+    bool? shouldGreet,
+    bool? isEvening,
     bool clearRoleFilter = false,
   }) =>
       TodayLoaded(
@@ -46,6 +54,8 @@ class TodayLoaded extends TodayState {
         tasks: tasks ?? this.tasks,
         selectedRoleId: clearRoleFilter ? null : (selectedRoleId ?? this.selectedRoleId),
         currentPlan: currentPlan ?? this.currentPlan,
+        shouldGreet: shouldGreet ?? this.shouldGreet,
+        isEvening: isEvening ?? this.isEvening,
       );
 }
 
@@ -97,8 +107,28 @@ class TodayCubit extends Cubit<TodayState> {
       final currentPlan = await getCurrentPlan();
 
       int? currentSelectedRoleId;
+      bool currentShouldGreet = false;
+      bool currentIsEvening = false;
+      
       if (state is TodayLoaded) {
-        currentSelectedRoleId = (state as TodayLoaded).selectedRoleId;
+        final loaded = state as TodayLoaded;
+        currentSelectedRoleId = loaded.selectedRoleId;
+        currentShouldGreet = loaded.shouldGreet;
+        currentIsEvening = loaded.isEvening;
+      } else {
+        // First load of the session
+        final now = DateTime.now();
+        currentIsEvening = now.hour >= 17;
+        final period = currentIsEvening ? 'evening' : 'morning';
+        final currentGreetingKey = '${now.year}-${now.month}-${now.day}-$period';
+        
+        final storage = getIt<SecureStorageService>();
+        final lastGreetingKey = await storage.readLastGreetingTime();
+        
+        if (lastGreetingKey != currentGreetingKey) {
+          currentShouldGreet = true;
+          await storage.saveLastGreetingTime(currentGreetingKey);
+        }
       }
 
       emit(TodayLoaded(
@@ -106,6 +136,8 @@ class TodayCubit extends Cubit<TodayState> {
         tasks: tasks,
         selectedRoleId: currentSelectedRoleId,
         currentPlan: currentPlan,
+        shouldGreet: currentShouldGreet,
+        isEvening: currentIsEvening,
       ));
     } catch (e) {
       emit(TodayError("Erreur lors du chargement : $e"));
