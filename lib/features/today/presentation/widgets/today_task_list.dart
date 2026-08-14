@@ -111,12 +111,15 @@ class TodayTaskRow extends StatelessWidget {
 
     final dotColor = role.accent.color(context);
 
-    return Dismissible(
-      key: ValueKey(task.id),
-      direction: DismissDirection.horizontal,
-      confirmDismiss: (direction) async {
-        if (direction == DismissDirection.startToEnd) {
-          return await showDialog<bool>(
+    return Builder(
+      builder: (context) {
+        bool postponeToTomorrow = false;
+        return Dismissible(
+          key: ValueKey(task.id),
+          direction: DismissDirection.horizontal,
+          confirmDismiss: (direction) async {
+            if (direction == DismissDirection.startToEnd) {
+              final result = await showDialog<String>(
             context: context,
             builder: (context) => AlertDialog(
               backgroundColor: context.cSurfaceRaised,
@@ -135,12 +138,24 @@ class TodayTaskRow extends StatelessWidget {
                   child: Text(AppLocalizations.of(context)!.cancel, style: AppTypography.inter(color: context.cTextPrimary, weight: FontWeight.w600)),
                 ),
                 TextButton(
-                  onPressed: () => Navigator.of(context).pop(true),
-                  child: Text(AppLocalizations.of(context)!.postpone, style: AppTypography.inter(color: context.cBrass, weight: FontWeight.w600)),
+                  onPressed: () => Navigator.of(context).pop('tomorrow'),
+                  child: Text('À demain', style: AppTypography.inter(color: context.cBrass, weight: FontWeight.w600)),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop('next_week'),
+                  child: Text('Sem. pro.', style: AppTypography.inter(color: context.cBrass, weight: FontWeight.w600)),
                 ),
               ],
             ),
           );
+          if (result == 'tomorrow') {
+            postponeToTomorrow = true;
+            return true;
+          } else if (result == 'next_week') {
+            postponeToTomorrow = false;
+            return true;
+          }
+          return false;
         } else {
           return await showDialog<bool>(
             context: context,
@@ -171,7 +186,7 @@ class TodayTaskRow extends StatelessWidget {
       },
       onDismissed: (direction) {
         if (direction == DismissDirection.startToEnd) {
-          context.read<TodayCubit>().postponeTask(task.id);
+          context.read<TodayCubit>().postponeTask(task.id, toTomorrow: postponeToTomorrow);
         } else {
           context.read<TodayCubit>().deleteTask(task.id);
         }
@@ -273,7 +288,8 @@ class TodayTaskRow extends StatelessWidget {
         ),
       ),
       ),
-    );
+      );
+    });
   }
 }
 

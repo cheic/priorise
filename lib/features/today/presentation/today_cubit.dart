@@ -182,12 +182,12 @@ class TodayCubit extends Cubit<TodayState> {
     _load();
   }
 
-  Future<void> postponeTask(int taskId) async {
+  Future<void> postponeTask(int taskId, {bool toTomorrow = false}) async {
     final current = state;
     if (current is TodayLoaded) {
       emit(current.copyWith(tasks: current.tasks.where((t) => t.id != taskId).toList()));
     }
-    await postponeTaskUseCase(taskId);
+    await postponeTaskUseCase(taskId, toTomorrow: toTomorrow);
     WidgetService.updateAllWidgets().catchError((_) {});
     _load();
   }

@@ -42,28 +42,33 @@ const TaskSchema = CollectionSchema(
       name: r'dueDate',
       type: IsarType.dateTime,
     ),
-    r'important': PropertySchema(
+    r'hideUntil': PropertySchema(
       id: 5,
+      name: r'hideUntil',
+      type: IsarType.dateTime,
+    ),
+    r'important': PropertySchema(
+      id: 6,
       name: r'important',
       type: IsarType.bool,
     ),
     r'roleId': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'roleId',
       type: IsarType.long,
     ),
     r'title': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'title',
       type: IsarType.string,
     ),
     r'urgent': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'urgent',
       type: IsarType.bool,
     ),
     r'weekStart': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'weekStart',
       type: IsarType.dateTime,
     )
@@ -136,11 +141,12 @@ void _taskSerialize(
   writer.writeBool(offsets[2], object.done);
   writer.writeDateTime(offsets[3], object.doneAt);
   writer.writeDateTime(offsets[4], object.dueDate);
-  writer.writeBool(offsets[5], object.important);
-  writer.writeLong(offsets[6], object.roleId);
-  writer.writeString(offsets[7], object.title);
-  writer.writeBool(offsets[8], object.urgent);
-  writer.writeDateTime(offsets[9], object.weekStart);
+  writer.writeDateTime(offsets[5], object.hideUntil);
+  writer.writeBool(offsets[6], object.important);
+  writer.writeLong(offsets[7], object.roleId);
+  writer.writeString(offsets[8], object.title);
+  writer.writeBool(offsets[9], object.urgent);
+  writer.writeDateTime(offsets[10], object.weekStart);
 }
 
 Task _taskDeserialize(
@@ -155,12 +161,13 @@ Task _taskDeserialize(
   object.done = reader.readBool(offsets[2]);
   object.doneAt = reader.readDateTimeOrNull(offsets[3]);
   object.dueDate = reader.readDateTimeOrNull(offsets[4]);
+  object.hideUntil = reader.readDateTimeOrNull(offsets[5]);
   object.id = id;
-  object.important = reader.readBool(offsets[5]);
-  object.roleId = reader.readLong(offsets[6]);
-  object.title = reader.readString(offsets[7]);
-  object.urgent = reader.readBool(offsets[8]);
-  object.weekStart = reader.readDateTime(offsets[9]);
+  object.important = reader.readBool(offsets[6]);
+  object.roleId = reader.readLong(offsets[7]);
+  object.title = reader.readString(offsets[8]);
+  object.urgent = reader.readBool(offsets[9]);
+  object.weekStart = reader.readDateTime(offsets[10]);
   return object;
 }
 
@@ -182,14 +189,16 @@ P _taskDeserializeProp<P>(
     case 4:
       return (reader.readDateTimeOrNull(offset)) as P;
     case 5:
-      return (reader.readBool(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 6:
-      return (reader.readLong(offset)) as P;
-    case 7:
-      return (reader.readString(offset)) as P;
-    case 8:
       return (reader.readBool(offset)) as P;
+    case 7:
+      return (reader.readLong(offset)) as P;
+    case 8:
+      return (reader.readString(offset)) as P;
     case 9:
+      return (reader.readBool(offset)) as P;
+    case 10:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -824,6 +833,75 @@ extension TaskQueryFilter on QueryBuilder<Task, Task, QFilterCondition> {
     });
   }
 
+  QueryBuilder<Task, Task, QAfterFilterCondition> hideUntilIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'hideUntil',
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> hideUntilIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'hideUntil',
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> hideUntilEqualTo(
+      DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'hideUntil',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> hideUntilGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'hideUntil',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> hideUntilLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'hideUntil',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterFilterCondition> hideUntilBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'hideUntil',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<Task, Task, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
@@ -1193,6 +1271,18 @@ extension TaskQuerySortBy on QueryBuilder<Task, Task, QSortBy> {
     });
   }
 
+  QueryBuilder<Task, Task, QAfterSortBy> sortByHideUntil() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hideUntil', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> sortByHideUntilDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hideUntil', Sort.desc);
+    });
+  }
+
   QueryBuilder<Task, Task, QAfterSortBy> sortByImportant() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'important', Sort.asc);
@@ -1315,6 +1405,18 @@ extension TaskQuerySortThenBy on QueryBuilder<Task, Task, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Task, Task, QAfterSortBy> thenByHideUntil() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hideUntil', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Task, Task, QAfterSortBy> thenByHideUntilDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'hideUntil', Sort.desc);
+    });
+  }
+
   QueryBuilder<Task, Task, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -1421,6 +1523,12 @@ extension TaskQueryWhereDistinct on QueryBuilder<Task, Task, QDistinct> {
     });
   }
 
+  QueryBuilder<Task, Task, QDistinct> distinctByHideUntil() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'hideUntil');
+    });
+  }
+
   QueryBuilder<Task, Task, QDistinct> distinctByImportant() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'important');
@@ -1487,6 +1595,12 @@ extension TaskQueryProperty on QueryBuilder<Task, Task, QQueryProperty> {
   QueryBuilder<Task, DateTime?, QQueryOperations> dueDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dueDate');
+    });
+  }
+
+  QueryBuilder<Task, DateTime?, QQueryOperations> hideUntilProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'hideUntil');
     });
   }
 

@@ -26,6 +26,7 @@ class Task {
   DateTime createdAt = DateTime.now();
   DateTime? doneAt;
   DateTime? dueDate;
+  DateTime? hideUntil;
 
   /// Sous-tâches générées par l'IA à la demande (jamais automatiquement) —
   /// voir AiProvider.decomposeTask(). Null tant que l'utilisateur n'a pas

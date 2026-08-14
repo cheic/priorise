@@ -23,7 +23,11 @@ class TaskRepositoryImpl implements TaskRepository {
       .doneAtBetween(startOfDay, endOfDay)
       .findAll();
 
-    return tasks.where((t) => t.weekStart.isBefore(endOfWeek) || t.weekStart.isAtSameMomentAs(endOfWeek)).toList();
+    return tasks.where((t) {
+      final isCurrentWeek = t.weekStart.isBefore(endOfWeek) || t.weekStart.isAtSameMomentAs(endOfWeek);
+      final isVisible = t.hideUntil == null || t.hideUntil!.isBefore(now) || t.hideUntil!.isAtSameMomentAs(now);
+      return isCurrentWeek && isVisible;
+    }).toList();
   }
 
   @override
@@ -33,7 +37,11 @@ class TaskRepositoryImpl implements TaskRepository {
     final endOfWeek = monday.add(const Duration(days: 6, hours: 23, minutes: 59, seconds: 59));
 
     final tasks = await _db.isar.tasks.filter().doneEqualTo(false).findAll();
-    return tasks.where((t) => t.weekStart.isBefore(endOfWeek) || t.weekStart.isAtSameMomentAs(endOfWeek)).toList();
+    return tasks.where((t) {
+      final isCurrentWeek = t.weekStart.isBefore(endOfWeek) || t.weekStart.isAtSameMomentAs(endOfWeek);
+      final isVisible = t.hideUntil == null || t.hideUntil!.isBefore(now) || t.hideUntil!.isAtSameMomentAs(now);
+      return isCurrentWeek && isVisible;
+    }).toList();
   }
 
   @override

@@ -58,7 +58,8 @@ class PageHeader extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         children: [
                           ...previousChildren,
-                          ?currentChild,
+                          // ignore: use_null_aware_elements
+                          if (currentChild != null) currentChild,
                         ],
                       );
                     },
@@ -90,7 +91,8 @@ class PageHeader extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     children: [
                       ...previousChildren,
-                      ?currentChild,
+                      // ignore: use_null_aware_elements
+                      if (currentChild != null) currentChild,
                     ],
                   );
                 },
@@ -105,7 +107,8 @@ class PageHeader extends StatelessWidget {
                   ),
                 ),
               ),
-              ?trailing,
+              // ignore: use_null_aware_elements
+              if (trailing != null) trailing!,
             ],
           ),
         ],

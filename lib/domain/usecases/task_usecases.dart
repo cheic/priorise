@@ -81,16 +81,22 @@ class WatchTasksUseCase {
 class PostponeTaskUseCase {
   final TaskRepository repository;
   PostponeTaskUseCase(this.repository);
-  Future<void> call(int taskId) async {
+  Future<void> call(int taskId, {bool toTomorrow = false}) async {
     final task = await repository.getTaskById(taskId);
     if (task == null) return;
-    final now = DateTime.now();
-    final currentMonday = DateTime(now.year, now.month, now.day).subtract(Duration(days: now.weekday - 1));
-    final nextMonday = currentMonday.add(const Duration(days: 7));
-    if (task.weekStart.isBefore(nextMonday)) {
-      task.weekStart = nextMonday;
+    
+    if (toTomorrow) {
+      final now = DateTime.now();
+      task.hideUntil = DateTime(now.year, now.month, now.day).add(const Duration(days: 1));
     } else {
-      task.weekStart = task.weekStart.add(const Duration(days: 7));
+      final now = DateTime.now();
+      final currentMonday = DateTime(now.year, now.month, now.day).subtract(Duration(days: now.weekday - 1));
+      final nextMonday = currentMonday.add(const Duration(days: 7));
+      if (task.weekStart.isBefore(nextMonday)) {
+        task.weekStart = nextMonday;
+      } else {
+        task.weekStart = task.weekStart.add(const Duration(days: 7));
+      }
     }
     await repository.saveTask(task);
   }
